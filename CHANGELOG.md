@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.2
+
+- Relicensed under MIT (was proprietary evaluation-only).
+
 ## 0.1.1
 
 - README describes installing from PyPI with a version pin, not vendoring a

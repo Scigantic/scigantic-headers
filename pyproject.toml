@@ -4,15 +4,15 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "scigantic-headers"
-version = "0.1.1"
+version = "0.1.2"
 description = "Decode scientific file headers (MRC, NPY, NIfTI, CryoSPARC, Parquet) into typed fields. Pure, zero-dependency, with bounded parallel readers."
 readme = "README.md"
 requires-python = ">=3.9"
-license = { text = "Proprietary — Evaluation Use Only. See LICENSE." }
+license = { text = "MIT" }
 authors = [{ name = "Scigantic" }]
 keywords = ["cryo-em", "mrc", "header", "schema-card", "instrument", "context", "edge"]
 classifiers = [
-  "License :: Other/Proprietary License",
+  "License :: OSI Approved :: MIT License",
   "Programming Language :: Python :: 3",
 ]
 # Zero runtime dependencies is a feature: installs and runs on an air-gapped box.
