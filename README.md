@@ -26,20 +26,17 @@ dependencies and header-only reads are what let it run there.
 
 ## Install
 
-Published to PyPI on a `scigantic-headers-vX.Y.Z` tag (see
-`.github/workflows/scigantic-headers.yml`):
-
     pip install scigantic-headers
 
-It has zero runtime dependencies, so it also installs from source into an
-air-gapped image with no package index at build time. The notebook and
-edge-producer images bundle it this way:
+Published to PyPI on a `v*` tag by `.github/workflows/publish.yml`. Pin the
+version in anything that consumes it (`scigantic-headers==0.1.0`); the notebook
+and edge-producer images in the monorepo install it that way.
 
-    COPY infrastructure/python/scigantic-headers /tmp/scigantic-headers
-    RUN pip install /tmp/scigantic-headers
+It has zero runtime dependencies, so it runs air-gapped and installs into a slim
+image without pulling anything else. Where there is no package index at build
+time, install from a wheel or a checkout of this repo instead:
 
-Both paths install the same version pinned in `pyproject.toml`. Consumers that
-install from an index should pin it (`scigantic-headers==X.Y.Z`).
+    pip install ./scigantic-headers
 
 ## Why it exists
 
@@ -181,7 +178,7 @@ do this.
 
 ## Repository
 
-This is the standalone home of the library. It is also vendored into the
-Scigantic monorepo, where the paths above (`backend/...`, `infrastructure/...`)
-point at the TypeScript twin, the notebook, and the edge context-producer that
-use it.
+This is the library's home and the version published to PyPI. The Scigantic
+monorepo installs it from PyPI; it is not vendored there. The paths above
+(`backend/...`, `infrastructure/...`) point at the TypeScript twin, the
+notebook, and the edge context-producer in that repo that use it.
