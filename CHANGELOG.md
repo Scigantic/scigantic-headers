@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.1
+
+- README describes installing from PyPI with a version pin, not vendoring a
+  copy into the monorepo (which no longer happens).
+- Package summary lists the actual formats and drops the marketing phrasing.
+
+No code changes.
+
 ## 0.1.0
 
 First release.

@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "scigantic-headers"
-version = "0.1.0"
-description = "Decode scientific file headers (MRC cryo-EM, extensible) into typed context for agents — pure, zero-dependency, with bounded parallel readers."
+version = "0.1.1"
+description = "Decode scientific file headers (MRC, NPY, NIfTI, CryoSPARC, Parquet) into typed fields. Pure, zero-dependency, with bounded parallel readers."
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "Proprietary — Evaluation Use Only. See LICENSE." }
