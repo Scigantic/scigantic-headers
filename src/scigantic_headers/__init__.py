@@ -10,6 +10,8 @@ everywhere.
     print(hdr.summary)  # "MRC stack 4096x4096x16, float32"
 """
 
+from importlib.metadata import PackageNotFoundError, version as _pkg_version
+
 from .cryosparc import parse_cryosparc_optics, read_cryosparc_optics
 from .optics import read_session_optics
 from .parquet import decode_parquet
@@ -38,7 +40,10 @@ from .sources import (
 )
 from .star import parse_relion_optics, read_star_optics
 
-__version__ = "0.1.0"
+try:
+    __version__ = _pkg_version("scigantic-headers")
+except PackageNotFoundError:  # a source checkout with no install metadata
+    __version__ = "0.0.0+unknown"
 __all__ = [
     "HEADER_BYTES", "DecodedHeader", "decode_bytes", "decode_mrc_header",
     "decode_nifti_header", "decode_npy_header", "decode_cryosparc_header",

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.3
+
+- `__version__` now derives from the installed package metadata instead of a
+  hardcoded string, so it always matches the release and cannot drift. (0.1.1
+  and 0.1.2 reported `0.1.0` from `scigantic_headers.__version__`.)
+
 ## 0.1.2
 
 - Relicensed under MIT (was proprietary evaluation-only).
