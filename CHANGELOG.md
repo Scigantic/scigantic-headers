@@ -5,7 +5,8 @@
 First release.
 
 - Header decoders (pure, zero-dependency): MRC/MRCS (cryo-EM), NPY (numpy
-  arrays), NIfTI-1 (neuroimaging, `.nii` and `.nii.gz`), CryoSPARC `.cs`.
+  arrays), NIfTI-1 (neuroimaging, `.nii` and `.nii.gz`), CryoSPARC `.cs`, and
+  Parquet (column names, physical types, row count, read from the footer).
 - Acquisition-optics readers: RELION STAR and CryoSPARC `.cs` (pixel size,
   voltage, spherical aberration). These recover the pixel size a raw MRC movie
   header omits. `read_session_optics(path)` finds a data file's optics file in

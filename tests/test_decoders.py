@@ -26,7 +26,7 @@ def test_extension_of(key, ext):
 
 @pytest.mark.parametrize("key,expected", [
     ("x/foo.mrc", True), ("x/foo.rec", True), ("x/foo.map", True),
-    ("x/foo.parquet", False), ("x/foo.csv", False), ("x/plain", False),
+    ("x/foo.csv", False), ("x/foo.txt", False), ("x/plain", False),
 ])
 def test_has_decoder_for(key, expected):
     assert has_decoder_for(key) is expected
@@ -113,7 +113,7 @@ def test_dispatch_by_extension(mrc):
 
 
 def test_dispatch_unregistered_returns_none(mrc):
-    assert decode_bytes("data/table.parquet", mrc(1024, 1024, 1, 2)) is None
+    assert decode_bytes("data/table.csv", mrc(1024, 1024, 1, 2)) is None
 
 
 def test_dispatch_registered_but_invalid_returns_none():

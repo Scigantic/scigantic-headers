@@ -12,6 +12,7 @@ everywhere.
 
 from .cryosparc import parse_cryosparc_optics, read_cryosparc_optics
 from .optics import read_session_optics
+from .parquet import decode_parquet
 from .decoders import (
     HEADER_BYTES,
     DecodedHeader,
@@ -42,6 +43,7 @@ __all__ = [
     "HEADER_BYTES", "DecodedHeader", "decode_bytes", "decode_mrc_header",
     "decode_nifti_header", "decode_npy_header", "decode_cryosparc_header",
     "parse_cryosparc_optics", "read_cryosparc_optics", "read_session_optics",
+    "decode_parquet",
     "extension_of", "has_decoder_for", "register_decoder",
     "DEFAULT_WORKERS", "decode_file", "decode_paths", "decode_url",
     "decode_urls", "is_decodable", "iter_decodable_files", "read_leading_bytes",

@@ -29,7 +29,7 @@ import gzip
 import zlib
 from typing import Dict, Iterable, List, Optional, Tuple
 
-from .decoders import HEADER_BYTES, DecodedHeader, decode_bytes, has_decoder_for
+from .decoders import HEADER_BYTES, DecodedHeader, decode_bytes, extension_of, has_decoder_for
 
 DEFAULT_WORKERS = 8
 _UA = "scigantic-headers/0.1 (+https://scigantic.com; mailto:support@scigantic.com)"
@@ -37,6 +37,12 @@ _UA = "scigantic-headers/0.1 (+https://scigantic.com; mailto:support@scigantic.c
 # Enough compressed bytes to be sure the first HEADER_BYTES of a gzip stream
 # decompress from them. Headers compress well, so this is generous.
 _GZ_FETCH_BYTES = 128 * 1024
+
+# Formats whose schema is in a footer, not a leading header (Parquet). These are
+# read from the *end* of the file. One generous trailing read covers essentially
+# all real footers; a bigger one triggers a precise re-read from the length.
+_FOOTER_FORMATS = {"parquet"}
+FOOTER_READ_BYTES = 1024 * 1024
 
 
 def _inner_key(key: str) -> str:
@@ -82,28 +88,76 @@ def read_leading_bytes_url(url: str, n: int = HEADER_BYTES, timeout: float = 30.
     return _gunzip_leading(raw, n) if gz else raw
 
 
+def read_trailing_bytes(path: str, n: int) -> bytes:
+    """Last `n` bytes of a local file (the whole file if smaller)."""
+    with open(path, "rb") as fh:
+        fh.seek(0, 2)
+        size = fh.tell()
+        fh.seek(max(0, size - n))
+        return fh.read()
+
+
+def read_trailing_bytes_url(url: str, n: int, timeout: float = 30.0) -> bytes:
+    """Last `n` bytes of a remote file via an HTTP suffix Range request."""
+    req = urllib.request.Request(url, headers={"Range": f"bytes=-{n}", "User-Agent": _UA})
+    with urllib.request.urlopen(req, timeout=timeout) as resp:
+        return resp.read()
+
+
+def _precise_footer_local(path: str) -> Optional[bytes]:
+    """The exact footer bytes when it is bigger than one trailing read: take the
+    length from the last 8 bytes, then read that much from the end."""
+    with open(path, "rb") as fh:
+        fh.seek(0, 2)
+        size = fh.tell()
+        if size < 8:
+            return None
+        fh.seek(size - 8)
+        last8 = fh.read(8)
+        if last8[4:8] != b"PAR1":
+            return None
+        total = int.from_bytes(last8[:4], "little") + 8
+        if total > size:
+            return None
+        fh.seek(size - total)
+        return fh.read(total)
+
+
 def decode_file(path: str) -> Optional[DecodedHeader]:
     """Decode one local file's header, or None if no decoder applies / it fails.
-    Sees through a '.gz' wrapper; skips the read entirely when nothing decodes."""
+    Footer formats (Parquet) are read from the end; everything else from the
+    start. Sees through a '.gz' wrapper for leading-header formats."""
     if not is_decodable(path):
         return None
+    inner = _inner_key(path)
+    is_footer = extension_of(inner) in _FOOTER_FORMATS
     try:
-        data = read_leading_bytes(path)
+        data = read_trailing_bytes(path, FOOTER_READ_BYTES) if is_footer else read_leading_bytes(path)
     except (OSError, EOFError, gzip.BadGzipFile):
         return None
-    return decode_bytes(_inner_key(path), data)
+    decoded = decode_bytes(inner, data)
+    if decoded is None and is_footer:
+        try:
+            data = _precise_footer_local(path)
+        except OSError:
+            data = None
+        if data:
+            decoded = decode_bytes(inner, data)
+    return decoded
 
 
 def decode_url(url: str) -> Optional[DecodedHeader]:
-    """Decode a remote file's header via a Range request, or None. Sees through
-    a '.gz' wrapper."""
+    """Decode a remote file's header via a Range request, or None. Footer formats
+    (Parquet) are read with a suffix Range; others from the start."""
     if not is_decodable(url):
         return None
+    inner = _inner_key(url)
+    is_footer = extension_of(inner) in _FOOTER_FORMATS
     try:
-        data = read_leading_bytes_url(url)
+        data = read_trailing_bytes_url(url, FOOTER_READ_BYTES) if is_footer else read_leading_bytes_url(url)
     except Exception:
         return None
-    return decode_bytes(_inner_key(url), data)
+    return decode_bytes(inner, data)
 
 
 def _batch(sources: Iterable[str], one, workers: int) -> List[Tuple[str, Optional[DecodedHeader]]]:

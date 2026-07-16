@@ -1,10 +1,11 @@
 # scigantic-headers
 
-Read the header of a scientific file and return its fields (dimensions, data
-type, pixel size, frame count) as a dict, without reading the rest of the file.
-Decodes MRC, NPY, NIfTI, and CryoSPARC `.cs`. The decode functions do no file or
-network I/O and have no dependencies; separate reader functions fetch the header
-bytes from a file or a URL.
+Read the metadata of a scientific file and return its fields (dimensions, data
+type, pixel size, columns, row count) as a dict, without reading the rest of the
+file. Decodes MRC, NPY, NIfTI, CryoSPARC `.cs`, and Parquet. The decode
+functions have no dependencies; separate reader functions fetch the bytes from a
+file or a URL (the leading bytes for most formats, the trailing bytes for
+Parquet, whose schema is in a footer).
 
 ```python
 from scigantic_headers import decode_file
@@ -55,6 +56,8 @@ Decoders today:
   Cross-checked against nibabel. Big- and little-endian.
 - **CryoSPARC `.cs`**: a structured-array dataset. Reports record count and the
   field schema.
+- **Parquet**: reads the footer, not a leading header, and returns the column
+  names, physical types, and row count. Cross-checked against pyarrow.
 
 `.gz` is transparent. The reader decompresses just the leading block, so a
 gzipped `.nii.gz` or `.mrc.gz` decodes without inflating the whole file, and
@@ -88,13 +91,14 @@ detector-pixel-size / magnification pair are all handled.
 
     src/scigantic_headers/
       decoders.py   pure core: registry + MRC / NPY / NIfTI / .cs decoders
+      parquet.py    Parquet footer decode (small Thrift-compact reader)
       sources.py    read leading bytes from file or URL; bounded parallel batch
       star.py       RELION STAR optics reader
       cryosparc.py  CryoSPARC .cs optics reader
       optics.py     read_session_optics: find a data file's optics file
       cli.py        scigantic-headers <file|url|--dir>
       benchmark.py  scigantic-headers-bench, measures the speed levers
-    tests/          pytest (102 tests, incl. fuzz + golden fixtures)
+    tests/          pytest (117 tests, incl. fuzz + golden fixtures)
 
 ## Robustness
 
@@ -166,11 +170,11 @@ do this.
 
 ## Limitations
 
-- **Footer and pointer formats are not supported.** Parquet's schema is in the
-  footer, and HDF5 and TIFF store it behind internal pointers. This library
-  reads only the leading bytes, so those formats need a different read strategy.
-  Plain gzip is handled (the reader inflates the leading block), but BAM's BGZF
-  framing and per-record structure are not.
+- **Pointer-based formats are not supported.** HDF5 and TIFF store their layout
+  behind internal pointers, so reading the header or footer alone is not enough.
+  Parquet (a footer) is supported; formats that need to chase offsets through the
+  file are not. Plain gzip is handled (the reader inflates the leading block),
+  but BAM's BGZF framing and per-record structure are not.
 - **Output is not a standard.** The fields are an ad-hoc dict, not an
   interchange format such as Allotrope ASM. Map the dict to a standard if you
   need one.
