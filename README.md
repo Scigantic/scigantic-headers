@@ -128,7 +128,7 @@ detector-pixel-size / magnification pair are all handled.
       optics.py     read_session_optics: find a data file's optics file
       cli.py        scigantic-headers <file|url|--dir>
       benchmark.py  scigantic-headers-bench, measures the speed levers
-    tests/          pytest (202 tests, incl. fuzz + golden fixtures)
+    tests/          pytest (208 tests, incl. fuzz + golden fixtures)
 
 ## Robustness
 
