@@ -4,13 +4,12 @@ Given the leading bytes of a scientific file, decode a self-contained binary
 header into typed fields plus a one-line summary an agent can read instead of
 re-opening the file. This module never touches the filesystem or the network;
 reading bytes is the job of `sources.py`. Keeping the decode pure makes it
-trivially testable, keeps the hot path allocation-light, and lets the
-TypeScript twin (backend headerDecoders.ts) mirror it exactly.
+trivially testable, keeps the hot path allocation-light, and lets a port to
+another language mirror it exactly.
 
 Zero runtime dependencies is deliberate: the dtype table is a plain dict rather
 than numpy, so importing this costs nothing and it installs on an air-gapped
-box. (The older scigantic_empiar.parse_mrc_header imported numpy solely to size
-a dtype, this drops that.)
+box.
 
 Add a format by writing a pure `bytes -> DecodedHeader | None` function and
 calling `register_decoder`.
@@ -100,9 +99,8 @@ def decode_bytes(key: str, data: bytes) -> Optional[DecodedHeader]:
 #
 # MRC2014 layout, little-endian (the 'MAP ' stamp at byte 208 and MACHST at 212
 # record endianness; effectively all cryo-EM data is little-endian). Offsets and
-# the mode->dtype table match backend headerDecoders.ts and the reference
-# parse_mrc_header in scigantic_empiar; all three are held to the golden file
-# tests/fixtures/mrc-cases.json so they cannot silently diverge.
+# the mode->dtype table are pinned to the golden file tests/fixtures/mrc-cases.json
+# so a change the fixture does not expect fails a test.
 #
 #   0   NX,NY,NZ    int32   columns, rows, sections
 #   12  MODE        int32   pixel data type
@@ -142,9 +140,8 @@ def decode_mrc_header(data: bytes, *, strict: bool = True) -> Optional[DecodedHe
     strict=True (default, used by the registry/dispatch): require the 'MAP '
     stamp, so a random binary file with an .mrc extension is rejected rather
     than decoded into garbage. strict=False: skip the stamp check for a caller
-    that already knows the bytes are MRC, matches the historical permissive
-    behavior of scigantic_empiar.parse_mrc_header, which read pre-2014 files
-    that predate the stamp.
+    that already knows the bytes are MRC, which also reads pre-2014 files that
+    predate the stamp.
     """
     min_bytes = _MRC_STAMP_MIN_BYTES if strict else _MRC_FIELDS_MIN_BYTES
     if len(data) < min_bytes:

@@ -11,13 +11,12 @@ speed is won or lost. Two principles are baked in:
   * Bounded parallelism. Header reads across files are independent, so a thread
     pool overlaps their I/O latency. Threads (not processes) are right because
     the work is I/O-bound, the GIL is released during the read. The win is real
-    for high-latency storage (NFS/FlashBlade, cold disk, remote HTTP) and
-    marginal for warm local files; the pool is bounded and tunable because, as
-    the EMPIAR range-reader found, past a point more connections hurt (server
-    throttling, disk queue thrash). Default 8, the EMPIAR sweet spot.
+    for high-latency storage (NFS, cold disk, remote HTTP) and marginal for warm
+    local files; the pool is bounded and tunable because past a point more
+    connections hurt (server throttling, disk queue thrash). Default 8.
 
 URL reads use an HTTP Range request, so a header is pulled from a remote archive
-without downloading the file, the same lazy access the FUSE mounts use.
+without downloading the file.
 """
 
 from __future__ import annotations
@@ -43,6 +42,13 @@ _GZ_FETCH_BYTES = 128 * 1024
 # all real footers; a bigger one triggers a precise re-read from the length.
 _FOOTER_FORMATS = {"parquet"}
 FOOTER_READ_BYTES = 1024 * 1024
+
+# Formats whose keyword block is near the start but can run past HEADER_BYTES
+# (FCS keeps its TEXT segment there, and it can be tens of KB for a wide panel).
+# Read a larger leading block for these; one read covers essentially all real
+# files, and a file whose block is bigger still just decodes to None.
+_LEADING_LARGE_FORMATS = {"fcs"}
+LEADING_LARGE_BYTES = 256 * 1024
 
 
 def _inner_key(key: str) -> str:
@@ -130,9 +136,15 @@ def decode_file(path: str) -> Optional[DecodedHeader]:
     if not is_decodable(path):
         return None
     inner = _inner_key(path)
-    is_footer = extension_of(inner) in _FOOTER_FORMATS
+    ext = extension_of(inner)
+    is_footer = ext in _FOOTER_FORMATS
     try:
-        data = read_trailing_bytes(path, FOOTER_READ_BYTES) if is_footer else read_leading_bytes(path)
+        if is_footer:
+            data = read_trailing_bytes(path, FOOTER_READ_BYTES)
+        elif ext in _LEADING_LARGE_FORMATS:
+            data = read_leading_bytes(path, LEADING_LARGE_BYTES)
+        else:
+            data = read_leading_bytes(path)
     except (OSError, EOFError, gzip.BadGzipFile):
         return None
     decoded = decode_bytes(inner, data)
@@ -152,9 +164,15 @@ def decode_url(url: str) -> Optional[DecodedHeader]:
     if not is_decodable(url):
         return None
     inner = _inner_key(url)
-    is_footer = extension_of(inner) in _FOOTER_FORMATS
+    ext = extension_of(inner)
+    is_footer = ext in _FOOTER_FORMATS
     try:
-        data = read_trailing_bytes_url(url, FOOTER_READ_BYTES) if is_footer else read_leading_bytes_url(url)
+        if is_footer:
+            data = read_trailing_bytes_url(url, FOOTER_READ_BYTES)
+        elif ext in _LEADING_LARGE_FORMATS:
+            data = read_leading_bytes_url(url, LEADING_LARGE_BYTES)
+        else:
+            data = read_leading_bytes_url(url)
     except Exception:
         return None
     return decode_bytes(inner, data)

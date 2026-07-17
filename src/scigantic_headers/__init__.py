@@ -1,9 +1,8 @@
 """scigantic-headers, decode scientific file headers into typed context.
 
 Bytes in, typed fields out. Pure, zero-dependency core (decoders) plus bounded
-parallel I/O readers (sources). One implementation shared by the cloud probe's
-twin, the notebook, and the edge box, so a file is described the same way
-everywhere.
+parallel I/O readers (sources). One implementation, so a file is described the
+same way everywhere it runs.
 
     from scigantic_headers import decode_file, decode_paths
     hdr = decode_file("session/frame.mrc")
@@ -13,6 +12,7 @@ everywhere.
 from importlib.metadata import PackageNotFoundError, version as _pkg_version
 
 from .cryosparc import parse_cryosparc_optics, read_cryosparc_optics
+from .fcs import decode_fcs
 from .optics import read_session_optics
 from .parquet import decode_parquet
 from .decoders import (
@@ -48,7 +48,7 @@ __all__ = [
     "HEADER_BYTES", "DecodedHeader", "decode_bytes", "decode_mrc_header",
     "decode_nifti_header", "decode_npy_header", "decode_cryosparc_header",
     "parse_cryosparc_optics", "read_cryosparc_optics", "read_session_optics",
-    "decode_parquet",
+    "decode_parquet", "decode_fcs",
     "extension_of", "has_decoder_for", "register_decoder",
     "DEFAULT_WORKERS", "decode_file", "decode_paths", "decode_url",
     "decode_urls", "is_decodable", "iter_decodable_files", "read_leading_bytes",

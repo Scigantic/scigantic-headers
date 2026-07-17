@@ -1,8 +1,8 @@
 """scigantic-headers, decode a file or URL header into typed fields.
 
     scigantic-headers session/frame.mrc
-    scigantic-headers https://ftp.ebi.ac.uk/empiar/.../img.mrcs
-    scigantic-headers --dir /mnt/flashblade/sessions --workers 8
+    scigantic-headers https://example.org/path/img.mrcs
+    scigantic-headers --dir /data/sessions --workers 8
 
 A URL is read with an HTTP Range request, so a header is pulled from a remote
 archive without downloading the file.

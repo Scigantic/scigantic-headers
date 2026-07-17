@@ -9,9 +9,8 @@ Two things worth measuring, matching the two real speed levers:
 
   2. Serial vs bounded-parallel over many *remote* files. Header reads are
      independent and I/O-bound, so a thread pool overlaps their latency. Run
-     against real EMPIAR URLs so the numbers are real network latency, not a
-     simulation, this reproduces the EMPIAR range-reader's finding at the
-     file-set level.
+     against real public archive URLs so the numbers are real network latency,
+     not a simulation.
 
     scigantic-headers-bench                 # local read-size bench (offline)
     scigantic-headers-bench --empiar        # + remote serial-vs-parallel (network)
