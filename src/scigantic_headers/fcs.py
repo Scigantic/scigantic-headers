@@ -20,7 +20,7 @@ this reads: $PAR (parameters), $TOT (events), $DATATYPE, $MODE, $CYT (cytometer)
 and $PnN / $PnS (per-channel short and long names).
 
 The TEXT segment sits near the start but can run well past 1 KiB, so sources
-reads a larger leading block for '.fcs' (see sources._LEADING_LARGE_FORMATS).
+reads a larger leading block for '.fcs' (see sources._LEADING_BYTES_BY_FORMAT).
 """
 
 from __future__ import annotations

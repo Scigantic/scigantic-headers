@@ -43,12 +43,14 @@ _GZ_FETCH_BYTES = 128 * 1024
 _FOOTER_FORMATS = {"parquet"}
 FOOTER_READ_BYTES = 1024 * 1024
 
-# Formats whose keyword block is near the start but can run past HEADER_BYTES
-# (FCS keeps its TEXT segment there, and it can be tens of KB for a wide panel).
-# Read a larger leading block for these; one read covers essentially all real
-# files, and a file whose block is bigger still just decodes to None.
-_LEADING_LARGE_FORMATS = {"fcs"}
-LEADING_LARGE_BYTES = 256 * 1024
+# Formats whose leading metadata block can run past HEADER_BYTES: FCS keeps its
+# TEXT segment near the start (tens of KB for a wide panel), mzML's XML preamble
+# runs to <spectrumList>. Read this many leading bytes for them instead. One
+# read covers essentially all real files; a bigger block still decodes to None.
+_LEADING_BYTES_BY_FORMAT = {
+    "fcs": 256 * 1024,
+    "mzml": 1024 * 1024,
+}
 
 
 def _inner_key(key: str) -> str:
@@ -141,8 +143,8 @@ def decode_file(path: str) -> Optional[DecodedHeader]:
     try:
         if is_footer:
             data = read_trailing_bytes(path, FOOTER_READ_BYTES)
-        elif ext in _LEADING_LARGE_FORMATS:
-            data = read_leading_bytes(path, LEADING_LARGE_BYTES)
+        elif ext in _LEADING_BYTES_BY_FORMAT:
+            data = read_leading_bytes(path, _LEADING_BYTES_BY_FORMAT[ext])
         else:
             data = read_leading_bytes(path)
     except (OSError, EOFError, gzip.BadGzipFile):
@@ -169,8 +171,8 @@ def decode_url(url: str) -> Optional[DecodedHeader]:
     try:
         if is_footer:
             data = read_trailing_bytes_url(url, FOOTER_READ_BYTES)
-        elif ext in _LEADING_LARGE_FORMATS:
-            data = read_leading_bytes_url(url, LEADING_LARGE_BYTES)
+        elif ext in _LEADING_BYTES_BY_FORMAT:
+            data = read_leading_bytes_url(url, _LEADING_BYTES_BY_FORMAT[ext])
         else:
             data = read_leading_bytes_url(url)
     except Exception:

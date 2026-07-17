@@ -2,7 +2,7 @@
 
 Read the metadata of a scientific file and return its fields (dimensions, data
 type, pixel size, columns, row count) as a dict, without reading the rest of the
-file. Decodes MRC, NPY, NIfTI, CryoSPARC `.cs`, Parquet, and FCS. The decode
+file. Decodes MRC, NPY, NIfTI, CryoSPARC `.cs`, Parquet, FCS, and mzML. The decode
 functions have no dependencies; separate reader functions fetch the bytes from a
 file or a URL (the leading bytes for most formats, the trailing bytes for
 Parquet, whose schema is in a footer).
@@ -46,6 +46,9 @@ Decoders today:
   names, physical types, and row count. Cross-checked against pyarrow.
 - **FCS**: flow cytometry (Flow Cytometry Standard). Returns parameter and event
   counts, data type, and per-channel names. Cross-checked against flowio.
+- **mzML**: mass spectrometry. Returns the spectrum count, instrument model,
+  software, source file, and run start time from the XML preamble. Cross-checked
+  against a compliant XML parse.
 
 `.gz` is transparent. The reader decompresses just the leading block, so a
 gzipped `.nii.gz` or `.mrc.gz` decodes without inflating the whole file, and
@@ -81,13 +84,14 @@ detector-pixel-size / magnification pair are all handled.
       decoders.py   pure core: registry + MRC / NPY / NIfTI / .cs decoders
       parquet.py    Parquet footer decode (small Thrift-compact reader)
       fcs.py        FCS (flow cytometry) header + TEXT-segment decode
+      mzml.py       mzML (mass spec) XML-preamble metadata decode
       sources.py    read leading bytes from file or URL; bounded parallel batch
       star.py       RELION STAR optics reader
       cryosparc.py  CryoSPARC .cs optics reader
       optics.py     read_session_optics: find a data file's optics file
       cli.py        scigantic-headers <file|url|--dir>
       benchmark.py  scigantic-headers-bench, measures the speed levers
-    tests/          pytest (136 tests, incl. fuzz + golden fixtures)
+    tests/          pytest (147 tests, incl. fuzz + golden fixtures)
 
 ## Robustness
 
