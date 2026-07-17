@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.3.0
+
+Broadens coverage from cryo-EM/imaging/tabular to the formats a wet lab produces
+across mass spec, sequencing, and structural biology. New decoders:
+
+- mzML (mass spectrometry): spectrum count, instrument model, software, source
+  file, run start time.
+- FASTQ: instrument/run/flowcell/lane from the Illumina read name, read length.
+- Illumina run metadata: RunInfo.xml / RunParameters.xml, dispatched by file
+  name (a new file-name registry, since `.xml` alone is too generic).
+- VCF, SAM: header fields (version, samples/references, meta-line counts).
+- PDB, mmCIF: structure headers (id, classification, method, resolution).
+- GenBank: LOCUS line plus definition, accession, version, organism.
+- GFF3/GTF, BED: annotation and interval headers.
+- DICOM: modality, dimensions, bit depth, manufacturer. Technical fields only,
+  never patient identifiers.
+
+Now 17 formats. Fuzz covers every registered decoder, including the file-name
+dispatch path.
+
 ## 0.2.0
 
 - FCS (flow cytometry) decoder: parameter and event counts, data type, and
