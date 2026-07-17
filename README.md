@@ -15,42 +15,31 @@ hdr.fields["dtype"]    # "float32"
 hdr.fields["nz"]       # 16   (frames)
 ```
 
-One implementation, shared. The cloud probe's TypeScript twin
-(`backend/src/services/headerDecoders.ts`), the notebook, and the edge
-context-producer describe a file the same way. Same byte offsets, same
-`mode -> dtype` table, held to the same test fixtures so they cannot drift.
-
-Edge use: the context-producer (`infrastructure/edge/context-producer`) runs
-this next to an instrument, with no network, on amd64 or arm64. The zero
-dependencies and header-only reads are what let it run there.
+Zero runtime dependencies and header-only reads, so it runs air-gapped, on
+amd64 or arm64, and installs into a slim image with nothing else to pull.
 
 ## Install
 
     pip install scigantic-headers
 
 Published to PyPI on a `v*` tag by `.github/workflows/publish.yml`. Pin the
-version in anything that consumes it (`scigantic-headers==0.1.0`); the notebook
-and edge-producer images in the monorepo install it that way.
-
-It has zero runtime dependencies, so it runs air-gapped and installs into a slim
-image without pulling anything else. Where there is no package index at build
-time, install from a wheel or a checkout of this repo instead:
+version in anything that consumes it (`scigantic-headers==X.Y.Z`). With no
+package index at build time, install from a wheel or a checkout instead:
 
     pip install ./scigantic-headers
 
 ## Why it exists
 
-A schema card or context record wants to say what a file is without opening it
-over a FUSE mount. A scientific file's first ~1 KiB is a structured header that
-already says so. This reads that, and nothing more.
+You often want to know what a file is, its shape, dtype, and key acquisition
+fields, without reading the whole thing. A scientific file's first ~1 KiB is a
+structured header that already says so. This reads that, and nothing more.
 
 Decoders today:
 
 - **MRC / MRCS**: cryo-EM micrographs, movie stacks, tilt series, EMDB maps.
-- **NPY**: NumPy arrays (ML, genomics, materials, not cryo-EM). Cross-checked
-  against numpy.
-- **NIfTI-1**: neuroimaging volumes, `.nii` and `.nii.gz` (not cryo-EM).
-  Cross-checked against nibabel. Big- and little-endian.
+- **NPY**: NumPy arrays. Cross-checked against numpy.
+- **NIfTI-1**: neuroimaging volumes, `.nii` and `.nii.gz`. Cross-checked against
+  nibabel. Big- and little-endian.
 - **CryoSPARC `.cs`**: a structured-array dataset. Reports record count and the
   field schema.
 - **Parquet**: reads the footer, not a leading header, and returns the column
@@ -62,7 +51,7 @@ dispatch sees the inner format.
 
 Adding a format is a pure `bytes -> DecodedHeader | None` function plus one
 `register_decoder` call. Nothing about the dispatch, the readers, or the batch
-path is cryo-EM-specific. NPY and NIfTI landed with zero plumbing changes.
+path is format-specific. NPY and NIfTI landed with zero plumbing changes.
 
 ## Pixel size for raw movies
 
@@ -105,10 +94,9 @@ raises and never emits NaN or inf. This is enforced, not assumed.
 
 - **Fuzz** (`test_fuzz.py`): thousands of random and magic-seeded byte buffers
   through every decoder. Each result must serialize with `allow_nan=False`.
-- **Golden fixtures** (`fixtures/mrc-cases.json`): hex input to exact decode.
-  This is the single source of truth the three MRC decoders (this library, the
-  TypeScript twin, scigantic_empiar) are all held to, so none can silently
-  diverge.
+- **Golden fixtures** (`fixtures/mrc-cases.json`): hex input to exact decode. A
+  change to a decoder that the fixture does not expect fails a test rather than
+  passing silently.
 - Non-finite floats (a garbage NIfTI pixdim, an inf MRC cell) sanitize to null.
 
 ## Speed
@@ -126,16 +114,16 @@ a small one.
 
 **Parallelize the I/O, bounded.** Header reads across files are independent and
 I/O-bound, so a thread pool overlaps their latency (the read releases the GIL).
-Measured over 8 real EMPIAR headers pulled by HTTP Range:
+Measured over 8 headers pulled by HTTP Range from a remote archive:
 
     serial   (1 worker):   25.7 s
     parallel (8 workers):   0.7 s        (about 35x)
 
-That 35x is large because EBI's per-request latency is about 3 s, so overlapping
-eight requests recovers a lot of dead wait. On low-latency local storage the
-speedup is smaller. The win scales with per-read latency, which is why the pool
-is bounded and tunable (default 8, the EMPIAR sweet spot; past a point more
-connections hit server throttling or disk-queue thrash and get slower).
+That 35x is large because the server's per-request latency is about 3 s, so
+overlapping eight requests recovers a lot of dead wait. On low-latency local
+storage the speedup is smaller. The win scales with per-read latency, which is
+why the pool is bounded and tunable (default 8; past a point more connections
+hit server throttling or disk-queue thrash and get slower).
 
 Two more, by construction:
 
@@ -145,25 +133,24 @@ Two more, by construction:
   is nothing to install and nothing to import, and it runs air-gapped.
 
 The biggest system-level lever lives in the caller, not here: decode once when a
-file lands, write the context record, and answer every later query from the tiny
-record without re-decoding. The edge context-producer and the cloud probe both
-do this.
+file lands, cache the small result, and answer every later query from it without
+re-decoding.
 
 ## Use
 
     from scigantic_headers import decode_file, decode_paths, decode_urls, iter_decodable_files
 
     decode_file("s/frame.mrc")                              # one local file
-    decode_paths(iter_decodable_files("/mnt/sessions"))     # a tree, parallel
+    decode_paths(iter_decodable_files("/data/sessions"))    # a tree, parallel
     decode_urls([...], workers=8)                           # remote, by Range
 
     # CLI
     scigantic-headers session/frame.mrc
-    scigantic-headers https://ftp.ebi.ac.uk/empiar/.../img.mrcs
-    scigantic-headers --dir /mnt/flashblade/sessions --workers 8
+    scigantic-headers https://example.org/path/img.mrcs
+    scigantic-headers --dir /data/sessions --workers 8
 
     pytest
-    scigantic-headers-bench --empiar   # reproduce the numbers above
+    scigantic-headers-bench            # reproduce the numbers above
 
 ## Limitations
 
@@ -176,9 +163,6 @@ do this.
   interchange format such as Allotrope ASM. Map the dict to a standard if you
   need one.
 
-## Repository
+## License
 
-This is the library's home and the version published to PyPI. The Scigantic
-monorepo installs it from PyPI; it is not vendored there. The paths above
-(`backend/...`, `infrastructure/...`) point at the TypeScript twin, the
-notebook, and the edge context-producer in that repo that use it.
+MIT. See LICENSE.
