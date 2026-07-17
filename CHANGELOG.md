@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.0
+
+- FCS (flow cytometry) decoder: parameter and event counts, data type, and
+  per-channel names, read from the HEADER offset table and TEXT segment. The
+  leading read grows for `.fcs`, whose keyword segment can exceed 1 KiB.
+  Cross-checked against flowio.
+- README and source docstrings describe only the library; references to a
+  surrounding system have been removed.
+
 ## 0.1.3
 
 - `__version__` now derives from the installed package metadata instead of a
