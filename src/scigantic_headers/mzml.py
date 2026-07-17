@@ -17,7 +17,7 @@ from __future__ import annotations
 import re
 from typing import Optional
 
-from .decoders import DecodedHeader, register_decoder
+from .decoders import DecodedHeader, Read, register_decoder
 
 _NS = b"http://psi.hupo.org/ms/mzml"
 
@@ -77,4 +77,4 @@ def decode_mzml(data: bytes) -> Optional[DecodedHeader]:
     )
 
 
-register_decoder("mzml", decode_mzml)
+register_decoder("mzml", decode_mzml, read=Read(leading=1024 * 1024))  # XML preamble runs to <spectrumList>

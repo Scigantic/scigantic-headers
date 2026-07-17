@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.4.0
+
+Internal simplification: the read strategy now lives with the decoder, not in a
+table elsewhere. `register_decoder` takes a `read=` argument saying how many bytes
+the decoder needs and from which end (`Read(leading=N)`, or `Read(footer=N)` for a
+schema in the tail like Parquet). The readers consult the registry and no longer
+name any format, so adding a format really is one pure function plus one call.
+
+- New public API: `Read` (the read spec) and `read_for(key)` (the spec the readers
+  will use for a key). Additive; existing code is unaffected. `register_decoder`
+  gained an optional `read=` keyword.
+- Removed the per-format read-size tables and the Parquet-specific footer re-read
+  from `sources`, which is now format-agnostic.
+- Behavior change: a Parquet footer larger than the 1 MiB trailing read now decodes
+  to `None` (no context), the same as any other header that does not fit, instead
+  of a precise re-read. This affects only pathologically large schemas and removes
+  an inconsistency where local files got the re-read but remote (HTTP Range) did not.
+- The HTTP User-Agent for URL reads now reports the installed version instead of a
+  hardcoded `0.1`.
+
 ## 0.3.0
 
 Broadens coverage from cryo-EM/imaging/tabular to the formats a wet lab produces

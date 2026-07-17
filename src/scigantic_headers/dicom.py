@@ -11,7 +11,7 @@ from __future__ import annotations
 
 from typing import Optional
 
-from .decoders import DecodedHeader, register_decoder
+from .decoders import DecodedHeader, Read, register_decoder
 
 # Explicit-VR value representations that use a 2-byte reserved field + 4-byte
 # length instead of a 2-byte length.
@@ -136,4 +136,4 @@ def decode_dicom(data: bytes) -> Optional[DecodedHeader]:
     )
 
 
-register_decoder("dcm", decode_dicom)
+register_decoder("dcm", decode_dicom, read=Read(leading=256 * 1024))  # metadata precedes PixelData

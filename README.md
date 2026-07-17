@@ -78,8 +78,12 @@ gzipped `.nii.gz` or `.mrc.gz` decodes without inflating the whole file, and
 dispatch sees the inner format.
 
 Adding a format is a pure `bytes -> DecodedHeader | None` function plus one
-`register_decoder` call. Nothing about the dispatch, the readers, or the batch
-path is format-specific. NPY and NIfTI landed with zero plumbing changes.
+`register_decoder` call. That call also declares how many bytes the decoder needs
+and from which end (`read=Read(leading=...)`, or `read=Read(footer=...)` for a
+schema in the tail like Parquet), so the read strategy lives next to the decoder,
+not in a table elsewhere. Nothing about the dispatch, the readers, or the batch
+path is format-specific: the readers ask the registry how to read and never name
+a format. NPY and NIfTI landed with zero plumbing changes.
 
 ## Pixel size for raw movies
 
@@ -145,9 +149,10 @@ The decode is microseconds: a 1 KiB read and a few `struct` unpacks. Optimizing
 that is a rounding error. All the speed is in I/O, and two things carry it. Both
 are measured, not asserted (run `scigantic-headers-bench`).
 
-**Read the header, not the file.** The read is exactly `HEADER_BYTES` (1 KiB),
-so its cost is independent of file size and a multi-GB movie decodes as fast as
-a small one.
+**Read the header, not the file.** The read is bounded (`HEADER_BYTES`, 1 KiB, for
+most formats; a few hundred KB for text formats with long headers, declared per
+decoder), so its cost is independent of file size and a multi-GB movie decodes as
+fast as a small one.
 
     header read + decode (1 KiB):        15 us
     full-file read + decode (200 MB):  22.7 ms      (about 1,500x cheaper)

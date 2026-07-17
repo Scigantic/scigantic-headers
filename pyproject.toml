@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "scigantic-headers"
-version = "0.3.0"
+version = "0.4.0"
 description = "Decode scientific file headers (cryo-EM, imaging, tabular, flow cytometry, mass spec, sequencing, structural biology) into typed fields. Pure, zero-dependency, with bounded parallel readers."
 readme = "README.md"
 requires-python = ">=3.9"

@@ -14,7 +14,7 @@ from __future__ import annotations
 import re
 from typing import Optional
 
-from .decoders import DecodedHeader, register_decoder_for_name
+from .decoders import DecodedHeader, Read, register_decoder_for_name
 
 _READ_EL = re.compile(rb"<Read\b[^>]*/?>")
 _CYCLES = re.compile(rb'\bNumCycles="(\d+)"')
@@ -81,4 +81,6 @@ def decode_illumina_run(data: bytes) -> Optional[DecodedHeader]:
     )
 
 
-register_decoder_for_name(["RunInfo.xml", "RunParameters.xml"], decode_illumina_run)
+register_decoder_for_name(
+    ["RunInfo.xml", "RunParameters.xml"], decode_illumina_run, read=Read(leading=256 * 1024)
+)

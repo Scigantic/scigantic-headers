@@ -4,10 +4,12 @@ import pytest
 
 from scigantic_headers import (
     DecodedHeader,
+    Read,
     decode_bytes,
     decode_mrc_header,
     extension_of,
     has_decoder_for,
+    read_for,
     register_decoder,
 )
 
@@ -137,6 +139,26 @@ def test_register_new_format_is_isolated():
     assert decode_bytes("x.fakefmt", b"nope") is None
     # unrelated formats untouched
     assert has_decoder_for("x.mrc") is True
+
+
+def test_read_spec_travels_with_registration():
+    # The read strategy is registered with the decoder, so it is the single source
+    # of truth: the readers consult read_for and never name a format themselves.
+    register_decoder("bigfmt", lambda b: None, read=Read(leading=4096))
+    register_decoder("tailfmt", lambda b: None, read=Read(footer=2048))
+    assert read_for("x.bigfmt") == Read(leading=4096)
+    assert read_for("x.tailfmt") == Read(footer=2048)
+
+
+@pytest.mark.parametrize("key,expected", [
+    ("x.mrc", Read(leading=1024)),        # default leading read
+    ("x.mzml", Read(leading=1024 * 1024)),  # large leading read
+    ("x.parquet", Read(footer=1024 * 1024)),  # footer read
+    ("run/RunInfo.xml", Read(leading=256 * 1024)),  # name-dispatched read
+    ("x.unknown", Read()),                # no decoder -> harmless default
+])
+def test_read_for_reports_registered_strategy(key, expected):
+    assert read_for(key) == expected
 
 
 def test_decoded_header_is_frozen(mrc):

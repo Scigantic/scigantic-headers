@@ -10,7 +10,7 @@ from __future__ import annotations
 import re
 from typing import Optional
 
-from .decoders import DecodedHeader, register_decoder
+from .decoders import DecodedHeader, Read, register_decoder
 
 _UNITS = (b"bp", b"aa", b"rc")
 
@@ -69,4 +69,4 @@ def decode_genbank(data: bytes) -> Optional[DecodedHeader]:
     return DecodedHeader(format="genbank", summary=summary.strip(), fields=fields)
 
 
-register_decoder(["gb", "gbk", "genbank", "gbff"], decode_genbank)
+register_decoder(["gb", "gbk", "genbank", "gbff"], decode_genbank, read=Read(leading=256 * 1024))  # header precedes FEATURES/ORIGIN

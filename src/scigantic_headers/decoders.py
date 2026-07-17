@@ -21,7 +21,7 @@ import ast
 import math
 import struct
 from dataclasses import asdict, dataclass, field
-from typing import Callable, Dict, Optional
+from typing import Callable, Dict, Optional, Tuple
 
 
 def _finite(x: Optional[float]) -> Optional[float]:
@@ -31,9 +31,10 @@ def _finite(x: Optional[float]) -> Optional[float]:
     they become None."""
     return x if x is not None and math.isfinite(x) else None
 
-# Leading bytes any registered decoder may inspect. Readers should fetch exactly
-# this many and no more, for MRC everything needed sits below byte 212, and no
-# other format we support needs more than 1 KiB.
+# The default leading read: what a decoder gets unless it registers a larger one.
+# A binary header sits near the front (for MRC everything needed is below byte 212),
+# so 1 KiB covers most formats; text formats with long headers (VCF, mzML, ...)
+# declare more via register_decoder(..., read=Read(leading=N)).
 HEADER_BYTES = 1024
 
 
@@ -49,37 +50,53 @@ class DecodedHeader:
         return asdict(self)
 
 
-# A decoder inspects the leading bytes and returns typed fields, or None if the
-# bytes do not validate for its format.
+# A decoder inspects a header and returns typed fields, or None if the bytes do
+# not validate for its format.
 Decoder = Callable[[bytes], Optional[DecodedHeader]]
 
-_DECODERS_BY_EXT: Dict[str, Decoder] = {}
-# Some formats are identified by an exact file name, not an extension: Illumina
-# writes RunInfo.xml, and registering the whole `.xml` extension would be wrong.
-# A file-name match takes precedence over an extension match.
-_DECODERS_BY_NAME: Dict[str, Decoder] = {}
+
+@dataclass(frozen=True)
+class Read:
+    """How many bytes a decoder needs, and from which end of the file.
+
+    Leading `n` bytes by default. A footer format (Parquet keeps its schema at the
+    end) sets `footer` and is read from the tail instead. This travels with the
+    decoder in the registry, so the readers in `sources` stay format-agnostic:
+    they ask the registry how to read, they do not know any format by name."""
+
+    leading: int = HEADER_BYTES
+    footer: Optional[int] = None
 
 
-def register_decoder(extensions, decoder: Decoder) -> None:
-    """Register `decoder` for one or more lower-case extensions (no dot).
+# key -> (decoder, how to read it). Some formats are matched by an exact file name
+# rather than an extension: Illumina writes RunInfo.xml, and claiming the whole
+# `.xml` extension would be wrong. A file-name match takes precedence.
+_DECODERS_BY_EXT: Dict[str, Tuple[Decoder, Read]] = {}
+_DECODERS_BY_NAME: Dict[str, Tuple[Decoder, Read]] = {}
 
-    Extending to a new format is a pure function plus one call to this, nothing
-    in the dispatch, the readers, or the batch path is format-specific.
+
+def register_decoder(extensions, decoder: Decoder, *, read: Read = Read()) -> None:
+    """Register `decoder` for one or more lower-case extensions (no dot), and how
+    many bytes it needs (default: the leading 1 KiB).
+
+    Adding a format is a pure function plus one call to this. Nothing in the
+    dispatch, the readers, or the batch path is format-specific: the read size
+    lives here, next to the decoder that needs it, not in a table elsewhere.
     """
     if isinstance(extensions, str):
         extensions = [extensions]
     for ext in extensions:
-        _DECODERS_BY_EXT[ext.lower().lstrip(".")] = decoder
+        _DECODERS_BY_EXT[ext.lower().lstrip(".")] = (decoder, read)
 
 
-def register_decoder_for_name(names, decoder: Decoder) -> None:
+def register_decoder_for_name(names, decoder: Decoder, *, read: Read = Read()) -> None:
     """Register `decoder` for one or more exact (case-insensitive) file names,
     e.g. 'RunInfo.xml', used when the extension alone is too generic to identify
     the format. A name match wins over an extension match."""
     if isinstance(names, str):
         names = [names]
     for n in names:
-        _DECODERS_BY_NAME[n.lower()] = decoder
+        _DECODERS_BY_NAME[n.lower()] = (decoder, read)
 
 
 def _basename(key: str) -> str:
@@ -93,7 +110,7 @@ def extension_of(key: str) -> str:
     return base[dot + 1 :].lower() if dot > 0 else ""
 
 
-def _decoder_for(key: str) -> Optional[Decoder]:
+def _entry_for(key: str) -> Optional[Tuple[Decoder, Read]]:
     return _DECODERS_BY_NAME.get(_basename(key)) or _DECODERS_BY_EXT.get(extension_of(key))
 
 
@@ -103,16 +120,24 @@ def has_decoder_for(key: str) -> bool:
     return _basename(key) in _DECODERS_BY_NAME or extension_of(key) in _DECODERS_BY_EXT
 
 
+def read_for(key: str) -> Read:
+    """How the readers should fetch bytes for `key`: the `Read` its decoder
+    registered, or a default 1 KiB leading read when nothing is registered
+    (harmless — callers filter on `has_decoder_for` first)."""
+    entry = _entry_for(key)
+    return entry[1] if entry else Read()
+
+
 def decode_bytes(key: str, data: bytes) -> Optional[DecodedHeader]:
-    """Decode `data` (the leading bytes of `key`) if a decoder is registered and
+    """Decode `data` (the header bytes of `key`) if a decoder is registered and
     the bytes validate. Returns None when there is no decoder for the name or
     extension or the header fails validation (wrong magic, insane values,
     truncated). Callers treat None as "no context", never as an error."""
-    decoder = _decoder_for(key)
-    if decoder is None:
+    entry = _entry_for(key)
+    if entry is None:
         return None
     try:
-        return decoder(data)
+        return entry[0](data)
     except Exception:
         return None
 

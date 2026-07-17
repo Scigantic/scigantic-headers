@@ -10,7 +10,7 @@ from __future__ import annotations
 import re
 from typing import Optional
 
-from .decoders import DecodedHeader, _finite, register_decoder
+from .decoders import DecodedHeader, Read, _finite, register_decoder
 
 
 def _unquote(v: bytes) -> Optional[str]:
@@ -71,4 +71,4 @@ def decode_mmcif(data: bytes) -> Optional[DecodedHeader]:
     )
 
 
-register_decoder(["cif", "mmcif"], decode_mmcif)
+register_decoder(["cif", "mmcif"], decode_mmcif, read=Read(leading=256 * 1024))  # header items precede the atom loop

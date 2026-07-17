@@ -4,9 +4,11 @@ bounded parallel batch.
 The decode (decoders.py) is microseconds; the cost here is I/O, so this is where
 speed is won or lost. Two principles are baked in:
 
-  * Bounded reads. We read exactly HEADER_BYTES, never the file. For a multi-GB
-    movie that is a ~million-fold saving over reading the whole thing, and the
-    read cost is independent of file size.
+  * Bounded reads. We read a header (a few KiB, up to whatever a format's decoder
+    declared it needs), never the file. For a multi-GB movie that is a millionfold
+    saving over reading the whole thing, and the read cost is independent of file
+    size. This module is format-agnostic: it asks the registry how many bytes a
+    key needs and from which end, and never names a format itself.
 
   * Bounded parallelism. Header reads across files are independent, so a thread
     pool overlaps their I/O latency. Threads (not processes) are right because
@@ -26,46 +28,25 @@ import urllib.request
 from concurrent.futures import ThreadPoolExecutor
 import gzip
 import zlib
+from importlib.metadata import PackageNotFoundError, version as _pkg_version
 from typing import Dict, Iterable, List, Optional, Tuple
 
-from .decoders import HEADER_BYTES, DecodedHeader, decode_bytes, extension_of, has_decoder_for
+from .decoders import HEADER_BYTES, DecodedHeader, decode_bytes, has_decoder_for, read_for
 
 DEFAULT_WORKERS = 8
-_UA = "scigantic-headers/0.1 (+https://scigantic.com; mailto:support@scigantic.com)"
+
+# Identify the client (and version) to the archives we range-read, with a contact.
+# The version comes from the installed package metadata, so it tracks the release
+# and cannot go stale in the string.
+try:
+    _VERSION = _pkg_version("scigantic-headers")
+except PackageNotFoundError:  # a source checkout with no install metadata
+    _VERSION = "0.0.0+unknown"
+_UA = "scigantic-headers/%s (+https://scigantic.com; mailto:support@scigantic.com)" % _VERSION
 
 # Enough compressed bytes to be sure the first HEADER_BYTES of a gzip stream
 # decompress from them. Headers compress well, so this is generous.
 _GZ_FETCH_BYTES = 128 * 1024
-
-# Formats whose schema is in a footer, not a leading header (Parquet). These are
-# read from the *end* of the file. One generous trailing read covers essentially
-# all real footers; a bigger one triggers a precise re-read from the length.
-_FOOTER_FORMATS = {"parquet"}
-FOOTER_READ_BYTES = 1024 * 1024
-
-# Formats whose leading metadata block can run past HEADER_BYTES: FCS keeps its
-# TEXT segment near the start (tens of KB for a wide panel), mzML's XML preamble
-# runs to <spectrumList>. Read this many leading bytes for them instead. One
-# read covers essentially all real files; a bigger block still decodes to None.
-_LEADING_BYTES_BY_FORMAT = {
-    "fcs": 256 * 1024,
-    "mzml": 1024 * 1024,
-    "xml": 256 * 1024,   # Illumina RunInfo.xml / RunParameters.xml
-    "vcf": 256 * 1024,   # VCF header (many ##contig lines)
-    "sam": 256 * 1024,   # SAM header (many @SQ lines)
-    "pdb": 256 * 1024,   # PDB leading records before the atoms
-    "ent": 256 * 1024,
-    "cif": 256 * 1024,   # mmCIF header items before the atom loop
-    "mmcif": 256 * 1024,
-    "gb": 256 * 1024,    # GenBank header before FEATURES / ORIGIN
-    "gbk": 256 * 1024,
-    "genbank": 256 * 1024,
-    "gbff": 256 * 1024,
-    "gff": 256 * 1024,   # GFF/GTF source and feature-type preview
-    "gff3": 256 * 1024,
-    "gtf": 256 * 1024,
-    "dcm": 256 * 1024,   # DICOM metadata before PixelData
-}
 
 
 def _inner_key(key: str) -> str:
@@ -127,69 +108,38 @@ def read_trailing_bytes_url(url: str, n: int, timeout: float = 30.0) -> bytes:
         return resp.read()
 
 
-def _precise_footer_local(path: str) -> Optional[bytes]:
-    """The exact footer bytes when it is bigger than one trailing read: take the
-    length from the last 8 bytes, then read that much from the end."""
-    with open(path, "rb") as fh:
-        fh.seek(0, 2)
-        size = fh.tell()
-        if size < 8:
-            return None
-        fh.seek(size - 8)
-        last8 = fh.read(8)
-        if last8[4:8] != b"PAR1":
-            return None
-        total = int.from_bytes(last8[:4], "little") + 8
-        if total > size:
-            return None
-        fh.seek(size - total)
-        return fh.read(total)
-
-
 def decode_file(path: str) -> Optional[DecodedHeader]:
     """Decode one local file's header, or None if no decoder applies / it fails.
-    Footer formats (Parquet) are read from the end; everything else from the
+    The decoder's registered `Read` says how many bytes to fetch and from which
+    end: a footer format (Parquet) is read from the tail, everything else from the
     start. Sees through a '.gz' wrapper for leading-header formats."""
     if not is_decodable(path):
         return None
     inner = _inner_key(path)
-    ext = extension_of(inner)
-    is_footer = ext in _FOOTER_FORMATS
+    spec = read_for(inner)
     try:
-        if is_footer:
-            data = read_trailing_bytes(path, FOOTER_READ_BYTES)
-        elif ext in _LEADING_BYTES_BY_FORMAT:
-            data = read_leading_bytes(path, _LEADING_BYTES_BY_FORMAT[ext])
+        if spec.footer is not None:
+            data = read_trailing_bytes(path, spec.footer)
         else:
-            data = read_leading_bytes(path)
+            data = read_leading_bytes(path, spec.leading)
     except (OSError, EOFError, gzip.BadGzipFile):
         return None
-    decoded = decode_bytes(inner, data)
-    if decoded is None and is_footer:
-        try:
-            data = _precise_footer_local(path)
-        except OSError:
-            data = None
-        if data:
-            decoded = decode_bytes(inner, data)
-    return decoded
+    return decode_bytes(inner, data)
 
 
 def decode_url(url: str) -> Optional[DecodedHeader]:
-    """Decode a remote file's header via a Range request, or None. Footer formats
-    (Parquet) are read with a suffix Range; others from the start."""
+    """Decode a remote file's header via a Range request, or None. The decoder's
+    registered `Read` says how many bytes and from which end: a footer format uses
+    a suffix Range, everything else a leading Range."""
     if not is_decodable(url):
         return None
     inner = _inner_key(url)
-    ext = extension_of(inner)
-    is_footer = ext in _FOOTER_FORMATS
+    spec = read_for(inner)
     try:
-        if is_footer:
-            data = read_trailing_bytes_url(url, FOOTER_READ_BYTES)
-        elif ext in _LEADING_BYTES_BY_FORMAT:
-            data = read_leading_bytes_url(url, _LEADING_BYTES_BY_FORMAT[ext])
+        if spec.footer is not None:
+            data = read_trailing_bytes_url(url, spec.footer)
         else:
-            data = read_leading_bytes_url(url)
+            data = read_leading_bytes_url(url, spec.leading)
     except Exception:
         return None
     return decode_bytes(inner, data)

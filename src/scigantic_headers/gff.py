@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from typing import Optional
 
-from .decoders import DecodedHeader, register_decoder
+from .decoders import DecodedHeader, Read, register_decoder
 
 
 def decode_gff(data: bytes) -> Optional[DecodedHeader]:
@@ -53,4 +53,4 @@ def decode_gff(data: bytes) -> Optional[DecodedHeader]:
     )
 
 
-register_decoder(["gff", "gff3", "gtf"], decode_gff)
+register_decoder(["gff", "gff3", "gtf"], decode_gff, read=Read(leading=256 * 1024))  # source + feature-type preview

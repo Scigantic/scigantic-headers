@@ -11,7 +11,7 @@ from __future__ import annotations
 import re
 from typing import Optional
 
-from .decoders import DecodedHeader, register_decoder
+from .decoders import DecodedHeader, Read, register_decoder
 
 _HD_LINE = re.compile(rb"^@HD\t[^\n]*", re.MULTILINE)
 _VN = re.compile(rb"\bVN:([^\t\n]+)")
@@ -61,4 +61,4 @@ def decode_sam(data: bytes) -> Optional[DecodedHeader]:
     )
 
 
-register_decoder("sam", decode_sam)
+register_decoder("sam", decode_sam, read=Read(leading=256 * 1024))  # header can carry many @SQ lines

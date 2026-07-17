@@ -19,15 +19,15 @@ A doubled delimiter is an escaped literal delimiter inside a value. The keywords
 this reads: $PAR (parameters), $TOT (events), $DATATYPE, $MODE, $CYT (cytometer),
 and $PnN / $PnS (per-channel short and long names).
 
-The TEXT segment sits near the start but can run well past 1 KiB, so sources
-reads a larger leading block for '.fcs' (see sources._LEADING_BYTES_BY_FORMAT).
+The TEXT segment sits near the start but can run well past 1 KiB, so this
+decoder registers a larger leading read (see the register_decoder call below).
 """
 
 from __future__ import annotations
 
 from typing import List, Optional
 
-from .decoders import DecodedHeader, register_decoder
+from .decoders import DecodedHeader, Read, register_decoder
 
 _FCS_VERSIONS = (b"FCS2.0", b"FCS3.0", b"FCS3.1")
 _HEADER_MIN = 58  # version + reserved + six 8-byte offset fields
@@ -141,4 +141,4 @@ def decode_fcs(data: bytes) -> Optional[DecodedHeader]:
     )
 
 
-register_decoder("fcs", decode_fcs)
+register_decoder("fcs", decode_fcs, read=Read(leading=256 * 1024))  # TEXT segment runs past 1 KiB

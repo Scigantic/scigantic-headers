@@ -29,6 +29,7 @@ from .vcf import decode_vcf
 from .decoders import (
     HEADER_BYTES,
     DecodedHeader,
+    Read,
     decode_bytes,
     decode_cryosparc_header,
     decode_mrc_header,
@@ -36,6 +37,7 @@ from .decoders import (
     decode_npy_header,
     extension_of,
     has_decoder_for,
+    read_for,
     register_decoder,
     register_decoder_for_name,
 )
@@ -57,13 +59,13 @@ try:
 except PackageNotFoundError:  # a source checkout with no install metadata
     __version__ = "0.0.0+unknown"
 __all__ = [
-    "HEADER_BYTES", "DecodedHeader", "decode_bytes", "decode_mrc_header",
+    "HEADER_BYTES", "DecodedHeader", "Read", "decode_bytes", "decode_mrc_header",
     "decode_nifti_header", "decode_npy_header", "decode_cryosparc_header",
     "parse_cryosparc_optics", "read_cryosparc_optics", "read_session_optics",
     "decode_parquet", "decode_fcs", "decode_mzml",
     "decode_fastq", "decode_illumina_run", "decode_vcf", "decode_sam", "decode_pdb",
     "decode_mmcif", "decode_genbank", "decode_gff", "decode_bed", "decode_dicom",
-    "extension_of", "has_decoder_for", "register_decoder", "register_decoder_for_name",
+    "extension_of", "has_decoder_for", "read_for", "register_decoder", "register_decoder_for_name",
     "DEFAULT_WORKERS", "decode_file", "decode_paths", "decode_url",
     "decode_urls", "is_decodable", "iter_decodable_files", "read_leading_bytes",
     "read_leading_bytes_url", "parse_relion_optics", "read_star_optics",

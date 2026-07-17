@@ -11,7 +11,7 @@ from __future__ import annotations
 import re
 from typing import Optional
 
-from .decoders import DecodedHeader, _finite, register_decoder
+from .decoders import DecodedHeader, Read, _finite, register_decoder
 
 # Six-character, space-padded record names a PDB file can begin with.
 _LEADING = {
@@ -65,4 +65,4 @@ def decode_pdb(data: bytes) -> Optional[DecodedHeader]:
     )
 
 
-register_decoder(["pdb", "ent"], decode_pdb)
+register_decoder(["pdb", "ent"], decode_pdb, read=Read(leading=256 * 1024))  # title records precede the atoms

@@ -11,7 +11,7 @@ from __future__ import annotations
 import re
 from typing import Optional
 
-from .decoders import DecodedHeader, register_decoder
+from .decoders import DecodedHeader, Read, register_decoder
 
 _FILEFORMAT = re.compile(rb"^##fileformat=(\S+)", re.MULTILINE)
 _REFERENCE = re.compile(rb"^##reference=(\S+)", re.MULTILINE)
@@ -52,4 +52,4 @@ def decode_vcf(data: bytes) -> Optional[DecodedHeader]:
     )
 
 
-register_decoder("vcf", decode_vcf)
+register_decoder("vcf", decode_vcf, read=Read(leading=256 * 1024))  # header can carry many ##contig lines

@@ -19,7 +19,7 @@ from __future__ import annotations
 
 from typing import Optional
 
-from .decoders import DecodedHeader, register_decoder
+from .decoders import DecodedHeader, Read, register_decoder
 
 # Parquet physical types (parquet.thrift Type enum).
 _PARQUET_TYPE = {
@@ -158,9 +158,9 @@ def _parse_footer(footer: bytes) -> dict:
 
 def decode_parquet(tail: bytes) -> Optional[DecodedHeader]:
     """Decode a Parquet schema from the file's *trailing* bytes. `tail` must end
-    with the file's last bytes (the footer, its 4-byte length, and PAR1).
-    Returns None if the magic is wrong or the footer is not fully present in
-    `tail` (read more trailing bytes and retry)."""
+    with the file's last bytes (the footer, its 4-byte length, and PAR1). The
+    registered footer read (1 MiB) covers any real schema; a footer larger than
+    `tail` returns None, like any other header that does not fully fit."""
     if len(tail) < 8 or tail[-4:] != _MAGIC:
         return None
     footer_len = int.from_bytes(tail[-8:-4], "little")
@@ -181,4 +181,4 @@ def decode_parquet(tail: bytes) -> Optional[DecodedHeader]:
     )
 
 
-register_decoder("parquet", decode_parquet)
+register_decoder("parquet", decode_parquet, read=Read(footer=1024 * 1024))  # schema lives in the footer
