@@ -2,8 +2,9 @@
 
 Read the metadata of a scientific file and return its fields (dimensions, data
 type, pixel size, columns, row count) as a dict, without reading the rest of the
-file. Decodes MRC, NPY, NIfTI, CryoSPARC `.cs`, Parquet, FCS, mzML, FASTQ, VCF,
-SAM, Illumina run metadata, and PDB. The decode
+file. Decodes formats across cryo-EM, imaging, arrays, tabular data, flow
+cytometry, mass spec, sequencing, genome annotation, and structural biology (the
+full list is below). The decode
 functions have no dependencies; separate reader functions fetch the bytes from a
 file or a URL (the leading bytes for most formats, the trailing bytes for
 Parquet, whose schema is in a footer).
@@ -60,6 +61,17 @@ Decoders today:
   groups, and programs.
 - **PDB**: structure header. PDB id, classification, deposition date, title,
   experiment method, and resolution.
+- **mmCIF / CIF**: structures (the modern PDB format). Entry id, title,
+  keywords, experiment method, deposition date, and resolution (including the
+  cryo-EM resolution item).
+- **GenBank**: annotated sequence records. LOCUS (name, length, molecule type,
+  topology), definition, accession, version, and organism.
+- **GFF3 / GTF**: genome annotation. Version and a preview of the sources and
+  feature types.
+- **BED**: genome intervals. BED flavor (column count) and track-line presence.
+- **DICOM**: medical images. Modality, dimensions, bit depth, manufacturer, and
+  study/series description. Reads technical fields only, never patient
+  identifiers.
 
 `.gz` is transparent. The reader decompresses just the leading block, so a
 gzipped `.nii.gz` or `.mrc.gz` decodes without inflating the whole file, and
@@ -101,13 +113,18 @@ detector-pixel-size / magnification pair are all handled.
       vcf.py        VCF header decode
       sam.py        SAM alignment-header decode
       pdb.py        PDB structure-header decode
+      mmcif.py      mmCIF / CIF structure-header decode
+      genbank.py    GenBank flat-file header decode
+      gff.py        GFF3 / GTF annotation-header decode
+      bed.py        BED interval-file decode
+      dicom.py      DICOM technical-metadata decode (no patient data)
       sources.py    read leading bytes from file or URL; bounded parallel batch
       star.py       RELION STAR optics reader
       cryosparc.py  CryoSPARC .cs optics reader
       optics.py     read_session_optics: find a data file's optics file
       cli.py        scigantic-headers <file|url|--dir>
       benchmark.py  scigantic-headers-bench, measures the speed levers
-    tests/          pytest (173 tests, incl. fuzz + golden fixtures)
+    tests/          pytest (202 tests, incl. fuzz + golden fixtures)
 
 ## Robustness
 

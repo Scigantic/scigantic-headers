@@ -55,6 +55,16 @@ _LEADING_BYTES_BY_FORMAT = {
     "sam": 256 * 1024,   # SAM header (many @SQ lines)
     "pdb": 256 * 1024,   # PDB leading records before the atoms
     "ent": 256 * 1024,
+    "cif": 256 * 1024,   # mmCIF header items before the atom loop
+    "mmcif": 256 * 1024,
+    "gb": 256 * 1024,    # GenBank header before FEATURES / ORIGIN
+    "gbk": 256 * 1024,
+    "genbank": 256 * 1024,
+    "gbff": 256 * 1024,
+    "gff": 256 * 1024,   # GFF/GTF source and feature-type preview
+    "gff3": 256 * 1024,
+    "gtf": 256 * 1024,
+    "dcm": 256 * 1024,   # DICOM metadata before PixelData
 }
 
 

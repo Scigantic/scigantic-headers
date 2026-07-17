@@ -11,10 +11,15 @@ same way everywhere it runs.
 
 from importlib.metadata import PackageNotFoundError, version as _pkg_version
 
+from .bed import decode_bed
 from .cryosparc import parse_cryosparc_optics, read_cryosparc_optics
+from .dicom import decode_dicom
 from .fastq import decode_fastq
 from .fcs import decode_fcs
+from .genbank import decode_genbank
+from .gff import decode_gff
 from .illumina import decode_illumina_run
+from .mmcif import decode_mmcif
 from .mzml import decode_mzml
 from .optics import read_session_optics
 from .parquet import decode_parquet
@@ -57,6 +62,7 @@ __all__ = [
     "parse_cryosparc_optics", "read_cryosparc_optics", "read_session_optics",
     "decode_parquet", "decode_fcs", "decode_mzml",
     "decode_fastq", "decode_illumina_run", "decode_vcf", "decode_sam", "decode_pdb",
+    "decode_mmcif", "decode_genbank", "decode_gff", "decode_bed", "decode_dicom",
     "extension_of", "has_decoder_for", "register_decoder", "register_decoder_for_name",
     "DEFAULT_WORKERS", "decode_file", "decode_paths", "decode_url",
     "decode_urls", "is_decodable", "iter_decodable_files", "read_leading_bytes",
