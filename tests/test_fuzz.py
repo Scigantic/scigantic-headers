@@ -20,11 +20,18 @@ from scigantic_headers.decoders import (
     decode_nifti_header,
     decode_npy_header,
 )
-from scigantic_headers.decoders import _DECODERS_BY_EXT
+from scigantic_headers.decoders import _DECODERS_BY_EXT, _DECODERS_BY_NAME
 
 SEED = 1729
 ITERATIONS = 4000
-EXTS = sorted(_DECODERS_BY_EXT) + ["txt", "parquet", "unknown", ""]
+# Every dispatch path: extension keys (registered + unregistered) and the
+# file-name keys (Illumina RunInfo.xml etc.), so filename-dispatched decoders
+# are held to the same never-raise / JSON-safe contract.
+KEYS = (
+    ["file.%s" % e for e in sorted(_DECODERS_BY_EXT)]
+    + ["file.txt", "file.parquet", "file.unknown", "file"]
+    + sorted(_DECODERS_BY_NAME)
+)
 
 
 def _assert_valid_or_none(result):
@@ -58,12 +65,12 @@ def _seed_magic(rng, kind):
 def test_decode_bytes_total_over_random():
     rng = random.Random(SEED)
     for _ in range(ITERATIONS):
-        ext = rng.choice(EXTS)
+        key = rng.choice(KEYS)
         buf = bytes(rng.getrandbits(8) for _ in range(rng.randint(0, 2048)))
         try:
-            _assert_valid_or_none(decode_bytes(f"file.{ext}", buf))
+            _assert_valid_or_none(decode_bytes(key, buf))
         except Exception as e:  # noqa: BLE001 — the whole point is nothing escapes
-            pytest.fail(f"decode_bytes raised on ext={ext!r} len={len(buf)}: {e!r}")
+            pytest.fail(f"decode_bytes raised on key={key!r} len={len(buf)}: {e!r}")
 
 
 @pytest.mark.parametrize("kind,fn", [

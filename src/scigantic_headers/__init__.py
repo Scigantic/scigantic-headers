@@ -12,10 +12,15 @@ same way everywhere it runs.
 from importlib.metadata import PackageNotFoundError, version as _pkg_version
 
 from .cryosparc import parse_cryosparc_optics, read_cryosparc_optics
+from .fastq import decode_fastq
 from .fcs import decode_fcs
+from .illumina import decode_illumina_run
 from .mzml import decode_mzml
 from .optics import read_session_optics
 from .parquet import decode_parquet
+from .pdb import decode_pdb
+from .sam import decode_sam
+from .vcf import decode_vcf
 from .decoders import (
     HEADER_BYTES,
     DecodedHeader,
@@ -27,6 +32,7 @@ from .decoders import (
     extension_of,
     has_decoder_for,
     register_decoder,
+    register_decoder_for_name,
 )
 from .sources import (
     DEFAULT_WORKERS,
@@ -50,7 +56,8 @@ __all__ = [
     "decode_nifti_header", "decode_npy_header", "decode_cryosparc_header",
     "parse_cryosparc_optics", "read_cryosparc_optics", "read_session_optics",
     "decode_parquet", "decode_fcs", "decode_mzml",
-    "extension_of", "has_decoder_for", "register_decoder",
+    "decode_fastq", "decode_illumina_run", "decode_vcf", "decode_sam", "decode_pdb",
+    "extension_of", "has_decoder_for", "register_decoder", "register_decoder_for_name",
     "DEFAULT_WORKERS", "decode_file", "decode_paths", "decode_url",
     "decode_urls", "is_decodable", "iter_decodable_files", "read_leading_bytes",
     "read_leading_bytes_url", "parse_relion_optics", "read_star_optics",

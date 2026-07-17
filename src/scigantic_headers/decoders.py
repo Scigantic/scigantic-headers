@@ -54,6 +54,10 @@ class DecodedHeader:
 Decoder = Callable[[bytes], Optional[DecodedHeader]]
 
 _DECODERS_BY_EXT: Dict[str, Decoder] = {}
+# Some formats are identified by an exact file name, not an extension: Illumina
+# writes RunInfo.xml, and registering the whole `.xml` extension would be wrong.
+# A file-name match takes precedence over an extension match.
+_DECODERS_BY_NAME: Dict[str, Decoder] = {}
 
 
 def register_decoder(extensions, decoder: Decoder) -> None:
@@ -68,6 +72,20 @@ def register_decoder(extensions, decoder: Decoder) -> None:
         _DECODERS_BY_EXT[ext.lower().lstrip(".")] = decoder
 
 
+def register_decoder_for_name(names, decoder: Decoder) -> None:
+    """Register `decoder` for one or more exact (case-insensitive) file names,
+    e.g. 'RunInfo.xml', used when the extension alone is too generic to identify
+    the format. A name match wins over an extension match."""
+    if isinstance(names, str):
+        names = [names]
+    for n in names:
+        _DECODERS_BY_NAME[n.lower()] = decoder
+
+
+def _basename(key: str) -> str:
+    return key.rsplit("/", 1)[-1].lower()
+
+
 def extension_of(key: str) -> str:
     """Lower-cased final extension of a path/key, without the dot. '' if none."""
     base = key.rsplit("/", 1)[-1]
@@ -75,18 +93,22 @@ def extension_of(key: str) -> str:
     return base[dot + 1 :].lower() if dot > 0 else ""
 
 
+def _decoder_for(key: str) -> Optional[Decoder]:
+    return _DECODERS_BY_NAME.get(_basename(key)) or _DECODERS_BY_EXT.get(extension_of(key))
+
+
 def has_decoder_for(key: str) -> bool:
-    """True if a decoder is registered for this key's extension. Cheap: no I/O,
-    so callers filter on this before opening a file."""
-    return extension_of(key) in _DECODERS_BY_EXT
+    """True if a decoder is registered for this key (by file name or extension).
+    Cheap: no I/O, so callers filter on this before opening a file."""
+    return _basename(key) in _DECODERS_BY_NAME or extension_of(key) in _DECODERS_BY_EXT
 
 
 def decode_bytes(key: str, data: bytes) -> Optional[DecodedHeader]:
     """Decode `data` (the leading bytes of `key`) if a decoder is registered and
-    the bytes validate. Returns None when there is no decoder for the extension
-    or the header fails validation (wrong magic, insane values, truncated).
-    Callers treat None as "no context", never as an error."""
-    decoder = _DECODERS_BY_EXT.get(extension_of(key))
+    the bytes validate. Returns None when there is no decoder for the name or
+    extension or the header fails validation (wrong magic, insane values,
+    truncated). Callers treat None as "no context", never as an error."""
+    decoder = _decoder_for(key)
     if decoder is None:
         return None
     try:

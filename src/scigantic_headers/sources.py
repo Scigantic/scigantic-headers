@@ -50,6 +50,11 @@ FOOTER_READ_BYTES = 1024 * 1024
 _LEADING_BYTES_BY_FORMAT = {
     "fcs": 256 * 1024,
     "mzml": 1024 * 1024,
+    "xml": 256 * 1024,   # Illumina RunInfo.xml / RunParameters.xml
+    "vcf": 256 * 1024,   # VCF header (many ##contig lines)
+    "sam": 256 * 1024,   # SAM header (many @SQ lines)
+    "pdb": 256 * 1024,   # PDB leading records before the atoms
+    "ent": 256 * 1024,
 }
 
 

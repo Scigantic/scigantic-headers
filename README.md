@@ -2,7 +2,8 @@
 
 Read the metadata of a scientific file and return its fields (dimensions, data
 type, pixel size, columns, row count) as a dict, without reading the rest of the
-file. Decodes MRC, NPY, NIfTI, CryoSPARC `.cs`, Parquet, FCS, and mzML. The decode
+file. Decodes MRC, NPY, NIfTI, CryoSPARC `.cs`, Parquet, FCS, mzML, FASTQ, VCF,
+SAM, Illumina run metadata, and PDB. The decode
 functions have no dependencies; separate reader functions fetch the bytes from a
 file or a URL (the leading bytes for most formats, the trailing bytes for
 Parquet, whose schema is in a footer).
@@ -49,6 +50,16 @@ Decoders today:
 - **mzML**: mass spectrometry. Returns the spectrum count, instrument model,
   software, source file, and run start time from the XML preamble. Cross-checked
   against a compliant XML parse.
+- **FASTQ**: sequencing reads. Parses the Illumina read-name convention in the
+  first record for instrument, run, flowcell, and lane, plus the read length.
+- **Illumina run**: RunInfo.xml / RunParameters.xml. Instrument, flowcell, run
+  id, date, and read structure. Dispatched by file name, not extension.
+- **VCF**: variant calls. Version, sample names, reference, and meta-line counts
+  from the header.
+- **SAM**: alignment header. Version, sort order, reference sequences, read
+  groups, and programs.
+- **PDB**: structure header. PDB id, classification, deposition date, title,
+  experiment method, and resolution.
 
 `.gz` is transparent. The reader decompresses just the leading block, so a
 gzipped `.nii.gz` or `.mrc.gz` decodes without inflating the whole file, and
@@ -85,13 +96,18 @@ detector-pixel-size / magnification pair are all handled.
       parquet.py    Parquet footer decode (small Thrift-compact reader)
       fcs.py        FCS (flow cytometry) header + TEXT-segment decode
       mzml.py       mzML (mass spec) XML-preamble metadata decode
+      fastq.py      FASTQ first-record / read-name decode
+      illumina.py   Illumina RunInfo.xml / RunParameters.xml decode
+      vcf.py        VCF header decode
+      sam.py        SAM alignment-header decode
+      pdb.py        PDB structure-header decode
       sources.py    read leading bytes from file or URL; bounded parallel batch
       star.py       RELION STAR optics reader
       cryosparc.py  CryoSPARC .cs optics reader
       optics.py     read_session_optics: find a data file's optics file
       cli.py        scigantic-headers <file|url|--dir>
       benchmark.py  scigantic-headers-bench, measures the speed levers
-    tests/          pytest (147 tests, incl. fuzz + golden fixtures)
+    tests/          pytest (173 tests, incl. fuzz + golden fixtures)
 
 ## Robustness
 
