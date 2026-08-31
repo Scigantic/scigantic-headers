@@ -1,5 +1,16 @@
 # scigantic-headers
 
+<p align="center">
+    <a href="https://github.com/Scigantic/scigantic-headers/actions/workflows/ci.yml">
+        <img alt="CI" src="https://github.com/Scigantic/scigantic-headers/actions/workflows/ci.yml/badge.svg" /></a>
+    <a href="https://pypi.org/project/scigantic-headers/">
+        <img alt="PyPI" src="https://img.shields.io/pypi/v/scigantic-headers" /></a>
+    <a href="https://pypi.org/project/scigantic-headers/">
+        <img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/scigantic-headers" /></a>
+    <a href="https://github.com/Scigantic/scigantic-headers/blob/main/LICENSE">
+        <img alt="License" src="https://img.shields.io/github/license/Scigantic/scigantic-headers" /></a>
+</p>
+
 Read the metadata of a scientific file and return its fields (dimensions, data
 type, pixel size, columns, row count) as a dict, without reading the rest of the
 file. Decodes formats across cryo-EM, imaging, arrays, tabular data, flow

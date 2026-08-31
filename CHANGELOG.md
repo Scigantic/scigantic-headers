@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.4.1
+
+- Added `[project.urls]` (Homepage, Repository, Issues) — the prior release had
+  none, despite being live on PyPI.
+- Expanded `classifiers` from 2 entries to a full set: development status,
+  intended audience, per-version Python classifiers (3.9-3.12, matching the
+  CI matrix), scientific-computing/bio-informatics topics, and `Typing ::
+  Typed`.
+- Added a `py.typed` marker (the package is pure Python with type hints but
+  shipped without one) and declared it in `[tool.setuptools.package-data]` so
+  it lands in the wheel.
+- `authors` now includes the `support@scigantic.com` contact email, matching
+  the sibling `scigantic-wwpdb` package.
+- Added README badges (CI, PyPI version, license, Python versions).
+- GitHub repo topics set: `bioinformatics`, `cryo-em`, `file-formats`,
+  `parser`, `scientific-computing`.
+- `requires-python = ">=3.9"` was checked for an upper bound and deliberately
+  left open: this package is zero-dependency, so there's no third-party
+  ceiling to defend against, and Python itself doesn't need one the way a
+  dependency does.
+
 ## 0.4.0
 
 Internal simplification: the read strategy now lives with the decoder, not in a
