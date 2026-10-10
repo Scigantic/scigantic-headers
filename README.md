@@ -98,6 +98,29 @@ a format. NPY and NIfTI landed with zero plumbing changes.
 
 ## Pixel size for raw movies
 
+### Cross-check the acquisition settings
+
+Voltage, pixel size, dose and frame count usually arrive from several places typed
+or exported by different people. A wrong one does not fail; it quietly caps the
+resolution. `compare_acquisition` lines the sources up and reports disagreements:
+
+```python
+from scigantic_headers import compare_acquisition, decode_epu_xml, read_star_optics
+
+epu = decode_epu_xml(open("FoilHole_..._Data_....xml", "rb").read()).fields
+for f in compare_acquisition({
+    "sheet": {"voltageKv": 300, "pixelSizeA": 0.84, "doseEA2": 42.4, "fractions": 40},
+    "epu": epu,
+    "relion": read_star_optics("Import/movies.star"),
+}, target_resolution_a=3.3):
+    print(f.severity, f.field, f.message)
+```
+
+It does not decide which source is right. EPU records the pixel size of the binned
+readout grid, so `epu_pixel_size_candidates(epu)` lists the likely values for the
+saved movie; compare with the movie's own dimensions. `decode_epu_xml` is not
+auto-dispatched (`.xml` is too generic), so call it on a file you know is EPU's.
+
 A raw MRC movie header has no pixel size: CELLA is 0, so `decode_*` returns
 `pixelSizeA` as `None`. The value is in the RELION STAR or CryoSPARC `.cs` file
 the workflow writes in the session, and the library reads it. `read_session_optics`

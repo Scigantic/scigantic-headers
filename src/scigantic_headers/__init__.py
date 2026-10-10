@@ -11,9 +11,11 @@ same way everywhere it runs.
 
 from importlib.metadata import PackageNotFoundError, version as _pkg_version
 
+from .acquisition import Finding, compare_acquisition
 from .bed import decode_bed
 from .cryosparc import parse_cryosparc_optics, read_cryosparc_optics
 from .dicom import decode_dicom
+from .epu import decode_epu_xml, epu_pixel_size_candidates
 from .fastq import decode_fastq
 from .fcs import decode_fcs
 from .genbank import decode_genbank
@@ -59,6 +61,7 @@ try:
 except PackageNotFoundError:  # a source checkout with no install metadata
     __version__ = "0.0.0+unknown"
 __all__ = [
+    "Finding", "compare_acquisition", "decode_epu_xml", "epu_pixel_size_candidates",
     "HEADER_BYTES", "DecodedHeader", "Read", "decode_bytes", "decode_mrc_header",
     "decode_nifti_header", "decode_npy_header", "decode_cryosparc_header",
     "parse_cryosparc_optics", "read_cryosparc_optics", "read_session_optics",
