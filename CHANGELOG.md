@@ -1,5 +1,21 @@
 # Changelog
 
+## Unreleased
+
+- Added `decode_epu_xml`: reads the acquisition settings out of a Thermo Fisher
+  EPU image XML (voltage, pixel size as recorded, binning, super-resolution
+  factor, fractions, exposure, dose, applied defocus, detector, energy-filter
+  slit). Not registered for automatic dispatch, because `.xml` is too generic an
+  extension to claim. `epu_pixel_size_candidates` lists the plausible pixel sizes
+  for the saved movie, since EPU records the pixel size of the binned grid.
+- Added `compare_acquisition` and `Finding`: cross-check voltage, pixel size, dose,
+  frame count, Cs and magnification across any number of sources (a collection
+  sheet, EPU, a movie header, a RELION or CryoSPARC optics table, a deposit) and
+  report disagreements with a severity. With `target_resolution_a` it also flags a
+  pixel size whose Nyquist limit cannot reach the target. Motivated by a processing
+  run that used 300 kV for data recorded at 200 kV and silently stalled several
+  angstrom short of the published resolution.
+
 ## 0.4.1
 
 - Added `[project.urls]` (Homepage, Repository, Issues) — the prior release had
