@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.5.0
 
 - Added `decode_epu_xml`: reads the acquisition settings out of a Thermo Fisher
   EPU image XML (voltage, pixel size as recorded, binning, super-resolution
