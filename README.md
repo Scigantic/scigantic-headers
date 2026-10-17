@@ -13,12 +13,13 @@
 
 Read the metadata of a scientific file and return its fields (dimensions, data
 type, pixel size, columns, row count) as a dict, without reading the rest of the
-file. Decodes formats across cryo-EM, imaging, arrays, tabular data, flow
-cytometry, mass spec, sequencing, genome annotation, and structural biology (the
-full list is below). The decode
-functions have no dependencies; separate reader functions fetch the bytes from a
-file or a URL (the leading bytes for most formats, the trailing bytes for
-Parquet, whose schema is in a footer).
+file. Decodes formats across cryo-EM, light microscopy and light-sheet imaging,
+arrays, tabular data, flow cytometry, mass spec, sequencing, genome annotation,
+and structural biology (the full list is below). The decode functions have no
+dependencies; separate reader functions fetch the bytes from a file or a URL:
+the leading bytes for most formats, the trailing bytes for Parquet (whose schema
+is in a footer), and a bounded handful of reads wherever the pointers lead for
+TIFF, HDF5, CZI, LIF and ND2 (whose metadata sits behind internal offsets).
 
 ```python
 from scigantic_headers import decode_file
@@ -84,17 +85,127 @@ Decoders today:
   study/series description. Reads technical fields only, never patient
   identifiers.
 
+Light microscopy and light-sheet (added in 0.6.0; most of these follow internal
+pointers, see "Pointer-based formats" below):
+
+- **TIFF / BigTIFF / OME-TIFF** (`.tif`, `.tiff`, `.btf`, `.tf2`, `.tf8`):
+  dimensions, dtype, compression, photometric, tiling, page count (chain
+  followed up to a cap, with the truncation stated). The ImageDescription is
+  read where it lives and classified: **OME-XML** (sizes X/Y/Z/C/T, physical
+  sizes in um, channels, instrument, objective, acquisition date, via the
+  shared OME-XML reader), **ImageJ** hyperstacks (slices/channels/frames,
+  spacing and unit), **Micro-Manager** (summary JSON, private header, or tag
+  51123), ImSpector/LaVision stacks by software name. Cross-checked against
+  tifffile.
+- **Zeiss CZI**: file header, metadata segment (XML, wherever the writer put it,
+  including 490 MB into a light-sheet file), directory and attachment counts.
+  Sizes X/Y/Z/C/T plus scenes, tiles, illuminations, views, rotations, phases;
+  pixel type, scaling in um, channels and exposure, acquisition mode (SPIM,
+  lattice light-sheet, widefield), microscope, objective, software. Verified on
+  LSM 980, Axioscan, Lightsheet Z.1 and Lattice Lightsheet 7 files; cross-checked
+  against czifile.
+- **HDF5** and the imaging formats built on it, without libhdf5: superblocks
+  v0 to v3, object headers v1 and v2, symbol tables and dense (fractal heap plus
+  v2 B-tree) links and attributes, dataspace, datatype, layout, filters.
+  Attributes are read from the object header the links point to, never scanned
+  for, so a relocated header's stale copy cannot leak in.
+  - **Imaris `.ims`**: X/Y/Z from DataSetInfo/Image, voxel size from the extents,
+    channels with emission wavelengths, resolution levels, timepoints, the
+    level-0 block dtype/chunks/compression, objective, recording date. An `.ims`
+    that is a TIFF (Imaris IMS3) is reported as such through the TIFF decoder.
+  - **BigDataViewer `.h5`**: setup and timepoint counts, the per-setup
+    resolutions and subdivisions tables, the level-0 cells block shape (z, y,
+    x), dtype and compression. Two Range requests describe a 51 GB file.
+  - **Luxendo `.lux.h5`**: the generic structure labelled, with the `Data`
+    block shape. No public sample was available; shape only.
+  - **generic `.h5` / `.hdf5` / `.he5`**: root attributes (fixed and
+    variable-length strings, numbers), groups, and datasets with shape, dtype,
+    layout, chunks and filters, bounded and with the truncation stated.
+- **KLB** (Keller Lab Block): the 319-byte header: X/Y/Z/C/T, dtype, bzip2 /
+  zlib / none, block size, pixel size (KLB stores no unit; micrometres by
+  convention), the 256-character metadata field.
+- **ICS** (Image Cytometry Standard, `.ics` + `.ids`): version, layout order and
+  sizes, dtype, byte order, compression, scale converted to um, units, labels,
+  sensor/history entries (Huygens writes the objective NA there).
+- **Leica LIF**: the UTF-16 XML header: image count and names, dimensions by
+  DimID, dtype from channel resolution, voxel size from physical lengths,
+  channels, objective, magnification, NA, software version. Cross-checked
+  against readlif.
+- **Nikon ND2**: the chunk map at the end of the file leads to the attribute,
+  calibration, text-info and metadata chunks (both the Ver2 XML and the Ver3
+  LiteVariant encodings are decoded for the needed values): width, height,
+  components, bit depth, frame count, experiment loops (Z/T/positions), um per
+  pixel, z step, channels, objective and NA, acquisition date, camera,
+  compression. About 125 KB of a 218 MB file is read. Cross-checked against the
+  nd2 package. Legacy JPEG 2000 ND2 is recognised only.
+- **Imspector OBF / `.msr`** (Abberior, LaVision BioTec): file header, stack
+  chain (count, names, rank, sizes, dtype, compression, physical lengths to um
+  for the axes the footer marks as metres, axis labels). Verified on five real
+  Abberior STED `.msr` files (hoerlteam/msr-reader test data) and cross-checked
+  against obffile; no ImSpector-written LaVision `.msr` was available.
+- **Zarr stores**: OME-Zarr / OME-NGFF 0.4 (`.zattrs`) and 0.5 (`zarr.json`,
+  Zarr v3): axes, levels, level-0 scale to um, channels, plate/labels markers;
+  plain `.zarray` / `.zgroup` arrays and groups (shape, chunks, dtype, codec);
+  **N5** `attributes.json` (dimensions, block size, dtype, compression, pixel
+  resolution). These are dispatched by file name. A store *directory* decodes
+  through the sidecar it contains, and an OME-Zarr store also merges its level-0
+  array's shape and dtype, so `decode_file("image.zarr")` reads like one image.
+  Cross-checked against zarr on IDR data.
+- **XML sidecars**: the generic `.xml` extension is now claimed by a dispatcher
+  that sniffs the root element and returns None for anything it does not know:
+  **BigDataViewer / BigStitcher `SpimData`** (loader format, data file, setups,
+  timepoints, size, voxel size, channels, illuminations, angles, tiles,
+  registrations), **OME-XML** sidecars and companion files (`.ome.xml`, same
+  fields as OME-TIFF), and **EPU** `MicroscopeImage` (previously opt-in only).
+  Illumina RunInfo.xml / RunParameters.xml keep their file-name dispatch, which
+  wins over the extension.
+
 `.gz` is transparent. The reader decompresses just the leading block, so a
 gzipped `.nii.gz` or `.mrc.gz` decodes without inflating the whole file, and
 dispatch sees the inner format.
 
 Adding a format is a pure `bytes -> DecodedHeader | None` function plus one
-`register_decoder` call. That call also declares how many bytes the decoder needs
-and from which end (`read=Read(leading=...)`, or `read=Read(footer=...)` for a
-schema in the tail like Parquet), so the read strategy lives next to the decoder,
-not in a table elsewhere. Nothing about the dispatch, the readers, or the batch
-path is format-specific: the readers ask the registry how to read and never name
-a format. NPY and NIfTI landed with zero plumbing changes.
+`register_decoder` call. That call also declares how the bytes are fetched
+(`read=Read(leading=...)`, `read=Read(footer=...)` for a schema in the tail like
+Parquet, or `read=Read(seek=budget)` for a pointer-based format, whose decoder
+then takes a `Source` instead of bytes), so the read strategy lives next to the
+decoder, not in a table elsewhere. Nothing about the dispatch, the readers, or
+the batch path is format-specific: the readers ask the registry how to read and
+never name a format. NPY and NIfTI landed with zero plumbing changes.
+
+## Pointer-based formats
+
+TIFF keeps its image directories wherever the writer put them (libtiff and
+Bio-Formats put them after the pixel data); HDF5 is a graph of object headers
+reached from a superblock; a CZI's metadata segment can sit 490 MB into the
+file; an ND2 starts from a chunk map at its end. No fixed leading or trailing
+read decodes these, so a decoder for one of them takes a `Source`: a
+random-access view with `read_at(offset, n)` and `read_tail(n)` that is total
+(short reads instead of errors) and bounded three ways: a byte budget declared
+with the decoder, a cap on reads, and, over HTTP, a cap on Range requests
+(`URL_MAX_REQUESTS`). Reads from a URL are coalesced into 64 KiB cached chunks,
+so a walk over neighbouring structures costs one round trip. The decode is
+still a few KB of a file of any size; it is just not the first few KB. Measured
+on the OME sample server:
+
+    BDV drosophila.h5 (620 MB)                2 Range requests
+    BDV WB.h5 (51 GB)                         2 Range requests
+    Imaris Convallaria .ims (7 MB)            6 Range requests
+    CZI MouseBrain light-sheet (492 MB)       5 Range requests (metadata at 492 MB)
+    OME-TIFF tubhiswt (270 KB, 1 page)        3 Range requests
+    OME-TIFF multi-channel .btf (21 pages)   24 Range requests (one per IFD)
+    Leica LIF PR2729 (227 KB)                 2 Range requests
+    Nikon ND2 sample_image (218 MB)           6 Range requests
+    KLB img.klb                               2 Range requests
+
+A TIFF whose directories trail each plane costs a request per page until the
+chain cap or the request cap stops it; the OME-XML already states the plane
+count, so the page count is then reported as truncated, not wrong.
+
+`decode_bytes(key, data)` still works for these formats (the bytes become an
+in-memory Source), and `BytesSource(ranges={offset: bytes})` replays a sparse
+recording, which is how the golden fixtures hold a 500 MB file's few KB of
+metadata (`tests/fixtures/*.sparse.json`).
 
 ## Pixel size for raw movies
 
@@ -156,13 +267,24 @@ detector-pixel-size / magnification pair are all handled.
       gff.py        GFF3 / GTF annotation-header decode
       bed.py        BED interval-file decode
       dicom.py      DICOM technical-metadata decode (no patient data)
-      sources.py    read leading bytes from file or URL; bounded parallel batch
+      tiff.py       TIFF / BigTIFF / OME-TIFF / ImageJ / Micro-Manager (seeking)
+      ome_xml.py    shared OME-XML reader (OME-TIFF, .ome.xml, companion files)
+      czi.py        Zeiss CZI segments + metadata XML (seeking)
+      hdf5.py       HDF5 walker; Imaris, BigDataViewer, Luxendo, generic (seeking)
+      lif.py        Leica LIF XML header (seeking)
+      nd2.py        Nikon ND2 chunk map + LiteVariant chunks (seeking)
+      obf.py        Imspector OBF / .msr stack chain (seeking)
+      klb.py        Keller Lab Block header
+      ics.py        Image Cytometry Standard header
+      zarr.py       OME-Zarr / Zarr v2+v3 / N5 sidecars (by file name)
+      xml_sidecar.py  .xml dispatcher: BDV SpimData, OME-XML, EPU
+      sources.py    read bytes from file or URL (leading, footer, or seeking); bounded parallel batch
       star.py       RELION STAR optics reader
       cryosparc.py  CryoSPARC .cs optics reader
       optics.py     read_session_optics: find a data file's optics file
       cli.py        scigantic-headers <file|url|--dir>
       benchmark.py  scigantic-headers-bench, measures the speed levers
-    tests/          pytest (208 tests, incl. fuzz + golden fixtures)
+    tests/          pytest (425 tests, incl. fuzz, golden and sparse real-file fixtures)
 
 ## Robustness
 
@@ -220,12 +342,14 @@ re-decoding.
     from scigantic_headers import decode_file, decode_paths, decode_urls, iter_decodable_files
 
     decode_file("s/frame.mrc")                              # one local file
+    decode_file("acq/image.zarr")                           # a Zarr or N5 store directory
     decode_paths(iter_decodable_files("/data/sessions"))    # a tree, parallel
     decode_urls([...], workers=8)                           # remote, by Range
 
     # CLI
     scigantic-headers session/frame.mrc
     scigantic-headers https://example.org/path/img.mrcs
+    scigantic-headers https://example.org/path/sample.ims     # HDF5 over Range
     scigantic-headers --dir /data/sessions --workers 8
 
     pytest
@@ -233,11 +357,20 @@ re-decoding.
 
 ## Limitations
 
-- **Pointer-based formats are not supported.** HDF5 and TIFF store their layout
-  behind internal pointers, so reading the header or footer alone is not enough.
-  Parquet (a footer) is supported; formats that need to chase offsets through the
-  file are not. Plain gzip is handled (the reader inflates the leading block),
-  but BAM's BGZF framing and per-record structure are not.
+- **HDF5 is walked, not fully parsed.** Groups and attribute sets are read
+  from compact storage, symbol tables, and dense storage with v2 B-trees of
+  depth 0 or 1 and fractal heaps with direct blocks; a group with thousands of
+  links (a BDV file with thousands of timepoints) is listed up to a cap, with
+  the truncation stated. Huge heap objects, virtual datasets, external links
+  and soft links are not followed. Attribute values are decoded for strings and
+  small numeric arrays; others are reported by type.
+- **Vendor formats without a public sample** (Micro-Manager-native TIFF,
+  ImSpector TIFF, Luxendo `.lux.h5`) were implemented from the published
+  layouts and tested on constructed files; their tests say so. Olympus
+  OIB (an OLE compound document) and OIR, Hamamatsu DCIMG, and raw `.bin` /
+  `.dat` / `.raw` exports (which have no header to read) are not decoded.
+- **Legacy ND2** (JPEG2000 based) is recognised but not described.
+- BAM's BGZF framing and per-record structure are not handled; plain gzip is.
 - **Output is not a standard.** The fields are an ad-hoc dict, not an
   interchange format such as Allotrope ASM. Map the dict to a standard if you
   need one.

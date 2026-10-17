@@ -51,21 +51,124 @@ class DecodedHeader:
 
 
 # A decoder inspects a header and returns typed fields, or None if the bytes do
-# not validate for its format.
+# not validate for its format. A *seeking* decoder (see `Source`) takes a Source
+# instead of bytes, for formats whose metadata sits behind internal pointers.
 Decoder = Callable[[bytes], Optional[DecodedHeader]]
+
+# Bound on the number of reads a seeking decoder may issue, independent of the
+# byte budget. Once spent, reads return b"". A `UrlSource` additionally caps the
+# HTTP Range requests it sends (`sources.URL_MAX_REQUESTS`), which is the number
+# that matters remotely: reads served from its chunk cache cost no round trip.
+SEEK_MAX_READS = 512
+
+
+class Source:
+    """A bounded random-access view of a file, for formats that keep their
+    metadata behind internal pointers (TIFF IFDs, HDF5 object headers, CZI
+    segments, the ND2 chunk map) and cannot be decoded from a fixed leading or
+    trailing read.
+
+    A seeking decoder calls `read_at(offset, n)` and `read_tail(n)`. Both are
+    total: outside the file, past the byte budget, or after `SEEK_MAX_READS`
+    reads they return fewer bytes (possibly b""), never raise. A decoder treats
+    a short read as "not available" and returns what it has or None, so the
+    decode stays bounded no matter how the pointers are arranged: at most
+    `budget` bytes and `SEEK_MAX_READS` reads per file, however large the file.
+
+    `size` is the file length if known (a local file, a server that answers
+    Range with Content-Range), else None. `BytesSource` wraps an in-memory
+    buffer; `sources.py` provides the file and URL implementations."""
+
+    size: Optional[int] = None
+    # The path or URL being decoded, when known. A decoder that must tell apart
+    # a double extension the registry cannot (`.lux.h5` is dispatched as `h5`)
+    # reads it here; most never look.
+    key: Optional[str] = None
+
+    def __init__(self, budget: int):
+        self._budget = budget
+        self._reads = 0
+
+    def _charge(self, n: int) -> int:
+        """Bytes allowed for a read of `n`: 0 once the read count or byte budget
+        is spent, else min(n, remaining budget). Counts the read."""
+        if self._reads >= SEEK_MAX_READS or n <= 0:
+            return 0
+        self._reads += 1
+        allowed = min(n, self._budget)
+        self._budget -= allowed
+        return allowed
+
+    def _fetch(self, offset: int, n: int) -> bytes:  # pragma: no cover - abstract
+        raise NotImplementedError
+
+    def read_at(self, offset: int, n: int) -> bytes:
+        """Up to `n` bytes starting at `offset`; shorter at EOF or when the
+        budget is spent. A negative offset reads nothing."""
+        if offset < 0:
+            return b""
+        n = self._charge(n)
+        if n == 0:
+            return b""
+        try:
+            return self._fetch(offset, n)
+        except Exception:
+            return b""
+
+    def read_tail(self, n: int) -> bytes:
+        """The last `n` bytes of the file (the whole file if smaller), or b"" if
+        the size is unknown and cannot be learned."""
+        if self.size is None:
+            return b""
+        return self.read_at(max(0, self.size - n), min(n, self.size))
+
+
+class BytesSource(Source):
+    """A Source over an in-memory buffer: the whole file, or a sparse set of
+    byte ranges (what a recorded real-file decode actually touched, so a golden
+    fixture can hold a 500 MB file's few KB of metadata). Reads outside the
+    recorded ranges return b"", the same as reading past EOF."""
+
+    def __init__(self, data=b"", *, budget: int = 1 << 30, size: Optional[int] = None,
+                 ranges: Optional[Dict[int, bytes]] = None):
+        super().__init__(budget)
+        self._data = bytes(data)
+        self._ranges = dict(ranges) if ranges else None
+        if size is not None:
+            self.size = size
+        elif self._ranges:
+            self.size = max(o + len(b) for o, b in self._ranges.items())
+        else:
+            self.size = len(self._data)
+
+    def _fetch(self, offset: int, n: int) -> bytes:
+        if self._ranges is None:
+            return self._data[offset:offset + n]
+        for start, chunk in self._ranges.items():
+            if start <= offset < start + len(chunk):
+                return chunk[offset - start:offset - start + n]
+        return b""
+
+
+SeekingDecoder = Callable[[Source], Optional[DecodedHeader]]
 
 
 @dataclass(frozen=True)
 class Read:
-    """How many bytes a decoder needs, and from which end of the file.
+    """How a decoder's bytes are fetched.
 
     Leading `n` bytes by default. A footer format (Parquet keeps its schema at the
-    end) sets `footer` and is read from the tail instead. This travels with the
-    decoder in the registry, so the readers in `sources` stay format-agnostic:
-    they ask the registry how to read, they do not know any format by name."""
+    end) sets `footer` and is read from the tail instead. A pointer-chasing
+    format (TIFF, HDF5, CZI, ND2) sets `seek` to a byte budget: its decoder then
+    receives a `Source` rather than bytes and reads where the pointers lead, up
+    to that many bytes and `SEEK_MAX_READS` reads in total. This travels with
+    the decoder in the registry, so the readers in `sources` stay
+    format-agnostic: they ask the registry how to read, they do not know any
+    format by name."""
 
     leading: int = HEADER_BYTES
     footer: Optional[int] = None
+    seek: Optional[int] = None
 
 
 # key -> (decoder, how to read it). Some formats are matched by an exact file name
@@ -128,16 +231,51 @@ def read_for(key: str) -> Read:
     return entry[1] if entry else Read()
 
 
+def sidecar_names():
+    """The exact file names registered for dispatch (RunInfo.xml, .zattrs,
+    attributes.json, ...). A directory decodes through the first of these it
+    contains, which is how a Zarr or N5 store (a directory) gets a header."""
+    return tuple(_DECODERS_BY_NAME)
+
+
 def decode_bytes(key: str, data: bytes) -> Optional[DecodedHeader]:
     """Decode `data` (the header bytes of `key`) if a decoder is registered and
     the bytes validate. Returns None when there is no decoder for the name or
     extension or the header fails validation (wrong magic, insane values,
-    truncated). Callers treat None as "no context", never as an error."""
+    truncated). Callers treat None as "no context", never as an error.
+
+    A seeking decoder (registered with `Read(seek=...)`) is given `data` as an
+    in-memory Source, so a whole small file, or a recorded sparse fixture via
+    `decode_source`, decodes the same way the readers decode a real one."""
     entry = _entry_for(key)
     if entry is None:
         return None
     try:
+        if entry[1].seek is not None:
+            src = BytesSource(data, budget=entry[1].seek)
+            src.key = key
+            return entry[0](src)
         return entry[0](data)
+    except Exception:
+        return None
+
+
+def decode_source(key: str, src: Source) -> Optional[DecodedHeader]:
+    """Decode `key` from a Source. For a seeking decoder this is the native
+    path; for a leading/footer decoder the registered read is taken from the
+    Source so one call shape serves every format. None on no decoder or failure."""
+    entry = _entry_for(key)
+    if entry is None:
+        return None
+    decoder, spec = entry
+    if src.key is None:
+        src.key = key
+    try:
+        if spec.seek is not None:
+            return decoder(src)
+        if spec.footer is not None:
+            return decoder(src.read_tail(spec.footer))
+        return decoder(src.read_at(0, spec.leading))
     except Exception:
         return None
 

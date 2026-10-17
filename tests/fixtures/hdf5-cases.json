@@ -1,0 +1,212 @@
+{
+ "hdf5-imaris-convallaria-1t": {
+  "key": "Convallaria_3C_1T_confocal.ims",
+  "expected": {
+   "format": "imaris",
+   "summary": "Imaris IMS 1024x1024x1, 3 channels, uint16, 1.20596x1.20594x0.001 um, 1 resolution levels",
+   "fields": {
+    "imarisVersion": "5.5.0",
+    "customDate": "2018-10-22 13:09:29",
+    "creator": "Blake",
+    "sizeX": 1024,
+    "sizeY": 1024,
+    "sizeZ": 1,
+    "sizeC": 3,
+    "sizeT": 1,
+    "dtype": "uint16",
+    "voxelSizeUm": [
+     1.205957,
+     1.205937,
+     0.001
+    ],
+    "unit": null,
+    "resolutionLevels": 1,
+    "chunks": [
+     1,
+     512,
+     256
+    ],
+    "compression": null,
+    "channels": [
+     "Red",
+     "Green",
+     "Blue"
+    ],
+    "channelCount": 3,
+    "emissionWavelengths": [
+     "500 nm",
+     "500 nm",
+     "500 nm"
+    ],
+    "recordingDate": "2018-10-22 13:09:30.696",
+    "microscopeMode": "SpinningDiskConfocal",
+    "objective": "10",
+    "numericalAperture": 0.45,
+    "imageName": "D:\\FusionImages\\Dave\\2018-10-22\\2018-10-22_13.09.29_OME_Data_Protocol.ims",
+    "description": null
+   }
+  }
+ },
+ "hdf5-imaris-retina": {
+  "key": "retina_large.ims",
+  "expected": {
+   "format": "imaris",
+   "summary": "Imaris IMS 2048x1567x64, 2 channels, uint8, 0.022906x0.022899x0.2 um, 4 resolution levels",
+   "fields": {
+    "imarisVersion": "5.5.0",
+    "creator": "Imaris x64",
+    "application": "Generic Imaris 3.x 9.0",
+    "sizeX": 2048,
+    "sizeY": 1567,
+    "sizeZ": 64,
+    "sizeC": 2,
+    "sizeT": 1,
+    "dtype": "uint8",
+    "voxelSizeUm": [
+     0.022906,
+     0.022899,
+     0.2
+    ],
+    "unit": "um",
+    "resolutionLevels": 4,
+    "chunks": [
+     16,
+     256,
+     256
+    ],
+    "compression": [
+     "deflate"
+    ],
+    "channels": [
+     "CollagenIV (TxRed)",
+     "GFAP (FITC)"
+    ],
+    "channelCount": 2,
+    "emissionWavelengths": null,
+    "recordingDate": "1991-10-01 16:45:45.000",
+    "microscopeMode": null,
+    "objective": "63x, 1.3NA",
+    "numericalAperture": null,
+    "imageName": "m1193.pic",
+    "description": null
+   }
+  }
+ },
+ "hdf5-bdv-drosophila": {
+  "key": "drosophila.h5",
+  "expected": {
+   "format": "bdv-h5",
+   "summary": "BigDataViewer HDF5 1920x1060x130, 2 setups, 3 timepoints, int16, 4 resolution levels",
+   "fields": {
+    "setupCount": 2,
+    "timepointCount": 3,
+    "setupCountAtLeast": null,
+    "timepointCountAtLeast": null,
+    "firstTimepoint": "t00000",
+    "resolutions": [
+     [
+      1.0,
+      1.0,
+      1.0
+     ],
+     [
+      2.0,
+      2.0,
+      1.0
+     ],
+     [
+      4.0,
+      4.0,
+      2.0
+     ],
+     [
+      8.0,
+      8.0,
+      4.0
+     ]
+    ],
+    "subdivisions": [
+     [
+      32,
+      32,
+      4
+     ],
+     [
+      16,
+      16,
+      16
+     ],
+     [
+      16,
+      16,
+      16
+     ],
+     [
+      16,
+      16,
+      16
+     ]
+    ],
+    "resolutionLevels": 4,
+    "sizeX": 1920,
+    "sizeY": 1060,
+    "sizeZ": 130,
+    "sizeC": null,
+    "sizeT": 3,
+    "dtype": "int16",
+    "chunks": [
+     4,
+     32,
+     32
+    ],
+    "compression": [
+     "scaleoffset",
+     "deflate"
+    ],
+    "voxelSizeUm": [
+     null,
+     null,
+     null
+    ]
+   }
+  }
+ },
+ "hdf5-imaris-ims3-tiff": {
+  "key": "Convallaria_3C_1T_confocal_IMS3.ims",
+  "expected": {
+   "format": "imaris-ims3",
+   "summary": "Imaris IMS3 (TIFF): TIFF 512x512, 4 pages, 3 samples/px, uint8, 1.20595x1.20594 um",
+   "fields": {
+    "bigTiff": false,
+    "byteOrder": "little",
+    "width": 512,
+    "height": 512,
+    "bitsPerSample": 8,
+    "samplesPerPixel": 3,
+    "sampleFormat": "uint",
+    "dtype": "uint8",
+    "compression": "none",
+    "photometric": "rgb",
+    "tiled": true,
+    "pageCount": 4,
+    "pageCountTruncated": false,
+    "planeCount": 4,
+    "imageDescriptionKind": "text",
+    "software": null,
+    "dateTime": null,
+    "sizeX": 512,
+    "sizeY": 512,
+    "sizeZ": 4,
+    "sizeC": null,
+    "sizeT": null,
+    "voxelSizeUm": [
+     1.205953,
+     1.205937,
+     null
+    ],
+    "flavor": "plain",
+    "container": "tiff"
+   }
+  }
+ }
+}

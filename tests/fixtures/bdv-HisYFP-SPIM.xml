@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SpimData version="0.2">
+  <BasePath type="relative">.</BasePath>
+  <SequenceDescription>
+    <ImageLoader format="bdv.hdf5">
+      <hdf5 type="relative">HisYFP-SPIM.h5</hdf5>
+    </ImageLoader>
+    <ViewSetups>
+      <ViewSetup>
+        <id>0</id>
+        <name>Angle 0</name>
+        <size>1388 1040 81</size>
+        <voxelSize>
+          <unit>um</unit>
+          <size>0.7310779690742493 0.7310779690742493 2.0</size>
+        </voxelSize>
+        <attributes>
+          <illumination>0</illumination>
+          <channel>0</channel>
+          <angle>0</angle>
+        </attributes>
+      </ViewSetup>
+      <ViewSetup>
+        <id>1</id>
+        <name>Angle 45</name>
+        <size>1388 1040 91</size>
+        <voxelSize>
+          <unit>um</unit>
+          <size>0.7310779690742493 0.7310779690742493 2.0</size>
+        </voxelSize>
+        <attributes>
+          <illumination>0</illumination>
+          <channel>0</channel>
+          <angle>1</angle>
+        </attributes>
+      </ViewSetup>
+      <ViewSetup>
+        <id>2</id>
+        <name>Angle 90</name>
+        <size>1388 1040 102</size>
+        <voxelSize>
+          <unit>um</unit>
+          <size>0.7310779690742493 0.7310779690742493 2.0</size>
+        </voxelSize>
+        <attributes>
+          <illumination>0</illumination>
+          <channel>0</channel>
+          <angle>2</angle>
+        </attributes>
+      </ViewSetup>
+      <ViewSetup>
+        <id>3</id>
+        <name>Angle 135</name>
+        <size>1388 1040 91</size>
+        <voxelSize>
+          <unit>um</unit>
+          <size>0.7310779690742493 0.7310779690742493 2.0</size>
+        </voxelSize>
+        <attributes>
+          <illumination>0</illumination>
+          <channel>0</channel>
+          <angle>3</angle>
+        </attributes>
+      </ViewSetup>
+      <ViewSetup>
+        <id>4</id>
+        <name>Angle 180</name>
+        <size>1388 1040 101</size>
+        <voxelSize>
+          <unit>um</unit>
+          <size>0.7310779690742493 0.7310779690742493 2.0</size>
+        </voxelSize>
+        <attributes>
+          <illumination>0</illumination>
+          <channel>0</channel>
+          <angle>4</angle>
+        </attributes>
+      </ViewSetup>
+      <ViewSetup>
+        <id>5</id>
+        <name>Angle 225</name>
+        <size>1388 1040 91</size>
+        <voxelSize>
+          <unit>um</unit>
+          <size>0.7310779690742493 0.7310779690742493 2.0</size>
+        </voxelSize>
+        <attributes>
+          <illumination>0</illumination>
+          <channel>0</channel>
+          <angle>5</angle>
+        </attributes>
+      </ViewSetup>
+      <ViewSetup>
+        <id>6</id>
+        <name>Angle 270</name>
+        <size>1388 1040 111</size>
+        <voxelSize>
+          <unit>um</unit>
+          <size>0.7310779690742493 0.7310779690742493 2.0</size>
+        </voxelSize>
+        <attributes>
+          <illumination>0</illumination>
+          <channel>0</channel>
+          <angle>6</angle>
+        </attributes>
+      </ViewSetup>
+      <ViewSetup>
+        <id>7</id>
+        <name>Fused</name>
+        <size>717 393 321</size>
+        <voxelSize>
+          <unit>um</unit>
+          <size>0.7310779690742493 0.7310779690742493 0.7310779690742493</size>
+        </voxelSize>
+        <attributes>
+          <illumination>0</illumination>
+          <channel>0</channel>
+          <angle>7</angle>
+        </attributes>
+      </ViewSetup>
+      <ViewSetup>
+        <id>8</id>
+        <name>Deconvolved</name>
+        <size>717 393 321</size>
+        <voxelSize>
+          <unit>um</unit>
+          <size>0.7310779690742493 0.7310779690742493 0.7310779690742493</size>
+        </voxelSize>
+        <attributes>
+          <illumination>0</illumination>
+          <channel>0</channel>
+          <angle>8</angle>
+        </attributes>
+      </ViewSetup>
+      <Attributes name="illumination">
+        <Illumination>
+          <id>0</id>
+          <name>0</name>
+        </Illumination>
+      </Attributes>
+      <Attributes name="channel">
+        <Channel>
+          <id>0</id>
+          <name>0</name>
+        </Channel>
+      </Attributes>
+      <Attributes name="angle">
+        <Angle>
+          <id>0</id>
+          <name>0</name>
+        </Angle>
+        <Angle>
+          <id>1</id>
+          <name>45</name>
+        </Angle>
+        <Angle>
+          <id>2</id>
+          <name>90</name>
+        </Angle>
+        <Angle>
+          <id>3</id>
+          <name>135</name>
+        </Angle>
+        <Angle>
+          <id>4</id>
+          <name>180</name>
+        </Angle>
+        <Angle>
+          <id>5</id>
+          <name>225</name>
+        </Angle>
+        <Angle>
+          <id>6</id>
+          <name>270</name>
+        </Angle>
+        <Angle>
+          <id>7</id>
+          <name>Content</name>
+        </Angle>
+        <Angle>
+          <id>8</id>
+          <name>Deconv</name>
+        </Angle>
+      </Attributes>
+    </ViewSetups>
+    <Timepoints type="pattern">
+      <integerpattern>18</integerpattern>
+    </Timepoints>
+    <MissingViews />
+  </SequenceDescription>
+  <ViewRegistrations>
+    <ViewRegistration timepoint="18" setup="0">
+      <ViewTransform type="affine">
+        <Name>Fast 3d geometric hashing (rotation invariant), AffineModel3D on [beads (c=0)]</Name>
+        <affine>1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 1.0 0.0</affine>
+      </ViewTransform>
+      <ViewTransform type="affine">
+        <Name>calibration</Name>
+        <affine>1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 2.735686321573284 0.0</affine>
+      </ViewTransform>
+    </ViewRegistration>
+    <ViewRegistration timepoint="18" setup="1">
+      <ViewTransform type="affine">
+        <Name>Fast 3d geometric hashing (rotation invariant), AffineModel3D on [beads (c=0)]</Name>
+        <affine>0.9996511340141296 0.00799335166811943 0.005319803953170776 -4.58853816986084 0.0038831112906336784 0.7133923172950745 0.7288692593574524 87.84402465820312 0.006965814158320427 -0.6868675351142883 0.6989063024520874 370.5829772949219</affine>
+      </ViewTransform>
+      <ViewTransform type="affine">
+        <Name>calibration</Name>
+        <affine>1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 2.735686321573284 0.0</affine>
+      </ViewTransform>
+    </ViewRegistration>
+    <ViewRegistration timepoint="18" setup="2">
+      <ViewTransform type="affine">
+        <Name>Fast 3d geometric hashing (rotation invariant), AffineModel3D on [beads (c=0)]</Name>
+        <affine>0.9995730519294739 0.016988491639494896 -3.905985504388809E-4 -4.4507737159729 0.011630346067249775 0.010273697786033154 1.0289385318756104 350.4761657714844 0.009130063466727734 -0.9713072776794434 -0.005155398044735193 690.100341796875</affine>
+      </ViewTransform>
+      <ViewTransform type="affine">
+        <Name>calibration</Name>
+        <affine>1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 2.735686321573284 0.0</affine>
+      </ViewTransform>
+    </ViewRegistration>
+    <ViewRegistration timepoint="18" setup="3">
+      <ViewTransform type="affine">
+        <Name>Fast 3d geometric hashing (rotation invariant), AffineModel3D on [beads (c=0)]</Name>
+        <affine>0.9995797872543335 0.022381024435162544 0.0031703710556030273 2.961651086807251 0.019207052886486053 -0.6990197896957397 0.7384565472602844 780.6956787109375 0.00550533551722765 -0.6862941384315491 -0.7198272943496704 665.3677368164062</affine>
+      </ViewTransform>
+      <ViewTransform type="affine">
+        <Name>calibration</Name>
+        <affine>1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 2.735686321573284 0.0</affine>
+      </ViewTransform>
+    </ViewRegistration>
+    <ViewRegistration timepoint="18" setup="4">
+      <ViewTransform type="affine">
+        <Name>Fast 3d geometric hashing (rotation invariant), AffineModel3D on [beads (c=0)]</Name>
+        <affine>0.9998623132705688 0.020895417779684067 0.021459102630615234 -0.9721221923828125 0.021258186548948288 -0.9968000650405884 -0.0015667378902435303 1200.25048828125 -0.0022367052733898163 -0.00124402716755867 -1.0012223720550537 389.5752868652344</affine>
+      </ViewTransform>
+      <ViewTransform type="affine">
+        <Name>calibration</Name>
+        <affine>1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 2.735686321573284 0.0</affine>
+      </ViewTransform>
+    </ViewRegistration>
+    <ViewRegistration timepoint="18" setup="5">
+      <ViewTransform type="affine">
+        <Name>Fast 3d geometric hashing (rotation invariant), AffineModel3D on [beads (c=0)]</Name>
+        <affine>1.0001081228256226 0.013782624155282974 0.02728116512298584 -0.011656999588012695 0.01767377182841301 -0.7130836844444275 -0.7288736701011658 1136.110595703125 -0.008613113313913345 0.686906099319458 -0.6977959871292114 -86.57711029052734</affine>
+      </ViewTransform>
+      <ViewTransform type="affine">
+        <Name>calibration</Name>
+        <affine>1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 2.735686321573284 0.0</affine>
+      </ViewTransform>
+    </ViewRegistration>
+    <ViewRegistration timepoint="18" setup="6">
+      <ViewTransform type="affine">
+        <Name>Fast 3d geometric hashing (rotation invariant), AffineModel3D on [beads (c=0)]</Name>
+        <affine>0.9999174475669861 0.0036349003203213215 0.020497411489486694 2.7002902030944824 0.009432695806026459 -0.00890948437154293 -1.0224521160125732 795.6097412109375 -0.011461697518825531 0.9718648791313171 0.009633421897888184 -316.7466735839844</affine>
+      </ViewTransform>
+      <ViewTransform type="affine">
+        <Name>calibration</Name>
+        <affine>1.0 0.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 0.0 2.735686321573284 0.0</affine>
+      </ViewTransform>
+    </ViewRegistration>
+    <ViewRegistration timepoint="18" setup="7">
+      <ViewTransform type="affine">
+        <Name>fusion bounding box</Name>
+        <affine>1.0 0.0 0.0 277.0 0.0 1.0 0.0 354.0 0.0 0.0 1.0 41.0</affine>
+      </ViewTransform>
+    </ViewRegistration>
+    <ViewRegistration timepoint="18" setup="8">
+      <ViewTransform type="affine">
+        <Name>fusion bounding box</Name>
+        <affine>1.0 0.0 0.0 277.0 0.0 1.0 0.0 354.0 0.0 0.0 1.0 41.0</affine>
+      </ViewTransform>
+    </ViewRegistration>
+  </ViewRegistrations>
+  <ViewInterestPoints />
+</SpimData>
