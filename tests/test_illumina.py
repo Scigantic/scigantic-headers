@@ -39,7 +39,8 @@ def test_runinfo_core_fields():
 def test_dispatched_by_filename_not_extension():
     assert has_decoder_for("run/RunInfo.xml")
     assert has_decoder_for("run/runinfo.xml")  # case-insensitive
-    assert not has_decoder_for("run/something.xml")  # .xml alone is not enough
+    # `.xml` is claimed by the sidecar dispatcher (xml_sidecar.py), which routes
+    # on the root element and never reaches Illumina: the name is what dispatches here.
     assert decode_bytes("RunInfo.xml", RUNINFO).format == "illumina-run"
     assert decode_bytes("other.xml", RUNINFO) is None
 

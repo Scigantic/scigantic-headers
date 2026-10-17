@@ -1,0 +1,340 @@
+{
+ "cases": [
+  {
+   "name": "tubhiswt_C0-ome-tif",
+   "fixture": "tiff-tubhiswt_C0-ome-tif",
+   "key": "tubhiswt_C0.ome.tif",
+   "expected": {
+    "format": "ome-tiff",
+    "summary": "OME-TIFF 512x512, 2 channels, uint8",
+    "fields": {
+     "bigTiff": false,
+     "byteOrder": "little",
+     "width": 512,
+     "height": 512,
+     "bitsPerSample": 8,
+     "samplesPerPixel": 1,
+     "sampleFormat": "uint",
+     "dtype": "uint8",
+     "compression": "none",
+     "photometric": "black-is-zero",
+     "tiled": false,
+     "pageCount": 1,
+     "pageCountTruncated": false,
+     "planeCount": 2,
+     "imageDescriptionKind": "ome-xml",
+     "software": "OME Bio-Formats 5.2.0-m4",
+     "dateTime": null,
+     "imageCount": 1,
+     "creator": "OME Bio-Formats 5.2.0-m4",
+     "imageName": "tubhiswt",
+     "acquisitionDate": "2013-01-15T17:02:40",
+     "sizeX": 512,
+     "sizeY": 512,
+     "sizeZ": 1,
+     "sizeC": 2,
+     "sizeT": 1,
+     "dimensionOrder": "XYZTC",
+     "significantBits": 8,
+     "voxelSizeUm": [
+      null,
+      null,
+      null
+     ],
+     "channels": [
+      "Channel:0:0",
+      "Channel:0:1"
+     ],
+     "channelCount": 2,
+     "microscope": "Nikon Eclipse TE300",
+     "objective": "Nikon S Fluor",
+     "magnification": 100.0,
+     "numericalAperture": 1.4,
+     "flavor": "ome"
+    }
+   }
+  },
+  {
+   "name": "4D-series-ome-tif",
+   "fixture": "tiff-4D-series-ome-tif",
+   "key": "4D-series.ome.tif",
+   "expected": {
+    "format": "ome-tiff",
+    "summary": "OME-TIFF 439x167x5, 7 timepoints, int8",
+    "fields": {
+     "bigTiff": false,
+     "byteOrder": "big",
+     "width": 439,
+     "height": 167,
+     "bitsPerSample": 8,
+     "samplesPerPixel": 1,
+     "sampleFormat": "int",
+     "dtype": "int8",
+     "compression": "none",
+     "photometric": "black-is-zero",
+     "tiled": false,
+     "pageCount": 1,
+     "pageCountTruncated": true,
+     "planeCount": 35,
+     "imageDescriptionKind": "ome-xml",
+     "software": "OME Bio-Formats 5.2.2",
+     "dateTime": null,
+     "imageCount": 1,
+     "creator": "OME Bio-Formats 5.2.2",
+     "imageName": "4D-series.ome.tif",
+     "acquisitionDate": null,
+     "sizeX": 439,
+     "sizeY": 167,
+     "sizeZ": 5,
+     "sizeC": 1,
+     "sizeT": 7,
+     "dimensionOrder": "XYZCT",
+     "significantBits": null,
+     "voxelSizeUm": [
+      null,
+      null,
+      null
+     ],
+     "channels": [
+      "Channel:0:0"
+     ],
+     "channelCount": 1,
+     "microscope": null,
+     "objective": null,
+     "magnification": null,
+     "numericalAperture": null,
+     "flavor": "ome"
+    }
+   }
+  },
+  {
+   "name": "4D-series-ome-tf8",
+   "fixture": "tiff-4D-series-ome-tf8",
+   "key": "4D-series.ome.tf8",
+   "expected": {
+    "format": "ome-tiff",
+    "summary": "OME-TIFF 439x167x5, 7 timepoints, int8",
+    "fields": {
+     "bigTiff": true,
+     "byteOrder": "big",
+     "width": 439,
+     "height": 167,
+     "bitsPerSample": 8,
+     "samplesPerPixel": 1,
+     "sampleFormat": "int",
+     "dtype": "int8",
+     "compression": "none",
+     "photometric": "black-is-zero",
+     "tiled": false,
+     "pageCount": 1,
+     "pageCountTruncated": true,
+     "planeCount": 35,
+     "imageDescriptionKind": "ome-xml",
+     "software": "OME Bio-Formats 5.2.2",
+     "dateTime": null,
+     "imageCount": 1,
+     "creator": "OME Bio-Formats 5.2.2",
+     "imageName": "4D-series.ome.tf8",
+     "acquisitionDate": null,
+     "sizeX": 439,
+     "sizeY": 167,
+     "sizeZ": 5,
+     "sizeC": 1,
+     "sizeT": 7,
+     "dimensionOrder": "XYZCT",
+     "significantBits": null,
+     "voxelSizeUm": [
+      null,
+      null,
+      null
+     ],
+     "channels": [
+      "Channel:0:0"
+     ],
+     "channelCount": 1,
+     "microscope": null,
+     "objective": null,
+     "magnification": null,
+     "numericalAperture": null,
+     "flavor": "ome"
+    }
+   }
+  },
+  {
+   "name": "mcts-ome-btf",
+   "fixture": "tiff-mcts-ome-btf",
+   "key": "multi-channel-time-series.ome.btf",
+   "expected": {
+    "format": "ome-tiff",
+    "summary": "OME-TIFF 439x167, 3 channels, 7 timepoints, int8",
+    "fields": {
+     "bigTiff": true,
+     "byteOrder": "big",
+     "width": 439,
+     "height": 167,
+     "bitsPerSample": 8,
+     "samplesPerPixel": 1,
+     "sampleFormat": "int",
+     "dtype": "int8",
+     "compression": "none",
+     "photometric": "black-is-zero",
+     "tiled": false,
+     "pageCount": 1,
+     "pageCountTruncated": true,
+     "planeCount": 21,
+     "imageDescriptionKind": "ome-xml",
+     "software": "OME Bio-Formats 5.2.2",
+     "dateTime": null,
+     "imageCount": 1,
+     "creator": "OME Bio-Formats 5.2.2",
+     "imageName": "multi-channel-time-series.ome.btf",
+     "acquisitionDate": null,
+     "sizeX": 439,
+     "sizeY": 167,
+     "sizeZ": 1,
+     "sizeC": 3,
+     "sizeT": 7,
+     "dimensionOrder": "XYZCT",
+     "significantBits": null,
+     "voxelSizeUm": [
+      null,
+      null,
+      null
+     ],
+     "channels": [
+      "Channel:0:0",
+      "Channel:0:1",
+      "Channel:0:2"
+     ],
+     "channelCount": 3,
+     "microscope": null,
+     "objective": null,
+     "magnification": null,
+     "numericalAperture": null,
+     "flavor": "ome"
+    }
+   }
+  },
+  {
+   "name": "smallliz-tif",
+   "fixture": "tiff-smallliz-tif",
+   "key": "smallliz.tif",
+   "expected": {
+    "format": "tiff",
+    "summary": "TIFF 160x160, 3 samples/px, uint8, 254x254 um, jpeg-old",
+    "fields": {
+     "bigTiff": false,
+     "byteOrder": "big",
+     "width": 160,
+     "height": 160,
+     "bitsPerSample": 8,
+     "samplesPerPixel": 3,
+     "sampleFormat": "uint",
+     "dtype": "uint8",
+     "compression": "jpeg-old",
+     "photometric": "ycbcr",
+     "tiled": false,
+     "pageCount": 1,
+     "pageCountTruncated": false,
+     "planeCount": 1,
+     "imageDescriptionKind": null,
+     "software": "HP IL v1.1",
+     "dateTime": null,
+     "sizeX": 160,
+     "sizeY": 160,
+     "sizeZ": 1,
+     "sizeC": null,
+     "sizeT": null,
+     "voxelSizeUm": [
+      254.0,
+      254.0,
+      null
+     ],
+     "flavor": "plain"
+    }
+   }
+  },
+  {
+   "name": "quad-tile-tif",
+   "fixture": "tiff-quad-tile-tif",
+   "key": "quad-tile.tif",
+   "expected": {
+    "format": "tiff",
+    "summary": "TIFF 512x384, 3 samples/px, uint8, lzw",
+    "fields": {
+     "bigTiff": false,
+     "byteOrder": "big",
+     "width": 512,
+     "height": 384,
+     "bitsPerSample": 8,
+     "samplesPerPixel": 3,
+     "sampleFormat": "uint",
+     "dtype": "uint8",
+     "compression": "lzw",
+     "photometric": "rgb",
+     "tiled": true,
+     "pageCount": 1,
+     "pageCountTruncated": false,
+     "planeCount": 1,
+     "imageDescriptionKind": null,
+     "software": null,
+     "dateTime": null,
+     "sizeX": 512,
+     "sizeY": 384,
+     "sizeZ": 1,
+     "sizeC": null,
+     "sizeT": null,
+     "voxelSizeUm": [
+      null,
+      null,
+      null
+     ],
+     "flavor": "plain"
+    }
+   }
+  },
+  {
+   "name": "imagej-tcell-hilo",
+   "fixture": "tiff-imagej-tcell-hilo",
+   "key": "Tcell_NR4A_HILO_stack_movie.tif",
+   "expected": {
+    "format": "imagej-tiff",
+    "summary": "ImageJ TIFF 336x336x74, 22 timepoints, uint16, 1628 planes",
+    "fields": {
+     "bigTiff": false,
+     "byteOrder": "big",
+     "width": 336,
+     "height": 336,
+     "bitsPerSample": 16,
+     "samplesPerPixel": 1,
+     "sampleFormat": "uint",
+     "dtype": "uint16",
+     "compression": "none",
+     "photometric": "black-is-zero",
+     "tiled": false,
+     "pageCount": 1,
+     "pageCountTruncated": true,
+     "planeCount": 1628,
+     "imageDescriptionKind": "imagej",
+     "software": null,
+     "dateTime": null,
+     "sizeX": 336,
+     "sizeY": 336,
+     "sizeZ": 74,
+     "sizeC": null,
+     "sizeT": 22,
+     "channelCount": null,
+     "voxelSizeUm": [
+      null,
+      null,
+      null
+     ],
+     "imagejVersion": "1.53t",
+     "hyperstack": true,
+     "unit": null,
+     "flavor": "imagej"
+    }
+   }
+  }
+ ]
+}

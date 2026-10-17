@@ -1,5 +1,43 @@
 # Changelog
 
+## 0.6.0
+
+Light microscopy and light-sheet formats, and the reader model they needed.
+
+- New `Source` abstraction for pointer-based formats: `Read(seek=budget)`
+  registers a decoder that takes a bounded random-access `Source` instead of
+  bytes. `FileSource` and `UrlSource` (HTTP Range, 64 KiB cached chunks, a cap
+  on requests) implement it; `BytesSource` wraps bytes or a sparse set of ranges.
+  `decode_source(key, src)` serves every registered format from a Source. A
+  directory decodes through the sidecar file it contains (Zarr, N5 stores).
+- TIFF / BigTIFF / OME-TIFF / ImageJ / Micro-Manager / ImSpector decoder
+  (`.tif`, `.tiff`, `.btf`, `.tf2`, `.tf8`), with a shared OME-XML reader.
+- Zeiss CZI decoder (`.czi`).
+- HDF5 walker without libhdf5 (superblock v0-v3, object headers v1/v2, symbol
+  tables, dense links and attributes via fractal heaps and v2 B-trees), with
+  Imaris `.ims` (incl. the TIFF-based IMS3), BigDataViewer `.h5`, Luxendo
+  `.lux.h5` and generic `.h5` / `.hdf5` / `.he5` flavors.
+- Leica LIF (`.lif`), Nikon ND2 (`.nd2`), Imspector OBF (`.obf`, `.msr`),
+  Keller Lab Block (`.klb`), ICS (`.ics`) decoders.
+- Zarr sidecars by file name: `zarr.json`, `.zattrs`, `.zarray`, `.zgroup`
+  (OME-Zarr / OME-NGFF 0.4 and 0.5, plain Zarr v2 and v3) and N5
+  `attributes.json`. An OME-Zarr store directory merges its level-0 array's
+  shape and dtype into the result.
+- The `.xml` extension is now dispatched: a sniff of the root element routes
+  BigDataViewer `SpimData`, OME-XML (`.ome.xml`, companion files) and EPU
+  `MicroscopeImage`; any other XML decodes to None. File-name registrations
+  (Illumina) still win. `decode_epu_xml` is unchanged and still importable.
+- Behavior change: `has_decoder_for("anything.xml")` is now True, so a tree
+  walk opens `.xml` files (1 MiB leading read) and discards the unknown ones.
+- Stress-tested before release: a sweep of 390 files on the OME sample server
+  by URL (one ND2 Ver3 variant with a 4128-byte chunk-map name was rejected and
+  is now read), 200k random and magic-seeded buffers, 14k mutations of the
+  real-file fixtures, and hand-built hostile files (self-referencing pointers,
+  offsets past EOF, XML entity expansion), kept as `tests/test_adversarial.py`.
+- Golden fixtures for the seeking decoders are sparse recordings of real
+  sample files (`tests/fixtures/*.sparse.json`, replayed through
+  `BytesSource(ranges=...)`); `tests/conftest.py` carries the recorder.
+
 ## 0.5.0
 
 - Added `decode_epu_xml`: reads the acquisition settings out of a Thermo Fisher

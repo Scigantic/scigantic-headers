@@ -104,3 +104,46 @@ def test_nifti_nan_pixdim_is_sanitized():
     assert d.fields["voxelSizesMm"] == [None, None, 2.0]
     assert "mm" not in d.summary  # incomplete spacing -> omitted, not "NaN mm"
     json.dumps(d.to_dict(), allow_nan=False)  # standards-valid
+
+
+# ── seeking decoders: magic-seeded buffers ────────────────────────────────────
+#
+# A pointer-based decoder that passes its magic check then follows offsets into
+# random bytes exercises every bounds check it has. Each must still return None
+# or a JSON-safe header, never raise, and must stay within its Source budget.
+
+from scigantic_headers.decoders import BytesSource  # noqa: E402
+from scigantic_headers.czi import decode_czi  # noqa: E402
+from scigantic_headers.hdf5 import decode_hdf5  # noqa: E402
+from scigantic_headers.tiff import decode_tiff  # noqa: E402
+
+
+def _seed_seeking(rng, kind):
+    n = rng.randint(0, 6000)
+    buf = bytearray(rng.getrandbits(8) for _ in range(n))
+    if kind == "tiff" and len(buf) >= 16:
+        buf[0:4] = rng.choice([b"II*\x00", b"MM\x00*", b"II+\x00\x08\x00\x00\x00", b"MM\x00+\x00\x08\x00\x00"])[:8] if len(buf) >= 8 else buf[0:4]
+    elif kind == "hdf5" and len(buf) >= 96:
+        buf[0:8] = b"\x89HDF\r\n\x1a\n"
+        buf[8] = rng.choice([0, 1, 2, 3])
+        if buf[8] < 2:
+            buf[13], buf[14] = 8, 8
+        else:
+            buf[9], buf[10] = 8, 8
+    elif kind == "czi" and len(buf) >= 544:
+        buf[0:16] = b"ZISRAWFILE" + b"\x00" * 6
+    return bytes(buf)
+
+
+@pytest.mark.parametrize("kind,fn", [
+    ("tiff", decode_tiff), ("hdf5", decode_hdf5), ("czi", decode_czi),
+])
+def test_seeking_decoders_total_on_magic_seeded(kind, fn):
+    rng = random.Random(SEED + hash(kind) % 1000)
+    for _ in range(ITERATIONS // 4):
+        buf = _seed_seeking(rng, kind)
+        src = BytesSource(buf, budget=1 << 20)
+        try:
+            _assert_valid_or_none(fn(src))
+        except Exception as e:  # noqa: BLE001
+            pytest.fail(f"{kind} decoder raised on magic-seeded len={len(buf)}: {e!r}")

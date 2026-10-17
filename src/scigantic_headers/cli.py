@@ -3,19 +3,21 @@
     scigantic-headers session/frame.mrc
     scigantic-headers https://example.org/path/img.mrcs
     scigantic-headers --dir /data/sessions --workers 8
+    scigantic-headers image.zarr              # a Zarr or N5 store (directory)
 
-A URL is read with an HTTP Range request, so a header is pulled from a remote
-archive without downloading the file.
+A URL is read with HTTP Range requests, so a header is pulled from a remote
+archive without downloading the file; pointer-based formats (TIFF, HDF5, CZI,
+ND2) issue a handful of them.
 """
 
 from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 
-from .decoders import has_decoder_for
-from .sources import decode_file, decode_paths, decode_url, iter_decodable_files
+from .sources import decode_file, decode_paths, decode_url, is_decodable, iter_decodable_files
 
 
 def main(argv=None) -> int:
@@ -34,7 +36,8 @@ def main(argv=None) -> int:
 
     if not args.source:
         ap.error("give a file/URL, or --dir")
-    if not has_decoder_for(args.source):
+    is_store = os.path.isdir(args.source)  # a Zarr or N5 store decodes through its sidecar file
+    if not is_store and not is_decodable(args.source):
         print(f"no decoder for '{args.source}' (extension not recognized)", file=sys.stderr)
         return 1
 
