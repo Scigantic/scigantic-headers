@@ -193,14 +193,15 @@ on the OME sample server:
     Imaris Convallaria .ims (7 MB)            6 Range requests
     CZI MouseBrain light-sheet (492 MB)       5 Range requests (metadata at 492 MB)
     OME-TIFF tubhiswt (270 KB, 1 page)        3 Range requests
-    OME-TIFF multi-channel .btf (21 pages)   24 Range requests (one per IFD)
+    OME-TIFF multi-channel .btf (21 pages)    3 Range requests (chain not chased)
     Leica LIF PR2729 (227 KB)                 2 Range requests
     Nikon ND2 sample_image (218 MB)           6 Range requests
     KLB img.klb                               2 Range requests
 
-A TIFF whose directories trail each plane costs a request per page until the
-chain cap or the request cap stops it; the OME-XML already states the plane
-count, so the page count is then reported as truncated, not wrong.
+A plain TIFF whose directories trail each plane costs a request per page until
+the chain cap stops it. An OME-TIFF states its plane count in the XML, so its
+chain is not chased at all: `planeCount` comes from the OME block and
+`pageCount` stops at the first directory, marked truncated.
 
 `decode_bytes(key, data)` still works for these formats (the bytes become an
 in-memory Source), and `BytesSource(ranges={offset: bytes})` replays a sparse
@@ -284,7 +285,7 @@ detector-pixel-size / magnification pair are all handled.
       optics.py     read_session_optics: find a data file's optics file
       cli.py        scigantic-headers <file|url|--dir>
       benchmark.py  scigantic-headers-bench, measures the speed levers
-    tests/          pytest (425 tests, incl. fuzz, golden and sparse real-file fixtures)
+    tests/          pytest (440 tests, incl. fuzz, golden and sparse real-file fixtures)
 
 ## Robustness
 

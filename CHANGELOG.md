@@ -29,6 +29,11 @@ Light microscopy and light-sheet formats, and the reader model they needed.
   (Illumina) still win. `decode_epu_xml` is unchanged and still importable.
 - Behavior change: `has_decoder_for("anything.xml")` is now True, so a tree
   walk opens `.xml` files (1 MiB leading read) and discards the unknown ones.
+- Stress-tested before release: a sweep of 390 files on the OME sample server
+  by URL (one ND2 Ver3 variant with a 4128-byte chunk-map name was rejected and
+  is now read), 200k random and magic-seeded buffers, 14k mutations of the
+  real-file fixtures, and hand-built hostile files (self-referencing pointers,
+  offsets past EOF, XML entity expansion), kept as `tests/test_adversarial.py`.
 - Golden fixtures for the seeking decoders are sparse recordings of real
   sample files (`tests/fixtures/*.sparse.json`, replayed through
   `BytesSource(ranges=...)`); `tests/conftest.py` carries the recorder.

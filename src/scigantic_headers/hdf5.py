@@ -350,9 +350,11 @@ class _H5:
         raw = self.read(heap[0] + off, min(256, heap[1] - off))
         return raw.split(b"\x00", 1)[0].decode("utf-8", "replace")
 
-    def _btree_group(self, addr: int, heap, out: List[Tuple[str, int]], depth: int) -> bool:
-        if depth > 6 or len(out) >= MAX_CHILDREN:
-            return False
+    def _btree_group(self, addr: int, heap, out: List[Tuple[str, int]], depth: int, seen=None) -> bool:
+        seen = seen if seen is not None else set()
+        if depth > 6 or len(out) >= MAX_CHILDREN or addr in seen:
+            return False  # a node that points back at itself is a corrupt file, not a deep one
+        seen.add(addr)
         node = self.read(addr, 8 + 2 * self.O + 2)
         if node[:4] != b"TREE" or node[4] != 0:
             return False
@@ -365,10 +367,13 @@ class _H5:
             child = self._addr(body, self.L + k * entry)
             if child is None:
                 return False
+            if child in seen:
+                return False
             if level == 0:
+                seen.add(child)
                 complete = self._snod(child, heap, out) and complete
             else:
-                complete = self._btree_group(child, heap, out, depth + 1) and complete
+                complete = self._btree_group(child, heap, out, depth + 1, seen) and complete
             if len(out) >= MAX_CHILDREN:
                 return False
         return complete

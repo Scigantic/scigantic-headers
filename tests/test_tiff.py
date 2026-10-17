@@ -174,7 +174,7 @@ def test_golden_ome_tiff_details():
     four = by["4D-series-ome-tf8"]["fields"]
     assert four["bigTiff"] is True and four["byteOrder"] == "big"
     assert (four["sizeZ"], four["sizeT"], four["dtype"]) == (5, 7, "int8")
-    assert four["pageCount"] == 35 and four["pageCountTruncated"] is False and four["planeCount"] == 35
+    assert four["pageCount"] == 1 and four["pageCountTruncated"] is True and four["planeCount"] == 35  # chain not chased for OME
     liz = by["smallliz-tif"]["fields"]
     assert liz["voxelSizeUm"] == [254.0, 254.0, None]   # 100 dpi
     assert liz["compression"] == "jpeg-old" and liz["samplesPerPixel"] == 3
@@ -259,7 +259,10 @@ def test_ome_tiff_fields_and_summary():
     assert f["channels"] == ["GFP", "RFP"] and f["emissionWavelengthsNm"] == [510.0, None]
     assert f["microscope"] == "Zeiss Lightsheet 7" and f["magnification"] == 20.0 and f["numericalAperture"] == 1.0
     assert f["planeCount"] == 20          # Z*C*T from the OME block, not the 2 IFDs present
-    assert f["pageCount"] == 2
+    # The IFD chain is not chased when OME-XML states the plane count (one read
+    # per trailing directory, one Range request each remotely), so the page
+    # count stops at the first directory and says so.
+    assert f["pageCount"] == 1 and f["pageCountTruncated"] is True
     assert f["imageDescriptionKind"] == "ome-xml" and f["flavor"] == "ome"
     assert d.summary == "OME-TIFF 64x32x10, 2 channels, uint16, 0.5x0.5x2 um"
 

@@ -393,11 +393,18 @@ def decode_tiff(src: Source) -> Optional[DecodedHeader]:
     lowered = ((software or "") + " " + desc[:4096].decode("latin-1")).lower()
     imspector = "imspector" in lowered or "lavision" in lowered or "miltenyi" in lowered
 
-    # Count pages by following the chain, bounded.
+    # Count pages by following the chain, bounded. An OME-TIFF already states
+    # its plane count (SizeZ x SizeC x SizeT) in the XML, and its directories
+    # trail each plane, so chasing them costs one read per plane (one Range
+    # request each, remotely) for nothing: the chain is not followed then and
+    # the page count is reported as truncated at 1.
     pages = 1
     nxt = ifd.next
     seen = {ifd0}
     truncated = False
+    if ome is not None and nxt:
+        truncated = True
+        nxt = 0
     while nxt:
         if nxt in seen or pages >= IFD_CHAIN_CAP:
             truncated = pages >= IFD_CHAIN_CAP

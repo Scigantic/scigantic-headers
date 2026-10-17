@@ -349,7 +349,7 @@ def _read_chunk(src: Source, pos: int, cap: int = _MAX_CHUNK_BYTES):
     if len(hdr) < _CHUNK_HDR.size:
         return None
     magic, name_len, data_len = _CHUNK_HDR.unpack(hdr)
-    if magic != _MAGIC or name_len > 4096:
+    if magic != _MAGIC or name_len > 65536:  # Ver3 writers pad the chunk-map name to 4128 bytes
         return None
     body = src.read_at(pos + _CHUNK_HDR.size, name_len + min(data_len, cap))
     if len(body) < name_len:

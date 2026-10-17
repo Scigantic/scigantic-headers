@@ -216,3 +216,14 @@ def test_golden_karl_v3_lv():
                           {"type": "ZStackLoop", "count": 21, "zStepUm": 5.0}]
     assert f["objective"] == "Plan Apo λ 20x" and f["numericalAperture"] == 0.75
     assert f["acquisitionDate"] == "06/06/2017  11:15:06" and f["camera"] == "Andor DU-897 X-3655"
+
+
+def test_golden_mrap1_v3_padded_chunk_map_name():
+    # A Ver3.0 writer that pads the chunk-map chunk's name field to 4128 bytes;
+    # a 4096-byte name limit rejected the whole file (found by a sweep of the
+    # OME sample server). nd2 0.12.0 agrees on every value asserted here.
+    d = _golden("nd2-mrap1-v3-padded-chunkmap")
+    f = d.fields
+    assert (f["sizeX"], f["sizeY"], f["componentsPerFrame"], f["frameCount"]) == (2880, 2048, 3, 1)
+    assert f["dtype"] == "uint8" and f["voxelSizeUm"][:2] == [0.24, 0.24]
+    assert f["channels"] == ["Brightfield"] and f["objective"] == "Plan Fluor 10x DIC L"
