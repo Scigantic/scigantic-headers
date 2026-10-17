@@ -23,7 +23,7 @@ from scigantic_headers import decode_bytes, decode_file, has_decoder_for
 from scigantic_headers.xml_sidecar import (
     decode_bdv_xml, decode_ome_xml, decode_xml_sidecar, root_element,
 )
-from tests.test_acquisition import EPU
+from test_acquisition import EPU  # the EPU sample XML built for the acquisition tests
 
 FIXTURES = os.path.join(os.path.dirname(__file__), "fixtures")
 
