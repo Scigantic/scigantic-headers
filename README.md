@@ -56,6 +56,13 @@ Decoders today:
   nibabel. Big- and little-endian.
 - **CryoSPARC `.cs`**: a structured-array dataset. Reports record count and the
   field schema.
+- **SerialEM `.mdoc`**: the acquisition record SerialEM (and Thermo Fisher
+  Tomography) writes beside a tilt series, montage or saved movie. Voltage, pixel
+  size, dose, frame count, exposure, magnification and tilt axis, the tilt range
+  and total dose over every image, the first image's stage position and defocus,
+  and the montage settings. Handles tilt series (`[ZValue]`), single-movie files
+  (`[FrameSet]`), montages (`[MontSection]`) and IMOD image series (`[Image]`).
+  Cross-checked against mdocfile on 111 public mdoc files.
 - **Parquet**: reads the footer, not a leading header, and returns the column
   names, physical types, and row count. Cross-checked against pyarrow.
 - **FCS**: flow cytometry (Flow Cytometry Standard). Returns parameter and event
@@ -217,12 +224,14 @@ or exported by different people. A wrong one does not fail; it quietly caps the
 resolution. `compare_acquisition` lines the sources up and reports disagreements:
 
 ```python
-from scigantic_headers import compare_acquisition, decode_epu_xml, read_star_optics
+from scigantic_headers import compare_acquisition, decode_epu_xml, decode_file, read_star_optics
 
 epu = decode_epu_xml(open("FoilHole_..._Data_....xml", "rb").read()).fields
+mdoc = decode_file("TS_01.mrc.mdoc").fields      # SerialEM, if the session used it
 for f in compare_acquisition({
     "sheet": {"voltageKv": 300, "pixelSizeA": 0.84, "doseEA2": 42.4, "fractions": 40},
     "epu": epu,
+    "serialem": mdoc,
     "relion": read_star_optics("Import/movies.star"),
 }, target_resolution_a=3.3):
     print(f.severity, f.field, f.message)
@@ -232,6 +241,8 @@ It does not decide which source is right. EPU records the pixel size of the binn
 readout grid, so `epu_pixel_size_candidates(epu)` lists the likely values for the
 saved movie; compare with the movie's own dimensions. `decode_epu_xml` is not
 auto-dispatched (`.xml` is too generic), so call it on a file you know is EPU's.
+An mdoc's `doseEA2` is the dose of one image (one tilt, or one movie), the value to
+compare with a per-movie dose; `totalDoseEA2` is the sum over the series.
 
 A raw MRC movie header has no pixel size: CELLA is 0, so `decode_*` returns
 `pixelSizeA` as `None`. The value is in the RELION STAR or CryoSPARC `.cs` file
@@ -279,13 +290,14 @@ detector-pixel-size / magnification pair are all handled.
       ics.py        Image Cytometry Standard header
       zarr.py       OME-Zarr / Zarr v2+v3 / N5 sidecars (by file name)
       xml_sidecar.py  .xml dispatcher: BDV SpimData, OME-XML, EPU
+      mdoc.py       SerialEM / Tomography .mdoc acquisition record
       sources.py    read bytes from file or URL (leading, footer, or seeking); bounded parallel batch
       star.py       RELION STAR optics reader
       cryosparc.py  CryoSPARC .cs optics reader
       optics.py     read_session_optics: find a data file's optics file
       cli.py        scigantic-headers <file|url|--dir>
       benchmark.py  scigantic-headers-bench, measures the speed levers
-    tests/          pytest (440 tests, incl. fuzz, golden and sparse real-file fixtures)
+    tests/          pytest (454 tests, incl. fuzz, golden and sparse real-file fixtures)
 
 ## Robustness
 

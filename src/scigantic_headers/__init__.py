@@ -18,6 +18,7 @@ from .hdf5 import decode_hdf5
 from .ics import decode_ics
 from .klb import decode_klb
 from .lif import decode_lif
+from .mdoc import decode_mdoc
 from .nd2 import decode_nd2
 from .obf import decode_obf
 from .ome_xml import parse_ome_xml
@@ -78,7 +79,7 @@ try:
 except PackageNotFoundError:  # a source checkout with no install metadata
     __version__ = "0.0.0+unknown"
 __all__ = [
-    "Finding", "compare_acquisition", "decode_epu_xml", "epu_pixel_size_candidates",
+    "Finding", "compare_acquisition", "decode_epu_xml", "epu_pixel_size_candidates", "decode_mdoc",
     "HEADER_BYTES", "SEEK_MAX_READS", "DecodedHeader", "Read", "Source", "BytesSource",
     "FileSource", "UrlSource", "decode_bytes", "decode_source", "decode_mrc_header",
     "decode_nifti_header", "decode_npy_header", "decode_cryosparc_header",
