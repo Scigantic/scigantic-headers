@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.7.0
+
+SerialEM `.mdoc` decoding.
+
+- New decoder for `.mdoc`, the acquisition record SerialEM and Thermo Fisher
+  Tomography write beside a tilt series, montage or saved movie, dispatched by
+  extension with a 1 MiB leading read. Also importable as `decode_mdoc`.
+- Returns `voltageKv`, `pixelSizeA`, `doseEA2`, `fractions`, `magnification` and
+  `exposureS` under the names the EPU decoder uses, so an mdoc goes straight into
+  `compare_acquisition`; plus the software and version, tilt axis, tilt range,
+  total dose, acquisition times, the first image's stage position, defocus and
+  frame path, and montage settings.
+- All four section kinds: `[ZValue]` (stack images), `[FrameSet]` (the file
+  beside a single saved movie, including its unbracketed title line),
+  `[MontSection]` (montage settings, kept out of the per-image values) and IMOD's
+  `[Image = name]` series. NaN and unparseable values decode as absent; CRLF, a
+  UTF-8 byte order mark and Latin-1 text are accepted.
+- Checked on 116 public mdoc files from GitHub: every value compared agrees with
+  mdocfile on the 111 it can read, and the other five (deliberately malformed test
+  files) decode with the bad values left out. 46,400 mutations of those files
+  raised nothing.
+
 ## 0.6.0
 
 Light microscopy and light-sheet formats, and the reader model they needed.
