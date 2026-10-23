@@ -29,7 +29,7 @@ from typing import List, Optional
 
 from .decoders import DecodedHeader, Read, register_decoder
 
-_FCS_VERSIONS = (b"FCS2.0", b"FCS3.0", b"FCS3.1")
+_FCS_VERSIONS = (b"FCS2.0", b"FCS3.0", b"FCS3.1", b"FCS3.2")
 _HEADER_MIN = 58  # version + reserved + six 8-byte offset fields
 _DATATYPE = {"I": "int", "F": "float32", "D": "float64", "A": "ascii"}
 
@@ -70,8 +70,10 @@ def _split(body: bytes, delim: int) -> List[bytes]:
 
 def decode_fcs(data: bytes) -> Optional[DecodedHeader]:
     """Decode an FCS file from its leading bytes (version, HEADER offsets, and the
-    TEXT segment). Returns None if the magic is wrong or the TEXT segment is not
-    fully present in `data` (read more leading bytes and retry)."""
+    TEXT segment). Returns None if the magic is wrong. A TEXT segment longer than
+    `data` (many parameters, a large spillover matrix) is decoded as far as it
+    goes: the last part may be cut mid-value, so it is dropped, and
+    textTruncated says keywords may be missing."""
     if len(data) < _HEADER_MIN or data[:6] not in _FCS_VERSIONS:
         return None
     version = data[:6].decode("ascii")
@@ -80,12 +82,18 @@ def decode_fcs(data: bytes) -> Optional[DecodedHeader]:
     text_end = _offset(data, 18)
     if text_begin <= 0 or text_end <= text_begin:
         return None
+    truncated = False
     if text_end + 1 > len(data):  # TEXT runs past what we were handed
-        return None
+        if text_begin + 1 >= len(data):
+            return None
+        truncated = True
+        text_end = len(data) - 1
 
     body = data[text_begin + 1:text_end + 1]  # skip the leading delimiter byte
     delim = data[text_begin]
     parts = _split(body, delim)
+    if truncated and parts:
+        parts = parts[:-1]
 
     kv = {}
     it = iter(parts)
@@ -131,6 +139,8 @@ def decode_fcs(data: bytes) -> Optional[DecodedHeader]:
     cyt = kv.get("$CYT")
     if cyt:
         fields["cytometer"] = cyt
+    if truncated:
+        fields["textTruncated"] = True
 
     evt = ntot if ntot is not None else "?"
     par = npar if npar is not None else "?"
@@ -141,4 +151,4 @@ def decode_fcs(data: bytes) -> Optional[DecodedHeader]:
     )
 
 
-register_decoder("fcs", decode_fcs, read=Read(leading=256 * 1024))  # TEXT segment runs past 1 KiB
+register_decoder("fcs", decode_fcs, read=Read(leading=1024 * 1024))  # TEXT can be long; a longer one is decoded as far as it goes

@@ -11,7 +11,9 @@ pipelines (SiMView, Fiji/KLB plugins). The header is fixed, little-endian,
     42   compressionType  uint8      0 none, 1 bzip2, 2 zlib
     43   metadata[256]    char       free text, NUL-terminated
     299  blockSize[5]     uint32     block (chunk) size per dimension
-    319  (version 2: per-block compressed sizes, then the blocks)
+    319  blockOffset[N]   uint64     end offset of each compressed block, one per
+                                    block, N = product of ceil(size / blockSize)
+    319 + 8N             the compressed blocks
 
 KLB does not record a unit for pixelSize; the writers (and the Fiji plugin)
 treat it as micrometres, which is what `voxelSizeUm` assumes. A header is
@@ -52,6 +54,11 @@ def decode_klb(data: bytes) -> Optional[DecodedHeader]:
     def um(v: float) -> Optional[float]:
         return round(v, 6) if math.isfinite(v) and v > 0 else None
 
+    blocks = [bx, by, bz, bc, bt]
+    num_blocks = None
+    if all(b > 0 for b in blocks):
+        num_blocks = math.prod(-(-s // b) for s, b in zip(sizes, blocks))
+
     dtype = _KLB_DTYPE[dtype_code]
     metadata = meta.split(b"\x00", 1)[0].decode("utf-8", "replace").strip() or None
     voxel = [um(px), um(py), um(pz)]
@@ -62,9 +69,10 @@ def decode_klb(data: bytes) -> Optional[DecodedHeader]:
         "compression": _KLB_COMPRESSION[comp_code],
         "voxelSizeUm": voxel,
         "samplingCT": [um(pc), um(pt)],
-        "blockSize": [bx, by, bz, bc, bt],
+        "blockSize": blocks,
         "metadata": metadata,
-        "dataOffset": KLB_HEADER_BYTES,
+        # The blocks start after the offset table, not right after the header.
+        "dataOffset": KLB_HEADER_BYTES + 8 * num_blocks if num_blocks is not None else None,
     }
     dims = "%dx%dx%d" % (x, y, z)
     extra = ""

@@ -126,7 +126,8 @@ def _floats(text: Optional[str]) -> Optional[List[float]]:
 
 def _timepoint_count(tp) -> Optional[int]:
     """Number of timepoints from a <Timepoints> element of type range, list or
-    pattern. A pattern is comma-separated items 'a', 'a-b' or 'a-b:step'."""
+    pattern. A pattern is comma-separated items 'a', 'a-b' or 'a-b:step', and
+    a range whose end is below its start counts down."""
     if tp is None:
         return None
     kind = (tp.get("type") or "").lower()
@@ -152,9 +153,14 @@ def _timepoint_count(tp) -> Optional[int]:
             a = int(m.group(1))
             b = int(m.group(2)) if m.group(2) is not None else a
             step = int(m.group(3)) if m.group(3) else 1
-            if step <= 0 or b < a or (b - a) // step > 1_000_000:
+            # spimdata's IntegerPattern counts down when the end is below the
+            # start, so "9-4" is 9, 8, 7, 6, 5, 4.
+            if step <= 0 or abs(b - a) // step > 1_000_000:
                 return None
-            seen.update(range(a, b + 1, step))
+            if b >= a:
+                seen.update(range(a, b + 1, step))
+            else:
+                seen.update(range(a, b - 1, -step))
         return len(seen) or None
     return None
 

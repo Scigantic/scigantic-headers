@@ -132,7 +132,7 @@ def test_dispatch_by_extension():
     assert decode_bytes("sample.fcs", blob).format == "fcs"
 
 
-@pytest.mark.parametrize("version", ["FCS2.0", "FCS3.0", "FCS3.1"])
+@pytest.mark.parametrize("version", ["FCS2.0", "FCS3.0", "FCS3.1", "FCS3.2"])
 def test_version_variants(version):
     h = decode_fcs(make_fcs(version=version))
     assert h.fields["version"] == version
@@ -170,11 +170,26 @@ def test_rejects_non_fcs():
     assert decode_fcs(b"FCS9.9  " + b" " * 60) is None  # unknown version
 
 
-def test_truncated_text_returns_none():
+def test_truncated_header_returns_none():
     blob = make_fcs()
-    # Chop the file inside the TEXT segment: header promises more than is present.
-    truncated = blob[:40]
-    assert decode_fcs(truncated) is None
+    # Chop the file inside the HEADER: no TEXT has been read at all.
+    assert decode_fcs(blob[:40]) is None
+
+
+def test_text_longer_than_read_decodes_what_was_read():
+    # A TEXT segment that runs past the bytes given keeps the keywords that
+    # were read, drops the pair the cut lands in, and says it is truncated.
+    channels = [("P%d" % i, "marker%d" % i) for i in range(40)]
+    blob = make_fcs(channels=channels, tot=5)
+    cut = blob[:blob.index(b"marker20") + 3]
+    h = decode_fcs(cut)
+    assert h is not None and h.fields["textTruncated"] is True
+    assert h.fields["numParameters"] == 40
+    chans = h.fields["channels"]
+    assert [c["name"] for c in chans] == ["P%d" % i for i in range(21)]
+    # P20's label is the value the cut lands in: dropped, never half-read.
+    assert [c.get("label") for c in chans] == ["marker%d" % i for i in range(20)] + [None]
+    assert "textTruncated" not in decode_fcs(blob).fields
 
 
 def test_decode_file_reads_enough_for_wide_panel(tmp_path):
@@ -206,10 +221,10 @@ def test_garbage_par_does_not_explode():
 
 # ── cross-check against a reference reader, when present ──────────────────────
 
-flowio = pytest.importorskip("flowio", reason="flowio not installed")
-
-
 def test_matches_flowio_channel_and_event_counts():
+    # Skip only this test without flowio. A module-level importorskip here
+    # skipped every test in the file.
+    flowio = pytest.importorskip("flowio", reason="flowio not installed")
     import io
 
     blob = make_fcs(tot=7)

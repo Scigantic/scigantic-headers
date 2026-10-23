@@ -155,3 +155,46 @@ def test_gz_transparent(tmp_path):
 
 def test_result_is_json_safe():
     json.dumps(decode_mzml(make_mzml()).to_dict(), allow_nan=False)
+
+
+_MZML_HEAD = b"""<?xml version="1.0" encoding="utf-8"?>
+<mzML xmlns="http://psi.hupo.org/ms/mzml" version="1.1.0">
+"""
+_ESI = b'<source order="1"><cvParam cvRef="MS" accession="MS:1000073" name="electrospray ionization" value=""/></source>'
+
+
+def test_model_from_referenceable_param_group():
+    # msconvert keeps the model in a param group the configuration points to;
+    # the first cvParam inside the configuration is then the ion source.
+    doc = _MZML_HEAD + b"""<referenceableParamGroupList count="1">
+<referenceableParamGroup id="CommonInstrumentParams">
+<cvParam cvRef="MS" accession="MS:1000529" name="instrument serial number" value="Exactive Series slot #1"/>
+<cvParam cvRef="MS" accession="MS:1001911" name="Q Exactive" value=""/>
+</referenceableParamGroup>
+</referenceableParamGroupList>
+<instrumentConfigurationList count="1">
+<instrumentConfiguration id="IC1">
+<referenceableParamGroupRef ref="CommonInstrumentParams"/>
+<componentList count="1">""" + _ESI + b"""</componentList>
+</instrumentConfiguration>
+</instrumentConfigurationList>
+</mzML>"""
+    assert decode_mzml(doc).fields["instrumentModel"] == "Q Exactive"
+
+
+def test_model_skips_serial_number():
+    doc = _MZML_HEAD + b"""<instrumentConfiguration id="IC1">
+<cvParam cvRef="MS" accession="MS:1000529" name="instrument serial number" value="SN1"/>
+<cvParam cvRef="MS" accession="MS:1002416" name="Orbitrap Fusion" value=""/>
+<componentList count="1">""" + _ESI + b"""</componentList>
+</instrumentConfiguration>
+</mzML>"""
+    assert decode_mzml(doc).fields["instrumentModel"] == "Orbitrap Fusion"
+
+
+def test_no_model_is_unknown_not_the_source():
+    doc = _MZML_HEAD + b"""<instrumentConfiguration id="IC1">
+<componentList count="1">""" + _ESI + b"""</componentList>
+</instrumentConfiguration>
+</mzML>"""
+    assert decode_mzml(doc).fields["instrumentModel"] is None
