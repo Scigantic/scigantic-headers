@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.7.1
 
 Fixes found by cross-checking these decoders against other readers.
 
