@@ -205,7 +205,11 @@ def test_bdv_nm_unit_converts_to_um_and_n5_loader():
     ("<Timepoints type='list'><Timepoint><id>0</id></Timepoint><Timepoint><id>5</id></Timepoint></Timepoints>", 2),
     ("<Timepoints type='pattern'><integerpattern>0-10:2, 18</integerpattern></Timepoints>", 7),
     ("<Timepoints type='pattern'><integerpattern>18</integerpattern></Timepoints>", 1),
-    ("<Timepoints type='pattern'><integerpattern>3-1</integerpattern></Timepoints>", None),   # inverted
+    # A range ending below its start counts down, as spimdata's IntegerPattern does.
+    ("<Timepoints type='pattern'><integerpattern>3-1</integerpattern></Timepoints>", 3),
+    ("<Timepoints type='pattern'><integerpattern>9-4</integerpattern></Timepoints>", 6),
+    ("<Timepoints type='pattern'><integerpattern>10-0:2</integerpattern></Timepoints>", 6),
+    ("<Timepoints type='pattern'><integerpattern>0-3, 2-5</integerpattern></Timepoints>", 6),  # overlap once
     ("<Timepoints type='pattern'><integerpattern>abc</integerpattern></Timepoints>", None),
     ("<Timepoints type='range'><first>4</first><last>2</last></Timepoints>", None),
     ("", None),

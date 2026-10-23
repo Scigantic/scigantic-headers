@@ -54,7 +54,16 @@ def test_real_sample_values():
     assert f["voxelSizeUm"] == [1.0, 1.0, 1.0]
     assert f["blockSize"] == [96, 96, 8, 1, 1]
     assert f["metadata"] == "Testing metadata"
-    assert f["dataOffset"] == KLB_HEADER_BYTES
+    # 2 x 2 x 4 blocks, so a 16-entry uint64 offset table sits between the
+    # header and the first block. In the full file a bzip2 stream ("BZh")
+    # starts at byte 447, and 447 plus the table's last end offset is the
+    # file size (382,141 bytes).
+    assert f["dataOffset"] == KLB_HEADER_BYTES + 8 * 16 == 447
+
+
+def test_data_offset_counts_partial_blocks():
+    # 64x64x10x2x3 in 64x64x8x1x1 blocks: 1 * 1 * 2 * 2 * 3 = 12 blocks.
+    assert decode_klb(make_klb()).fields["dataOffset"] == KLB_HEADER_BYTES + 8 * 12
 
 
 def test_synthetic_multichannel_timelapse():

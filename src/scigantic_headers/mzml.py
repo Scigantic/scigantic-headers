@@ -1,8 +1,8 @@
 """Decode an mzML mass-spectrometry file's header metadata.
 
 mzML is XML. The metadata worth surfacing sits in the document preamble: the
-format version, the source file, the software, the instrument model (a cvParam
-inside <instrumentConfiguration>), and the spectrum count and run start time
+format version, the source file, the software, the instrument model (in
+<instrumentConfiguration> or a param group it references), and the spectrum count and run start time
 (attributes of <run> and <spectrumList>). The per-spectrum data comes far later
 and is not read.
 
@@ -33,10 +33,42 @@ def _text(match, group=1):
     return match.group(group).decode("utf-8", "replace") if match else None
 
 
+# cvParams that can sit beside the model in an instrument configuration or param
+# group but are not the model: the serial number and the customization note.
+_NOT_MODEL = {b"MS:1000529", b"MS:1000032"}
+_RE_CVTAG = re.compile(rb"<cvParam\b[^>]*>")
+_RE_ACCESSION = re.compile(rb'\baccession="([^"]*)"')
+_RE_GROUPREF = re.compile(rb'<referenceableParamGroupRef\b[^>]*\bref="([^"]*)"')
+
+
+def _first_model_param(scope: bytes) -> Optional[str]:
+    """The name of the first cvParam in `scope` that is not in _NOT_MODEL."""
+    for tag in _RE_CVTAG.findall(scope):
+        acc = _RE_ACCESSION.search(tag)
+        if acc and acc.group(1) in _NOT_MODEL:
+            continue
+        name = _RE_CVNAME.search(tag)
+        if name:
+            return _text(name)
+    return None
+
+
+def _param_group(data: bytes, group_id: bytes) -> bytes:
+    """The body of the <referenceableParamGroup> with this id, or b"" if it is
+    not in `data`."""
+    m = re.search(rb'<referenceableParamGroup\b[^>]*\bid="' + re.escape(group_id) + rb'"[^>]*>', data)
+    if not m:
+        return b""
+    end = data.find(b"</referenceableParamGroup>", m.end())
+    return data[m.end():end] if end != -1 else b""
+
+
 def _instrument_model(data: bytes) -> Optional[str]:
-    """The instrument model is a cvParam inside <instrumentConfiguration>, ahead
-    of the <componentList> (source/analyzer/detector). Take the first cvParam in
-    that scope, falling back to any cvParam within the configuration."""
+    """The instrument model of the first <instrumentConfiguration>. The schema
+    puts it ahead of the <componentList>, either as a cvParam or inside a
+    referenceableParamGroup that the configuration points to (msconvert writes
+    it that way). The components (source, analyzer, detector) are never the
+    model, so they are not searched."""
     start = data.find(b"<instrumentConfiguration")
     if start == -1:
         return None
@@ -44,7 +76,14 @@ def _instrument_model(data: bytes) -> Optional[str]:
     scope = data[start:end] if end != -1 else data[start:start + 8192]
     comp = scope.find(b"<componentList")
     head = scope[:comp] if comp != -1 else scope
-    return _text(_RE_CVNAME.search(head)) or _text(_RE_CVNAME.search(scope))
+    model = _first_model_param(head)
+    if model:
+        return model
+    for ref in _RE_GROUPREF.findall(head):
+        model = _first_model_param(_param_group(data, ref))
+        if model:
+            return model
+    return None
 
 
 def decode_mzml(data: bytes) -> Optional[DecodedHeader]:

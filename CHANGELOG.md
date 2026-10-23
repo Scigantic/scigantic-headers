@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.7.1
+
+Fixes found by cross-checking these decoders against other readers.
+
+- KLB: `dataOffset` was 319, the end of the fixed header. The blocks start after
+  the offset table that follows it, one 8-byte entry per block, so it is now
+  319 + 8 x the block count. On the OME sample `img.klb` that is 447, where a
+  bzip2 stream starts, and 447 plus the table's last entry is the file size.
+- FCS: FCS 3.2 files were rejected. The leading read is now 1 MiB instead of
+  256 KiB, and a TEXT segment longer than that decodes as far as it goes, with
+  `textTruncated` set, instead of returning None.
+- mzML: the instrument model came from the first cvParam in the instrument
+  configuration, which in msconvert output is the ion source (for example
+  "electrospray ionization"), because msconvert keeps the model in a
+  referenceableParamGroup. The decoder now follows that reference, skips the
+  serial number, and never reads the model from the component list. 8 of 54
+  real and test mzML files now report the right model; none change otherwise.
+- BigDataViewer XML: a timepoint pattern range that ends below its start, such
+  as `9-4`, counts down the way spimdata does instead of reading as unknown.
+- Tests: the FCS tests were all skipped unless flowio was installed, because of
+  a module-level `importorskip`. Only the flowio cross-check skips now.
+
 ## 0.7.0
 
 SerialEM `.mdoc` decoding.
