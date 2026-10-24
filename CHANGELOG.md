@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.7.2
 
 - FCS: the TEXT splitter now tells a legacy empty value from an escaped
   delimiter by position. BD CellQuest and other FCS 2.0 / 3.0 writers put an
