@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.8.0
+
+- A3M: a decoder for multiple sequence alignments (`.a3m`, `.a3m.gz`), the
+  MSA format ColabFold and the MMseqs2 server write and AlphaFold, Boltz,
+  Chai, Protenix and OpenFold read. Reports the query name and length, the
+  depth within a 4 MiB read with `truncated` when the file goes on, ColabFold's
+  `#` chain lengths and cardinalities, mean query coverage, rows with
+  insertions, rows whose aligned length does not fit the query, HH-suite
+  annotation rows, the source databases of the hits and the first hit's
+  header. The server's NUL-separated multi-query files list every query.
+  Agrees with an independent parse on 188 real files from ColabFold,
+  Protenix, Boltz, OpenFold3 and jackhmmer.
+
 ## 0.7.2
 
 - FCS: the TEXT splitter now tells a legacy empty value from an escaped
