@@ -1,5 +1,31 @@
 # Changelog
 
+## 0.7.2
+
+- FCS: the TEXT splitter now tells a legacy empty value from an escaped
+  delimiter by position. BD CellQuest and other FCS 2.0 / 3.0 writers put an
+  empty value down as a doubled delimiter (`KEY\\NEXT\value\`); read as an
+  escape, KEY swallowed NEXT and every later pair swapped keyword and value.
+  A keyword or value may not begin with the delimiter (FCS 3.1 3.2.7), so a
+  doubled delimiter straight after a keyword is an empty value, and inside a
+  value it is still a literal (`$P3F/488//10/` is `488/10`). On flowio's own
+  `data1.fcs` this reads the 4 empty CellQuest pairs that flowio 1.4.0 itself
+  misreads; the other 31 corpus files give identical keywords. A keyword that
+  contains the delimiter is the one layout this cannot read, and it costs
+  only that pair.
+- FCS: a supplemental TEXT segment that lies within the leading read is parsed
+  too, so `$CYT` and `$PnS` placed there (optional keywords may be) are found.
+  Primary TEXT keywords win.
+- FCS: a channel without `$PnN` takes its `$PnS` as the name; when `$PAR` is
+  missing or unusable, channels are listed from the `$PnN` keywords present.
+- FCS: values that are not UTF-8 (CellQuest's Latin-1 `\xaa`) decode as
+  Latin-1 instead of becoming replacement characters; `$DATATYPE` and `$CYT`
+  are stripped and `$DATATYPE` upper-cased; a HEADER offset with a stray byte
+  after the digits is read; `multipleDatasets` is set when `$NEXTDATA` points
+  at a second dataset (Coulter LMD files hold an FCS 2.0 and an FCS 3.0 copy).
+- FCS: the splitter works on `bytes.split` runs instead of a per-byte loop
+  (1 MiB of TEXT in 13 ms instead of ~300 ms).
+
 ## 0.7.1
 
 Fixes found by cross-checking these decoders against other readers.
