@@ -20,6 +20,13 @@
   processing modules and interfaces, unit count and columns, interval tables,
   stimuli, embedded schema namespaces and extensions. Targeted lookups rather
   than a walk. Verified against h5py on four DANDI files and pynwb output.
+- HDF5: a soft link in a v1 symbol-table group (an undefined object address
+  in the symbol node) no longer ends the listing of that node; the entries
+  after it are read. An NWB TimeSeries keeps its `electrode` link in front of
+  `starting_time`, so the sampling rate of every MIES series was unreadable.
+- HDF5: the global heap scan widens in steps (8 KiB, 256 KiB, 1 MiB, never
+  past the collection's own size) instead of a fixed 8 KiB window, so strings
+  on the large collections a session file builds are read.
 - HDF5: identical reads and group listings are memoized within one decode,
   so repeated lookups through the same group no longer count against the
   read cap; no byte is fetched that was not fetched before.

@@ -207,8 +207,9 @@ def test_nwb_detail_stops_before_the_read_cap_and_names_everything():
     assert f["nwbVersion"] == "2.2.5" and f["extensions"] == ["ndx-mies"]
     assert f["acquisitionCount"] == 38 and len(f["acquisitionNames"]) == 38
     assert 0 < len(f["acquisition"]) < 38
+    # MIES writes scalar attributes as one-element arrays; rate and unit unwrap.
     assert f["acquisition"][0] == {"name": "data_00000_AD0", "neurodataType": "VoltageClampSeries",
-                                   "shape": [66000], "dtype": "float32", "unit": "amperes", "rate": 50000.0}
+                                   "shape": [66000], "dtype": "float32", "unit": "amperes", "rate": 200000.0}
     assert len(f["stimulusPresentationNames"]) == 38 and f["stimulusPresentation"] == []
     assert [m["name"] for m in f["processingModules"]] == ["spikes"]
     assert len(f["processingModules"][0]["interfaceNames"]) == 15
@@ -253,3 +254,16 @@ def test_nwb_repeated_lookups_are_memoized():
     n = src._reads
     _lookup(h, root, "general/subject/species")
     assert src._reads == n
+
+
+def test_soft_link_in_v1_group_does_not_end_the_listing():
+    # hdf5-softlink-earliest.h5 was written by h5py 3.16 with libver 'earliest':
+    # the group `series` holds a_first, data, a soft link `electrode`, then
+    # starting_time. The soft link has no object address; before, the symbol
+    # node listing stopped there and starting_time was never seen.
+    d = decode_file(os.path.join(FIXTURES_DIR, "hdf5-softlink-earliest.h5"))
+    assert d is not None and d.format == "hdf5"
+    paths = [ds["path"] for ds in d.fields["datasets"]]
+    assert paths == ["series/a_first", "series/data", "series/starting_time"]
+    assert d.fields["groups"] == ["series", "table"]
+    assert d.fields["walkComplete"] is True

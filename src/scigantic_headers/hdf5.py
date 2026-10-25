@@ -413,8 +413,15 @@ class _H5:
                 return False
             name_off = self._u(body, k * ent, self.O)
             oh = self._addr(body, k * ent + self.O)
-            if name_off is None or oh is None:
+            if name_off is None:
                 return False
+            if oh is None:
+                # A soft link in a v1 group: the entry's object address is
+                # undefined and its target is a path in the heap. It is not a
+                # child object, so it is skipped; the entries after it are not
+                # (an NWB TimeSeries keeps its `electrode` link this way, in
+                # front of `starting_time`).
+                continue
             out.append((self._heap_name(heap, name_off), oh))
         return True
 
@@ -1307,6 +1314,14 @@ def _nwb_children(h: _H5, obj: Optional[_Object]):
     return kids, complete
 
 
+def _nwb_scalar(v):
+    """A scalar attribute, unwrapping the one-element array some writers (MIES)
+    use for a scalar."""
+    if isinstance(v, list) and len(v) == 1:
+        return v[0]
+    return v
+
+
 def _nwb_series(h: _H5, kids, cap: int):
     """Describe the neurodata objects in a container: name, type, and for a
     TimeSeries its data shape, dtype, unit and rate. Each one costs a handful
@@ -1326,12 +1341,12 @@ def _nwb_series(h: _H5, kids, cap: int):
             info = h.dataset_info(data) or {}
             entry["shape"] = info.get("shape")
             entry["dtype"] = info.get("dtype")
-            dattrs = h.attributes(data)
-            if dattrs.get("unit") is not None:
-                entry["unit"] = dattrs.get("unit")
+            unit = _nwb_scalar(h.attributes(data).get("unit"))
+            if unit is not None:
+                entry["unit"] = unit
         st = _lookup(h, child, "starting_time")
         if st is not None:
-            rate = h.attributes(st).get("rate")
+            rate = _nwb_scalar(h.attributes(st).get("rate"))
             if isinstance(rate, (int, float)):
                 entry["rate"] = rate
         elif _lookup(h, child, "timestamps") is not None:

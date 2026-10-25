@@ -600,7 +600,8 @@
        66000
       ],
       "dtype": "float32",
-      "unit": "amperes"
+      "unit": "amperes",
+      "rate": 200000.0
      },
      {
       "name": "data_00001_AD0",
@@ -609,7 +610,8 @@
        66000
       ],
       "dtype": "float32",
-      "unit": "amperes"
+      "unit": "amperes",
+      "rate": 200000.0
      },
      {
       "name": "data_00002_AD0",
@@ -618,7 +620,8 @@
        66000
       ],
       "dtype": "float32",
-      "unit": "amperes"
+      "unit": "amperes",
+      "rate": 200000.0
      },
      {
       "name": "data_00003_AD0",
@@ -627,7 +630,8 @@
        66000
       ],
       "dtype": "float32",
-      "unit": "amperes"
+      "unit": "amperes",
+      "rate": 200000.0
      },
      {
       "name": "data_00004_AD0",
@@ -636,7 +640,8 @@
        180000
       ],
       "dtype": "float32",
-      "unit": "volts"
+      "unit": "volts",
+      "rate": 50000.0
      },
      {
       "name": "data_00005_AD0",
@@ -645,7 +650,8 @@
        180000
       ],
       "dtype": "float32",
-      "unit": "volts"
+      "unit": "volts",
+      "rate": 50000.0
      },
      {
       "name": "data_00006_AD0",
@@ -654,7 +660,8 @@
        180000
       ],
       "dtype": "float32",
-      "unit": "volts"
+      "unit": "volts",
+      "rate": 50000.0
      },
      {
       "name": "data_00007_AD0",
@@ -663,7 +670,8 @@
        180000
       ],
       "dtype": "float32",
-      "unit": "volts"
+      "unit": "volts",
+      "rate": 50000.0
      },
      {
       "name": "data_00008_AD0",
@@ -672,7 +680,8 @@
        180000
       ],
       "dtype": "float32",
-      "unit": "volts"
+      "unit": "volts",
+      "rate": 50000.0
      },
      {
       "name": "data_00009_AD0",
@@ -681,16 +690,8 @@
        32500
       ],
       "dtype": "float32",
-      "unit": "volts"
-     },
-     {
-      "name": "data_00010_AD0",
-      "neurodataType": "CurrentClampSeries",
-      "shape": [
-       32500
-      ],
-      "dtype": "float32",
-      "unit": "volts"
+      "unit": "volts",
+      "rate": 50000.0
      }
     ],
     "processingModules": [
