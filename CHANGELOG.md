@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.9.0
+
+- NIfTI-2: the 540-byte header (`n+2` / `ni2` magic, 64-bit dims, double
+  pixdim) decodes through the same `nifti` decoder as NIfTI-1, so an axis past
+  32767 voxels reads correctly. A `niftiVersion` field (1 or 2) is added to
+  both. Verified against nibabel-written files, both byte orders.
+- NRRD: a decoder for `.nrrd` and detached `.nhdr` headers (teem, ITK, 3D
+  Slicer, the Allen CCFv3 atlases): sizes, dtype, encoding, endian, space,
+  space directions and derived per-axis spacing, origin, units, kinds, labels,
+  measurement frame, data file, `key:=value` pairs, and whether the header fit
+  the read. Verified on the real CCFv3 `annotation_25.nrrd` header and against
+  pynrrd.
+
 ## 0.8.0
 
 - A3M: a decoder for multiple sequence alignments (`.a3m`, `.a3m.gz`), the

@@ -21,6 +21,7 @@ from .klb import decode_klb
 from .lif import decode_lif
 from .mdoc import decode_mdoc
 from .nd2 import decode_nd2
+from .nrrd import decode_nrrd
 from .obf import decode_obf
 from .ome_xml import parse_ome_xml
 from .tiff import decode_tiff
@@ -88,7 +89,7 @@ __all__ = [
     "decode_parquet", "decode_fcs", "decode_mzml",
     "decode_a3m", "decode_fastq", "decode_illumina_run", "decode_vcf", "decode_sam", "decode_pdb",
     "decode_mmcif", "decode_genbank", "decode_gff", "decode_bed", "decode_dicom",
-    "decode_czi", "decode_hdf5", "decode_ics", "decode_klb", "decode_lif", "decode_nd2", "decode_obf",
+    "decode_czi", "decode_hdf5", "decode_ics", "decode_klb", "decode_lif", "decode_nd2", "decode_nrrd", "decode_obf",
     "decode_tiff", "parse_ome_xml",
     "decode_bdv_xml", "decode_ome_xml", "decode_xml_sidecar",
     "decode_n5_attributes", "decode_zarr_json", "decode_zarray", "decode_zattrs", "decode_zgroup",

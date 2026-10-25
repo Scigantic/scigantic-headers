@@ -52,8 +52,16 @@ Decoders today:
 
 - **MRC / MRCS**: cryo-EM micrographs, movie stacks, tilt series, EMDB maps.
 - **NPY**: NumPy arrays. Cross-checked against numpy.
-- **NIfTI-1**: neuroimaging volumes, `.nii` and `.nii.gz`. Cross-checked against
-  nibabel. Big- and little-endian.
+- **NIfTI-1 and NIfTI-2**: neuroimaging volumes, `.nii` and `.nii.gz`. Both
+  header layouts (348 and 540 bytes), big- and little-endian; `niftiVersion`
+  says which. Cross-checked against nibabel.
+- **NRRD** (`.nrrd`, detached `.nhdr`): the volume format of teem, ITK, 3D
+  Slicer and the Allen Institute's mouse brain atlases (CCFv3). Version,
+  dimension, sizes, dtype, encoding, endianness, space, space directions and
+  the per-axis spacing derived from them (or `spacings`), origin, units, kinds,
+  labels, measurement frame, the data file of a detached header, and the
+  `key:=value` pairs Slicer writes. Verified on the real CCFv3 annotation
+  header and cross-checked against pynrrd.
 - **CryoSPARC `.cs`**: a structured-array dataset. Reports record count and the
   field schema.
 - **SerialEM `.mdoc`**: the acquisition record SerialEM (and Thermo Fisher

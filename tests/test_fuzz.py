@@ -59,6 +59,9 @@ def _seed_magic(rng, kind):
     elif kind == "nifti" and len(buf) >= 348:
         struct.pack_into("<i", buf, 0, 348)   # sizeof_hdr passes
         buf[344:348] = b"n+1\x00"             # magic passes -> reaches pixdim
+    elif kind == "nifti2" and len(buf) >= 540:
+        struct.pack_into("<i", buf, 0, 540)   # sizeof_hdr passes
+        buf[4:12] = b"n+2\x00\r\n\x1a\n"       # magic passes -> reaches the 64-bit dims
     return bytes(buf)
 
 
@@ -78,6 +81,7 @@ def test_decode_bytes_total_over_random():
     ("mrc", lambda b: decode_mrc_header(b, strict=False)),
     ("npy", decode_npy_header),
     ("nifti", decode_nifti_header),
+    ("nifti2", decode_nifti_header),
 ])
 def test_decoders_total_on_magic_seeded(kind, fn):
     # Buffers that pass the magic check and drive the field-parsing paths where
