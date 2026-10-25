@@ -12,6 +12,17 @@
   measurement frame, data file, `key:=value` pairs, and whether the header fit
   the read. Verified on the real CCFv3 `annotation_25.nrrd` header and against
   pynrrd.
+- NWB: `.nwb` files (Neurodata Without Borders, the DANDI archive format)
+  decode through the HDF5 reader as their own format: version, identifier,
+  session description, start time and id, institution, lab, experimenters,
+  keywords, publications, subject, devices, electrode groups and count,
+  imaging planes, acquisition series (type, shape, dtype, unit, rate),
+  processing modules and interfaces, unit count and columns, interval tables,
+  stimuli, embedded schema namespaces and extensions. Targeted lookups rather
+  than a walk. Verified against h5py on four DANDI files and pynwb output.
+- HDF5: identical reads and group listings are memoized within one decode,
+  so repeated lookups through the same group no longer count against the
+  read cap; no byte is fetched that was not fetched before.
 
 ## 0.8.0
 

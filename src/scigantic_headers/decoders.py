@@ -89,6 +89,13 @@ class Source:
         self._budget = budget
         self._reads = 0
 
+    @property
+    def reads_remaining(self) -> int:
+        """Reads left before `SEEK_MAX_READS`. A decoder with optional detail
+        (NWB's per-series descriptions) checks this so the detail never starves
+        the fields that come after it."""
+        return max(0, SEEK_MAX_READS - self._reads)
+
     def _charge(self, n: int) -> int:
         """Bytes allowed for a read of `n`: 0 once the read count or byte budget
         is spent, else min(n, remaining budget). Counts the read."""

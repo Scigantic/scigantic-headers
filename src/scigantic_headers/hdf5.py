@@ -105,10 +105,23 @@ class _H5:
         self.root_symtab: Optional[Tuple[int, int]] = None  # (btree, heap) for a v0/v1 root
         self.objects_parsed = 0
         self._cache: Dict[int, _Object] = {}
+        # Exact-range memo: a lookup from the root re-reads the same B-tree
+        # nodes and heap as the last one, and the Source counts every read
+        # against SEEK_MAX_READS. Serving a repeat from memory costs nothing
+        # and fetches no byte the first read did not.
+        self._read_cache: Dict[Tuple[int, int], bytes] = {}
+        self._children_cache: Dict[Tuple[int, Optional[Tuple[int, int]]], Tuple[List[Tuple[str, int]], bool]] = {}
 
     # ── primitives ────────────────────────────────────────────────────────
     def read(self, off: int, n: int) -> bytes:
-        return self.src.read_at(self.base + off, n)
+        key = (off, n)
+        hit = self._read_cache.get(key)
+        if hit is not None:
+            return hit
+        data = self.src.read_at(self.base + off, n)
+        if len(self._read_cache) < 4096:
+            self._read_cache[key] = data
+        return data
 
     def _u(self, b: bytes, i: int, n: int) -> Optional[int]:
         if i < 0 or i + n > len(b):
@@ -286,7 +299,17 @@ class _H5:
     # ── groups ────────────────────────────────────────────────────────────
     def children(self, obj: _Object, symtab: Optional[Tuple[int, int]] = None):
         """[(name, address)] of a group's links, capped at MAX_CHILDREN, plus
-        a flag saying whether the listing is complete. Non-groups give ([], True)."""
+        a flag saying whether the listing is complete. Non-groups give ([], True).
+        Memoized per object, so repeated lookups through one group are free."""
+        key = (obj.address, symtab)
+        hit = self._children_cache.get(key)
+        if hit is not None:
+            return list(hit[0]), hit[1]
+        result = self._children(obj, symtab)
+        self._children_cache[key] = (list(result[0]), result[1])
+        return result
+
+    def _children(self, obj: _Object, symtab: Optional[Tuple[int, int]] = None):
         out: List[Tuple[str, int]] = []
         complete = True
         st = obj.first(0x11)
@@ -715,27 +738,44 @@ class _H5:
         return "<%s>" % dt["dtype"]
 
     def _global_heap_string(self, ref: bytes) -> Optional[str]:
+        """The string a variable-length reference points at: a global heap
+        collection ("GCOL") holds objects (index u16, refcount u16, reserved,
+        size L, data padded to 8) back to back, so finding one means scanning
+        from the start. A collection is 4 KiB by default but grows with the
+        file: a pynwb session file keeps thousands of strings in one that runs
+        to hundreds of KB, so the scan reads in widening steps (8 KiB, then
+        256 KiB, then 1 MiB, never past the collection's own size) rather
+        than a fixed window, and each step is one memoized read that every
+        later string in the same collection reuses."""
         addr = self._addr(ref, 4)
         idx = self._u(ref, 4 + self.O, 4)
         if addr is None or not idx:
             return None
-        col = self.read(addr, 8 + self.L + 8192)
-        if col[:4] != b"GCOL":
+        head = self.read(addr, 8 + self.L)
+        if head[:4] != b"GCOL":
             return None
-        i = 8 + self.L
-        for _ in range(256):
-            oid = self._u(col, i, 2)
-            size = self._u(col, i + 8, self.L)
-            if oid is None or size is None:
+        total = self._u(head, 8, self.L) or 0
+        for window in _GCOL_WINDOWS:
+            n = min(window, total) if total else window
+            col = self.read(addr, max(n, 8 + self.L))
+            i = 8 + self.L
+            for _ in range(_GCOL_MAX_OBJECTS):
+                oid = self._u(col, i, 2)
+                size = self._u(col, i + 8, self.L)
+                if oid is None or size is None:
+                    break  # ran off the window: widen it
+                if oid == 0:
+                    return None  # the free-space object ends the collection
+                if oid == idx:
+                    raw = col[i + 8 + self.L:i + 8 + self.L + size]
+                    if len(raw) < size:
+                        raw = self.read(addr + i + 8 + self.L, size)
+                    return raw.split(b"\x00", 1)[0].decode("utf-8", "replace")
+                i += 8 + self.L + (size + 7) // 8 * 8
+            else:
                 return None
-            if oid == 0:
+            if total and n >= total:
                 return None
-            if oid == idx:
-                raw = col[i + 8 + self.L:i + 8 + self.L + size]
-                if len(raw) < size:
-                    raw = self.read(addr + i + 8 + self.L, size)
-                return raw.split(b"\x00", 1)[0].decode("utf-8", "replace")
-            i += 8 + self.L + (size + 7) // 8 * 8
         return None
 
     def _single_chunk(self, btree: int, ndims: int) -> Optional[int]:
@@ -807,6 +847,12 @@ class _H5:
         if len(shape) == 2:
             return [vals[r * shape[1]:(r + 1) * shape[1]] for r in range(shape[0])]
         return vals
+
+
+# Global heap collection scan windows (see _global_heap_string) and the most
+# objects walked in one collection.
+_GCOL_WINDOWS = (8 * 1024, 256 * 1024, 1024 * 1024)
+_GCOL_MAX_OBJECTS = 65536
 
 
 class _FractalHeap:
@@ -937,8 +983,11 @@ def _walk(h: _H5, obj: _Object, path: str, depth: int, groups: List[str], datase
 
 
 def _lookup(h: _H5, root: _Object, path: str, symtab=None) -> Optional[_Object]:
-    """Follow a slash path from `root`, or None."""
+    """Follow a slash path from `root`, or None. A v0/v1 root group keeps its
+    symbol table in the superblock, so starting from the root uses that."""
     obj = root
+    if symtab is None and h.root is not None and root.address == h.root:
+        symtab = h.root_symtab
     for part in path.split("/"):
         if not part:
             continue
@@ -1162,6 +1211,265 @@ def _luxendo(h: _H5, root: _Object, root_attrs, groups, datasets, complete) -> D
     return hdr
 
 
+# ── NWB (Neurodata Without Borders) ───────────────────────────────────────────
+#
+# An NWB 2 file is an HDF5 file whose root carries `nwb_version`, `namespace`
+# and `neurodata_type = NWBFile` attributes; the session's scalar strings
+# (identifier, session_start_time, ...) are variable-length string datasets at
+# the root and under /general, and the data lives in typed groups under
+# /acquisition, /processing, /stimulus, /units and /intervals, each labelled by
+# a `neurodata_type` attribute. NWB 1.x kept `nwb_version` as a root dataset.
+# Everything below is a handful of targeted lookups, not a walk: a session file
+# can hold thousands of objects, and the walk limits would cut it off before
+# reaching /units.
+
+_NWB_LIST_CAP = 32
+_NWB_SERIES_DETAIL = 16
+_NWB_READ_RESERVE = 24  # reads kept back from per-series detail for what follows
+
+
+def _read_strings(h: _H5, obj: _Object, max_items: int = _NWB_LIST_CAP):
+    """The values of a scalar or 1-D string dataset (variable-length strings on
+    the global heap, as h5py and pynwb write them, or fixed-length), or None.
+    A scalar comes back as a str, a 1-D dataset as a list capped at
+    `max_items`."""
+    info = h.dataset_info(obj)
+    typ = h.datatype(obj.first(0x3))
+    lay = h.layout(obj.first(0x8))
+    if not info or typ is None:
+        return None
+    shape = info["shape"]
+    if shape is None or len(shape) > 1:
+        return None
+    count = 1 if shape == [] else shape[0]
+    size = typ["size"]
+    n = min(count, max_items)
+    if lay.get("layout") == "compact":
+        m = obj.first(0x8)
+        raw = m[4:4 + (lay.get("size") or 0)] if m is not None and m[0] == 3 else b""
+    else:
+        if lay.get("address") is None:
+            return None
+        if lay.get("layout") == "contiguous":
+            addr = lay["address"]
+        elif lay.get("layout") == "chunked" and not info["filters"] and list(lay.get("chunks") or []) == list(shape):
+            addr = h._single_chunk(lay["address"], len(shape))
+            if addr is None:
+                return None
+        else:
+            return None
+        raw = h.read(addr, n * size)
+    if len(raw) < n * size:
+        return None
+    vals = []
+    for k in range(n):
+        item = raw[k * size:(k + 1) * size]
+        if typ["class"] == 9 and (typ["bits"] & 0xF) == 1 and size == 16:
+            vals.append(h._global_heap_string(item))
+        elif typ["class"] == 3:
+            vals.append(item.split(b"\x00", 1)[0].decode("utf-8", "replace"))
+        else:
+            return None
+    if shape == []:
+        return vals[0]
+    return vals
+
+
+def _nwb_string(h: _H5, base: Optional[_Object], path: str):
+    """A scalar string dataset at `path` under `base` (None when absent). A
+    one-element 1-D string dataset reads as the string too."""
+    obj = _lookup(h, base, path) if base is not None else None
+    if obj is None:
+        return None
+    v = _read_strings(h, obj)
+    return v if isinstance(v, str) or v is None else (v[0] if len(v) == 1 else v)
+
+
+def _nwb_list(h: _H5, base: Optional[_Object], path: str):
+    obj = _lookup(h, base, path) if base is not None else None
+    return _read_strings(h, obj) if obj is not None else None
+
+
+def _nwb_rows(h: _H5, obj: Optional[_Object]) -> Optional[int]:
+    """Row count of a DynamicTable: the length of its `id` column."""
+    if obj is None:
+        return None
+    ident = _lookup(h, obj, "id")
+    info = h.dataset_info(ident) if ident is not None else None
+    shape = (info or {}).get("shape")
+    return shape[0] if shape else None
+
+
+def _nwb_children(h: _H5, obj: Optional[_Object]):
+    if obj is None:
+        return [], True
+    kids, complete = h.children(obj)
+    return kids, complete
+
+
+def _nwb_series(h: _H5, kids, cap: int):
+    """Describe the neurodata objects in a container: name, type, and for a
+    TimeSeries its data shape, dtype, unit and rate. Each one costs a handful
+    of reads, so the listing stops at `cap` or when the Source has fewer than
+    _NWB_READ_RESERVE reads left, whichever comes first."""
+    out = []
+    for name, addr in kids[:cap]:
+        if h.src.reads_remaining < _NWB_READ_RESERVE:
+            break
+        child = h.object(addr)
+        if child is None:
+            continue
+        attrs = h.attributes(child)
+        entry: Dict[str, object] = {"name": name, "neurodataType": attrs.get("neurodata_type")}
+        data = _lookup(h, child, "data")
+        if data is not None:
+            info = h.dataset_info(data) or {}
+            entry["shape"] = info.get("shape")
+            entry["dtype"] = info.get("dtype")
+            dattrs = h.attributes(data)
+            if dattrs.get("unit") is not None:
+                entry["unit"] = dattrs.get("unit")
+        st = _lookup(h, child, "starting_time")
+        if st is not None:
+            rate = h.attributes(st).get("rate")
+            if isinstance(rate, (int, float)):
+                entry["rate"] = rate
+        elif _lookup(h, child, "timestamps") is not None:
+            entry["timestamps"] = True
+        out.append(entry)
+    return out
+
+
+def _nwb(h: _H5, root: _Object, root_attrs, kids, complete: bool, names) -> DecodedHeader:
+    version = root_attrs.get("nwb_version")
+    if version is None and "nwb_version" in names:
+        version = _nwb_string(h, root, "nwb_version")
+    general = _lookup(h, root, "general")
+    f: Dict[str, object] = {
+        "nwbVersion": version,
+        "namespace": root_attrs.get("namespace"),
+        "objectId": root_attrs.get("object_id"),
+        "identifier": _nwb_string(h, root, "identifier"),
+        "sessionDescription": _nwb_string(h, root, "session_description"),
+        "sessionStartTime": _nwb_string(h, root, "session_start_time"),
+        "timestampsReferenceTime": _nwb_string(h, root, "timestamps_reference_time"),
+        "fileCreateDate": _nwb_list(h, root, "file_create_date"),
+        "sessionId": _nwb_string(h, general, "session_id"),
+        "institution": _nwb_string(h, general, "institution"),
+        "lab": _nwb_string(h, general, "lab"),
+        "experimenter": _nwb_list(h, general, "experimenter"),
+        "experimentDescription": _nwb_string(h, general, "experiment_description"),
+        "keywords": _nwb_list(h, general, "keywords"),
+        "relatedPublications": _nwb_list(h, general, "related_publications"),
+        "protocol": _nwb_string(h, general, "protocol"),
+    }
+    subject = _lookup(h, general, "subject") if general is not None else None
+    if subject is not None:
+        f["subject"] = {
+            "subjectId": _nwb_string(h, subject, "subject_id"),
+            "species": _nwb_string(h, subject, "species"),
+            "sex": _nwb_string(h, subject, "sex"),
+            "age": _nwb_string(h, subject, "age"),
+            "genotype": _nwb_string(h, subject, "genotype"),
+            "strain": _nwb_string(h, subject, "strain"),
+            "dateOfBirth": _nwb_string(h, subject, "date_of_birth"),
+            "weight": _nwb_string(h, subject, "weight"),
+            "description": _nwb_string(h, subject, "description"),
+        }
+    else:
+        f["subject"] = None
+
+    dev_kids, _ = _nwb_children(h, _lookup(h, general, "devices") if general is not None else None)
+    devices = []
+    for name, addr in dev_kids[:_NWB_LIST_CAP]:
+        d = h.object(addr)
+        a = h.attributes(d) if d is not None else {}
+        devices.append({"name": name, "description": a.get("description"), "manufacturer": a.get("manufacturer")})
+    f["devices"] = devices
+
+    ephys = _lookup(h, general, "extracellular_ephys") if general is not None else None
+    ephys_kids, _ = _nwb_children(h, ephys)
+    f["electrodeGroups"] = [n for n, _ in ephys_kids if n != "electrodes"][:_NWB_LIST_CAP] if ephys is not None else None
+    f["electrodeCount"] = _nwb_rows(h, _lookup(h, ephys, "electrodes")) if ephys is not None else None
+    ophys_kids, _ = _nwb_children(h, _lookup(h, general, "optophysiology") if general is not None else None)
+    f["imagingPlanes"] = [n for n, _ in ophys_kids][:_NWB_LIST_CAP] or None
+
+    # Listings first: each is a few reads and names everything the file holds.
+    acq_kids, acq_complete = _nwb_children(h, _lookup(h, root, "acquisition"))
+    f["acquisitionNames"] = [n for n, _ in acq_kids][:_NWB_LIST_CAP * 2]
+    f["acquisitionCount"] = len(acq_kids) if acq_complete else None
+
+    proc_kids, _ = _nwb_children(h, _lookup(h, root, "processing"))
+    modules = []  # (name, object, interface listing)
+    for name, addr in proc_kids[:_NWB_LIST_CAP]:
+        m = h.object(addr)
+        if m is None:
+            continue
+        inner, _ = h.children(m)
+        modules.append((name, m, inner))
+
+    units = _lookup(h, root, "units")
+    f["unitCount"] = _nwb_rows(h, units)
+    if units is not None:
+        ukids, _ = h.children(units)
+        f["unitColumns"] = [n for n, _ in ukids if n != "id" and not n.endswith("_index")][:_NWB_LIST_CAP]
+    else:
+        f["unitColumns"] = None
+
+    intervals = []
+    int_kids, _ = _nwb_children(h, _lookup(h, root, "intervals"))
+    for name, addr in int_kids[:_NWB_LIST_CAP]:
+        intervals.append({"name": name, "rows": _nwb_rows(h, h.object(addr))})
+    f["intervals"] = intervals
+
+    stim_kids, _ = _nwb_children(h, _lookup(h, root, "stimulus/presentation"))
+    f["stimulusPresentationNames"] = [n for n, _ in stim_kids][:_NWB_LIST_CAP * 2]
+    tmpl_kids, _ = _nwb_children(h, _lookup(h, root, "stimulus/templates"))
+    f["stimulusTemplates"] = [n for n, _ in tmpl_kids][:_NWB_LIST_CAP]
+    an_kids, _ = _nwb_children(h, _lookup(h, root, "analysis"))
+    f["analysis"] = [n for n, _ in an_kids][:_NWB_LIST_CAP]
+
+    specs: Dict[str, object] = {}
+    spec_kids, _ = _nwb_children(h, _lookup(h, root, "specifications"))
+    for name, addr in spec_kids[:_NWB_LIST_CAP]:
+        g = h.object(addr)
+        vkids, _ = h.children(g) if g is not None else ([], True)
+        specs[name] = [v for v, _ in vkids][:8]
+    f["specifications"] = specs
+    f["extensions"] = sorted(n for n in specs if n not in ("core", "hdmf-common", "hdmf-experimental"))
+
+    # Detail last, in order of value, each pass stopping before the read cap:
+    # the acquisition series, then what each processing module holds, then
+    # the stimuli. A series the passes did not reach is still named above.
+    f["acquisition"] = _nwb_series(h, acq_kids, _NWB_SERIES_DETAIL)
+    f["processingModules"] = [
+        {"name": name, "description": h.attributes(m).get("description"),
+         "interfaceNames": [n for n, _ in inner][:_NWB_LIST_CAP],
+         "interfaces": _nwb_series(h, inner, 8)}
+        for name, m, inner in modules
+    ]
+    f["stimulusPresentation"] = _nwb_series(h, stim_kids, 8)
+    f["rootComplete"] = complete
+
+    parts = ["NWB %s" % version if version else "NWB"]
+    if f["sessionStartTime"]:
+        parts.append("session %s" % str(f["sessionStartTime"])[:10])
+    sub = f["subject"] or {}
+    if sub.get("species"):
+        parts.append(str(sub["species"]))
+    if f["acquisitionCount"]:
+        parts.append("%d acquisition" % f["acquisitionCount"])
+    if modules:
+        parts.append("%d processing module%s" % (len(modules), "" if len(modules) == 1 else "s"))
+    if f["unitCount"]:
+        parts.append("%d units" % f["unitCount"])
+    if f["electrodeCount"]:
+        parts.append("%d electrodes" % f["electrodeCount"])
+    if f["extensions"]:
+        parts.append("extensions " + ", ".join(f["extensions"]))
+    return DecodedHeader(format="nwb", summary=", ".join(parts), fields=f)
+
+
 def decode_hdf5(src: Source) -> Optional[DecodedHeader]:
     """Decode an HDF5 container (or an Imaris IMS3 TIFF) from a Source. Total:
     None for anything that is not one, or that is cut off before the root
@@ -1188,6 +1496,8 @@ def _decode(src: Source) -> Optional[DecodedHeader]:
 
     if root_attrs.get("ImarisDataSet") == "ImarisDataSet" or "DataSetInfo" in names and "DataSet" in names:
         return _imaris(h, root, root_attrs, {})
+    if "nwb_version" in root_attrs or ("nwb_version" in names and "acquisition" in names):
+        return _nwb(h, root, root_attrs, kids, complete, names)
     if "__DATA_TYPES__" in names and any(n.startswith("s") and n[1:].isdigit() for n in names):
         return _bdv(h, root, kids, complete)
 
@@ -1220,4 +1530,4 @@ def _tiff_container(src: Source) -> Optional[DecodedHeader]:
 # pathological file well before that.
 HDF5_BUDGET = 2 * 1024 * 1024
 
-register_decoder(["h5", "hdf5", "he5", "hdf", "ims"], decode_hdf5, read=Read(seek=HDF5_BUDGET))
+register_decoder(["h5", "hdf5", "he5", "hdf", "ims", "nwb"], decode_hdf5, read=Read(seek=HDF5_BUDGET))

@@ -208,5 +208,658 @@
     "container": "tiff"
    }
   }
+ },
+ "hdf5-nwb-dandi-000127": {
+  "key": "sub-Han_desc-test_ecephys.nwb",
+  "expected": {
+   "format": "nwb",
+   "summary": "NWB 2.4.0, session 2017-12-07, Macaca mulatta, 49 units, 96 electrodes",
+   "fields": {
+    "nwbVersion": "2.4.0",
+    "namespace": "core",
+    "objectId": "3e6300f4-452b-4168-8bac-99504f85954c",
+    "identifier": "c942902c-0b8e-11ec-b9b7-0bfeb2c344ea",
+    "sessionDescription": "Data from monkey Han performing center-out active-passive task. This file contains segments of trials from the full session on 2017-12-07 that are to be used for evaluating models for the Neural Latents Benchmark.",
+    "sessionStartTime": "2017-12-07T17:06:09.727000-05:00",
+    "timestampsReferenceTime": "2017-12-07T17:06:09.727000-05:00",
+    "fileCreateDate": [
+     "2021-09-01T21:40:43.149091-04:00"
+    ],
+    "sessionId": "20171207",
+    "institution": "Northwestern University",
+    "lab": "Miller",
+    "experimenter": [
+     "Raeed H. Chowdhury"
+    ],
+    "experimentDescription": "Center out reaching task with perturbations during center hold period before reach",
+    "keywords": [
+     "somatosensory cortex",
+     "reaching",
+     "macaque",
+     "Neural Latents Benchmark"
+    ],
+    "relatedPublications": [
+     "https://doi.org/10.7554/eLife.48198"
+    ],
+    "protocol": null,
+    "subject": {
+     "subjectId": "Han",
+     "species": "Macaca mulatta",
+     "sex": "M",
+     "age": null,
+     "genotype": null,
+     "strain": null,
+     "dateOfBirth": null,
+     "weight": null,
+     "description": null
+    },
+    "devices": [
+     {
+      "name": "electrode_array",
+      "description": "96-electrode Utah array",
+      "manufacturer": "Blackrock Microsystems"
+     }
+    ],
+    "electrodeGroups": [
+     "electrode_group"
+    ],
+    "electrodeCount": 96,
+    "imagingPlanes": null,
+    "acquisitionNames": [],
+    "acquisitionCount": 0,
+    "unitCount": 49,
+    "unitColumns": [
+     "electrodes",
+     "heldout",
+     "obs_intervals",
+     "spike_times"
+    ],
+    "intervals": [
+     {
+      "name": "trials",
+      "rows": 98
+     }
+    ],
+    "stimulusPresentationNames": [],
+    "stimulusTemplates": [],
+    "analysis": [],
+    "specifications": {
+     "core": [
+      "2.4.0"
+     ],
+     "hdmf-common": [
+      "1.5.0"
+     ],
+     "hdmf-experimental": [
+      "0.1.0"
+     ]
+    },
+    "extensions": [],
+    "acquisition": [],
+    "processingModules": [],
+    "stimulusPresentation": [],
+    "rootComplete": true
+   }
+  }
+ },
+ "hdf5-nwb-dandi-000004": {
+  "key": "sub-P10HMH_ses-20060901_ecephys+image.nwb",
+  "expected": {
+   "format": "nwb",
+   "summary": "NWB 2.1.0, session 2006-09-01, Human, 2 acquisition, 38 units, 18 electrodes",
+   "fields": {
+    "nwbVersion": "2.1.0",
+    "namespace": "core",
+    "objectId": "c167d0a8-3ab0-4ef8-a92b-42a5eb0b9060",
+    "identifier": "H10_7",
+    "sessionDescription": "New/Old recognition task for ID: 7. ",
+    "sessionStartTime": "2006-09-01T00:00:00-07:00",
+    "timestampsReferenceTime": "2006-09-01T00:00:00-07:00",
+    "fileCreateDate": [
+     "2020-05-26T19:08:23.826535-07:00"
+    ],
+    "sessionId": null,
+    "institution": "Hunigton Memorial Hospital",
+    "lab": "Rutishauser",
+    "experimenter": null,
+    "experimentDescription": "The data contained within this file describes a new/old recogntion task performed in patients with intractable epilepsy implanted with depth electrodes and Behnke-Fried microwires in the human Medical Temporal Lobe (MTL).",
+    "keywords": [
+     "Intracranial Recordings",
+     "Intractable Epilepsy",
+     "Single-Unit Recordings",
+     "Cognitive Neuroscience",
+     "Learning",
+     "Memory",
+     "Neurosurgery"
+    ],
+    "relatedPublications": [
+     "Faraut et al. 2018, Scientific Data; Rutishauser et al. 2015, Nat Neurosci;"
+    ],
+    "protocol": null,
+    "subject": {
+     "subjectId": "P10HMH",
+     "species": "Human",
+     "sex": "M",
+     "age": "37",
+     "genotype": null,
+     "strain": null,
+     "dateOfBirth": null,
+     "weight": null,
+     "description": "Left Lateral Frontal"
+    },
+    "devices": [
+     {
+      "name": "Neuralynx-cheetah",
+      "description": null,
+      "manufacturer": null
+     }
+    ],
+    "electrodeGroups": [
+     "Neuralynx-cheetah-microwires-1",
+     "Neuralynx-cheetah-microwires-13",
+     "Neuralynx-cheetah-microwires-14",
+     "Neuralynx-cheetah-microwires-15",
+     "Neuralynx-cheetah-microwires-16",
+     "Neuralynx-cheetah-microwires-17",
+     "Neuralynx-cheetah-microwires-18",
+     "Neuralynx-cheetah-microwires-19",
+     "Neuralynx-cheetah-microwires-2",
+     "Neuralynx-cheetah-microwires-20",
+     "Neuralynx-cheetah-microwires-22",
+     "Neuralynx-cheetah-microwires-23",
+     "Neuralynx-cheetah-microwires-24",
+     "Neuralynx-cheetah-microwires-3",
+     "Neuralynx-cheetah-microwires-4",
+     "Neuralynx-cheetah-microwires-5",
+     "Neuralynx-cheetah-microwires-6",
+     "Neuralynx-cheetah-microwires-8"
+    ],
+    "electrodeCount": 18,
+    "imagingPlanes": null,
+    "acquisitionNames": [
+     "events",
+     "experiment_ids"
+    ],
+    "acquisitionCount": 2,
+    "unitCount": 38,
+    "unitColumns": [
+     "IsolationDist",
+     "SNR",
+     "electrodes",
+     "origClusterID",
+     "spike_times",
+     "waveform_mean_encoding",
+     "waveform_mean_recognition",
+     "waveform_mean_sampling_rate"
+    ],
+    "intervals": [
+     {
+      "name": "trials",
+      "rows": 200
+     }
+    ],
+    "stimulusPresentationNames": [
+     "StimulusPresentation"
+    ],
+    "stimulusTemplates": [],
+    "analysis": [],
+    "specifications": {},
+    "extensions": [],
+    "acquisition": [
+     {
+      "name": "events",
+      "neurodataType": "AnnotationSeries",
+      "shape": [
+       1004
+      ],
+      "dtype": "vlen-string",
+      "unit": "n/a",
+      "timestamps": true
+     },
+     {
+      "name": "experiment_ids",
+      "neurodataType": "TimeSeries",
+      "shape": [
+       1004
+      ],
+      "dtype": "float64",
+      "unit": "NA",
+      "timestamps": true
+     }
+    ],
+    "processingModules": [],
+    "stimulusPresentation": [
+     {
+      "name": "StimulusPresentation",
+      "neurodataType": "OpticalSeries",
+      "shape": [
+       200,
+       400,
+       300,
+       3
+      ],
+      "dtype": "uint8",
+      "unit": "meters",
+      "timestamps": true
+     }
+    ],
+    "rootComplete": true
+   }
+  }
+ },
+ "hdf5-nwb-dandi-000020": {
+  "key": "sub-1001658958_ses-1003321768_icephys.nwb",
+  "expected": {
+   "format": "nwb",
+   "summary": "NWB 2.2.5, session 2020-01-28, Mus musculus, 38 acquisition, 1 processing module, extensions ndx-mies",
+   "fields": {
+    "nwbVersion": "2.2.5",
+    "namespace": "core",
+    "objectId": "b44e9bc3-1856-4568-8365-b061217f5b4e",
+    "identifier": "e879e630bcedd3019cef9586c07f50e724a603c8c3270c2ebc375b15c2133157",
+    "sessionDescription": "PLACEHOLDER",
+    "sessionStartTime": "2020-01-28T22:01:38.307Z",
+    "timestampsReferenceTime": "2020-01-28T22:01:38.307Z",
+    "fileCreateDate": null,
+    "sessionId": "1003321768",
+    "institution": "Allen Institute for Brain Science",
+    "lab": null,
+    "experimenter": null,
+    "experimentDescription": null,
+    "keywords": null,
+    "relatedPublications": null,
+    "protocol": null,
+    "subject": {
+     "subjectId": "1001658958",
+     "species": "Mus musculus",
+     "sex": "M",
+     "age": "P55.0D",
+     "genotype": "Vipr2-IRES2-Cre/wt;Slc32a1-IRES2-FlpO/wt;Ai65(RCFL-tdT)/wt",
+     "strain": null,
+     "dateOfBirth": "2019-12-03T16:00:00-08:00",
+     "weight": null,
+     "description": "Description of subject and where subject came from (e.g., breeder, if animal)."
+    },
+    "devices": [
+     {
+      "name": "device_ITC18USB_Dev_0",
+      "description": "Harvard Bioscience (formerly HEKA/Instrutech) Model: ITC18USB",
+      "manufacturer": null
+     }
+    ],
+    "electrodeGroups": null,
+    "electrodeCount": null,
+    "imagingPlanes": null,
+    "acquisitionNames": [
+     "data_00000_AD0",
+     "data_00001_AD0",
+     "data_00002_AD0",
+     "data_00003_AD0",
+     "data_00004_AD0",
+     "data_00005_AD0",
+     "data_00006_AD0",
+     "data_00007_AD0",
+     "data_00008_AD0",
+     "data_00009_AD0",
+     "data_00010_AD0",
+     "data_00011_AD0",
+     "data_00012_AD0",
+     "data_00013_AD0",
+     "data_00014_AD0",
+     "data_00015_AD0",
+     "data_00016_AD0",
+     "data_00017_AD0",
+     "data_00018_AD0",
+     "data_00019_AD0",
+     "data_00020_AD0",
+     "data_00021_AD0",
+     "data_00022_AD0",
+     "data_00023_AD0",
+     "data_00024_AD0",
+     "data_00025_AD0",
+     "data_00026_AD0",
+     "data_00027_AD0",
+     "data_00028_AD0",
+     "data_00029_AD0",
+     "data_00030_AD0",
+     "data_00031_AD0",
+     "data_00032_AD0",
+     "data_00033_AD0",
+     "data_00034_AD0",
+     "data_00035_AD0",
+     "data_00036_AD0",
+     "data_00037_AD0"
+    ],
+    "acquisitionCount": 38,
+    "unitCount": null,
+    "unitColumns": null,
+    "intervals": [],
+    "stimulusPresentationNames": [
+     "data_00000_DA0",
+     "data_00001_DA0",
+     "data_00002_DA0",
+     "data_00003_DA0",
+     "data_00004_DA0",
+     "data_00005_DA0",
+     "data_00006_DA0",
+     "data_00007_DA0",
+     "data_00008_DA0",
+     "data_00009_DA0",
+     "data_00010_DA0",
+     "data_00011_DA0",
+     "data_00012_DA0",
+     "data_00013_DA0",
+     "data_00014_DA0",
+     "data_00015_DA0",
+     "data_00016_DA0",
+     "data_00017_DA0",
+     "data_00018_DA0",
+     "data_00019_DA0",
+     "data_00020_DA0",
+     "data_00021_DA0",
+     "data_00022_DA0",
+     "data_00023_DA0",
+     "data_00024_DA0",
+     "data_00025_DA0",
+     "data_00026_DA0",
+     "data_00027_DA0",
+     "data_00028_DA0",
+     "data_00029_DA0",
+     "data_00030_DA0",
+     "data_00031_DA0",
+     "data_00032_DA0",
+     "data_00033_DA0",
+     "data_00034_DA0",
+     "data_00035_DA0",
+     "data_00036_DA0",
+     "data_00037_DA0"
+    ],
+    "stimulusTemplates": [],
+    "analysis": [],
+    "specifications": {
+     "core": [
+      "2.2.2",
+      "2.2.4",
+      "2.2.5"
+     ],
+     "hdmf-common": [
+      "1.1.3"
+     ],
+     "ndx-mies": [
+      "0.1.0"
+     ]
+    },
+    "extensions": [
+     "ndx-mies"
+    ],
+    "acquisition": [
+     {
+      "name": "data_00000_AD0",
+      "neurodataType": "VoltageClampSeries",
+      "shape": [
+       66000
+      ],
+      "dtype": "float32",
+      "unit": "amperes"
+     },
+     {
+      "name": "data_00001_AD0",
+      "neurodataType": "VoltageClampSeries",
+      "shape": [
+       66000
+      ],
+      "dtype": "float32",
+      "unit": "amperes"
+     },
+     {
+      "name": "data_00002_AD0",
+      "neurodataType": "VoltageClampSeries",
+      "shape": [
+       66000
+      ],
+      "dtype": "float32",
+      "unit": "amperes"
+     },
+     {
+      "name": "data_00003_AD0",
+      "neurodataType": "VoltageClampSeries",
+      "shape": [
+       66000
+      ],
+      "dtype": "float32",
+      "unit": "amperes"
+     },
+     {
+      "name": "data_00004_AD0",
+      "neurodataType": "CurrentClampSeries",
+      "shape": [
+       180000
+      ],
+      "dtype": "float32",
+      "unit": "volts"
+     },
+     {
+      "name": "data_00005_AD0",
+      "neurodataType": "CurrentClampSeries",
+      "shape": [
+       180000
+      ],
+      "dtype": "float32",
+      "unit": "volts"
+     },
+     {
+      "name": "data_00006_AD0",
+      "neurodataType": "CurrentClampSeries",
+      "shape": [
+       180000
+      ],
+      "dtype": "float32",
+      "unit": "volts"
+     },
+     {
+      "name": "data_00007_AD0",
+      "neurodataType": "CurrentClampSeries",
+      "shape": [
+       180000
+      ],
+      "dtype": "float32",
+      "unit": "volts"
+     },
+     {
+      "name": "data_00008_AD0",
+      "neurodataType": "CurrentClampSeries",
+      "shape": [
+       180000
+      ],
+      "dtype": "float32",
+      "unit": "volts"
+     },
+     {
+      "name": "data_00009_AD0",
+      "neurodataType": "CurrentClampSeries",
+      "shape": [
+       32500
+      ],
+      "dtype": "float32",
+      "unit": "volts"
+     },
+     {
+      "name": "data_00010_AD0",
+      "neurodataType": "CurrentClampSeries",
+      "shape": [
+       32500
+      ],
+      "dtype": "float32",
+      "unit": "volts"
+     }
+    ],
+    "processingModules": [
+     {
+      "name": "spikes",
+      "description": "detected spikes",
+      "interfaceNames": [
+       "Sweep_18",
+       "Sweep_19",
+       "Sweep_20",
+       "Sweep_21",
+       "Sweep_22",
+       "Sweep_30",
+       "Sweep_31",
+       "Sweep_32",
+       "Sweep_33",
+       "Sweep_34",
+       "Sweep_4",
+       "Sweep_5",
+       "Sweep_6",
+       "Sweep_7",
+       "Sweep_8"
+      ],
+      "interfaces": []
+     }
+    ],
+    "stimulusPresentation": [],
+    "rootComplete": true
+   }
+  }
+ },
+ "hdf5-nwb-pynwb-rich": {
+  "key": "rich.nwb",
+  "expected": {
+   "format": "nwb",
+   "summary": "NWB 2.11.0, session 2025-11-12, Mus musculus, 2 acquisition, 2 processing modules, 120 units, 64 electrodes",
+   "fields": {
+    "nwbVersion": "2.11.0",
+    "namespace": "core",
+    "objectId": "ad4f2c97-1e32-4955-a36e-172f504e1043",
+    "identifier": "rich-0002",
+    "sessionDescription": "mouse V1 recording with units",
+    "sessionStartTime": "2025-11-12T09:00:00+00:00",
+    "timestampsReferenceTime": "2025-11-12T09:00:00+00:00",
+    "fileCreateDate": [
+     "2026-10-25T18:02:41.996542-04:00"
+    ],
+    "sessionId": "sess-42",
+    "institution": "Allen Institute",
+    "lab": "Example Lab",
+    "experimenter": [
+     "Doe, Jane",
+     "Roe, Rick"
+    ],
+    "experimentDescription": "passive viewing",
+    "keywords": [
+     "V1",
+     "neuropixels"
+    ],
+    "relatedPublications": [
+     "doi:10.1000/xyz"
+    ],
+    "protocol": null,
+    "subject": {
+     "subjectId": "M123",
+     "species": "Mus musculus",
+     "sex": "M",
+     "age": "P90D",
+     "genotype": "wt",
+     "strain": "C57BL/6J",
+     "dateOfBirth": null,
+     "weight": null,
+     "description": "a mouse"
+    },
+    "devices": [
+     {
+      "name": "Camera",
+      "description": "behavior camera",
+      "manufacturer": null
+     },
+     {
+      "name": "Neuropixels 1.0",
+      "description": "probe",
+      "manufacturer": "imec"
+     }
+    ],
+    "electrodeGroups": [
+     "shank0"
+    ],
+    "electrodeCount": 64,
+    "imagingPlanes": null,
+    "acquisitionNames": [
+     "ElectricalSeries",
+     "running_speed"
+    ],
+    "acquisitionCount": 2,
+    "unitCount": 120,
+    "unitColumns": [
+     "quality",
+     "spike_times"
+    ],
+    "intervals": [
+     {
+      "name": "trials",
+      "rows": 30
+     }
+    ],
+    "stimulusPresentationNames": [],
+    "stimulusTemplates": [],
+    "analysis": [],
+    "specifications": {
+     "core": [
+      "2.11.0"
+     ],
+     "hdmf-common": [
+      "1.10.0"
+     ],
+     "hdmf-experimental": [
+      "0.6.0"
+     ]
+    },
+    "extensions": [],
+    "acquisition": [
+     {
+      "name": "ElectricalSeries",
+      "neurodataType": "ElectricalSeries",
+      "shape": [
+       1000,
+       64
+      ],
+      "dtype": "int16",
+      "unit": "volts",
+      "rate": 30000.0
+     },
+     {
+      "name": "running_speed",
+      "neurodataType": "TimeSeries",
+      "shape": [
+       500
+      ],
+      "dtype": "float32",
+      "unit": "cm/s",
+      "rate": 60.0
+     }
+    ],
+    "processingModules": [
+     {
+      "name": "behavior",
+      "description": "beh",
+      "interfaceNames": [],
+      "interfaces": []
+     },
+     {
+      "name": "ecephys",
+      "description": "lfp",
+      "interfaceNames": [
+       "LFP"
+      ],
+      "interfaces": [
+       {
+        "name": "LFP",
+        "neurodataType": "LFP"
+       }
+      ]
+     }
+    ],
+    "stimulusPresentation": [],
+    "rootComplete": true
+   }
+  }
  }
 }
