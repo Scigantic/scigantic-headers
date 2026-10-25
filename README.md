@@ -52,8 +52,16 @@ Decoders today:
 
 - **MRC / MRCS**: cryo-EM micrographs, movie stacks, tilt series, EMDB maps.
 - **NPY**: NumPy arrays. Cross-checked against numpy.
-- **NIfTI-1**: neuroimaging volumes, `.nii` and `.nii.gz`. Cross-checked against
-  nibabel. Big- and little-endian.
+- **NIfTI-1 and NIfTI-2**: neuroimaging volumes, `.nii` and `.nii.gz`. Both
+  header layouts (348 and 540 bytes), big- and little-endian; `niftiVersion`
+  says which. Cross-checked against nibabel.
+- **NRRD** (`.nrrd`, detached `.nhdr`): the volume format of teem, ITK, 3D
+  Slicer and the Allen Institute's mouse brain atlases (CCFv3). Version,
+  dimension, sizes, dtype, encoding, endianness, space, space directions and
+  the per-axis spacing derived from them (or `spacings`), origin, units, kinds,
+  labels, measurement frame, the data file of a detached header, and the
+  `key:=value` pairs Slicer writes. Verified on the real CCFv3 annotation
+  header and cross-checked against pynrrd.
 - **CryoSPARC `.cs`**: a structured-array dataset. Reports record count and the
   field schema.
 - **SerialEM `.mdoc`**: the acquisition record SerialEM (and Thermo Fisher
@@ -136,6 +144,18 @@ pointers, see "Pointer-based formats" below):
     x), dtype and compression. Two Range requests describe a 51 GB file.
   - **Luxendo `.lux.h5`**: the generic structure labelled, with the `Data`
     block shape. No public sample was available; shape only.
+  - **NWB `.nwb`** (Neurodata Without Borders, the format of the DANDI
+    archive): version, identifier, session description and start time,
+    session id, institution, lab, experimenters, keywords, publications, the
+    subject (id, species, sex, age, genotype, strain), devices, electrode
+    groups and electrode count, imaging planes, every acquisition series with
+    its type, shape, dtype, unit and rate, processing modules and their
+    interfaces, unit count and columns, interval tables with row counts,
+    stimuli, and the schema namespaces the file embeds, with any extension
+    (`ndx-*`) named. Targeted lookups, not a walk, so a session file with
+    thousands of objects still reads in a few hundred bounded reads.
+    Verified against h5py on four DANDI files from four labs and on
+    pynwb-written files.
   - **generic `.h5` / `.hdf5` / `.he5`**: root attributes (fixed and
     variable-length strings, numbers), groups, and datasets with shape, dtype,
     layout, chunks and filters, bounded and with the truncation stated.

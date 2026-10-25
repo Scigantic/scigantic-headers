@@ -89,6 +89,13 @@ class Source:
         self._budget = budget
         self._reads = 0
 
+    @property
+    def reads_remaining(self) -> int:
+        """Reads left before `SEEK_MAX_READS`. A decoder with optional detail
+        (NWB's per-series descriptions) checks this so the detail never starves
+        the fields that come after it."""
+        return max(0, SEEK_MAX_READS - self._reads)
+
     def _charge(self, n: int) -> int:
         """Bytes allowed for a read of `n`: 0 once the read count or byte budget
         is spent, else min(n, remaining budget). Counts the read."""
@@ -467,19 +474,31 @@ def decode_npy_header(data: bytes) -> Optional[DecodedHeader]:
 register_decoder("npy", decode_npy_header)
 
 
-# ── NIfTI-1 (neuroimaging volumes, MRI/fMRI; not cryo-EM) ──────────────────
+# ── NIfTI-1 and NIfTI-2 (neuroimaging volumes, MRI/fMRI; not cryo-EM) ──────
 #
-# 348-byte fixed binary header. Endianness is detected by reading sizeof_hdr:
-# it must equal 348 in the file's byte order. Validated by the magic at byte 344
-# ('n+1\0' single-file, 'ni1\0' header/image pair). Only raw .nii is handled;
-# .nii.gz is gzip-wrapped and, like BAM, needs a decompress step first.
+# Two fixed binary headers share one decoder. Endianness is detected by reading
+# sizeof_hdr: it must equal 348 (NIfTI-1) or 540 (NIfTI-2) in the file's byte
+# order, and the magic confirms which. `.nii.gz` is handled by the gzip step in
+# the reader, which hands the inflated leading block to this function.
 #
+# NIfTI-1 (348 bytes; magic at the end):
 #   0    sizeof_hdr   int32   == 348
 #   40   dim[8]       int16   dim[0]=ndim, dim[1..]=sizes
 #   70   datatype     int16   NIfTI datatype code
 #   72   bitpix       int16   bits per voxel
 #   76   pixdim[8]    float32 pixdim[1..3]=voxel sizes in mm
+#   108  vox_offset   float32
 #   344  magic        char[4] 'n+1\0' | 'ni1\0'
+#
+# NIfTI-2 (540 bytes; magic right after sizeof_hdr, 64-bit dims and doubles,
+# so a volume may exceed 32767 voxels on an axis):
+#   0    sizeof_hdr   int32   == 540
+#   4    magic        char[8] 'n+2\0\r\n\032\n' | 'ni2\0\r\n\032\n'
+#   12   datatype     int16
+#   14   bitpix       int16
+#   16   dim[8]       int64
+#   104  pixdim[8]    float64
+#   168  vox_offset   int64
 
 _NIFTI_DTYPE = {
     2: "uint8", 4: "int16", 8: "int32", 16: "float32", 32: "complex64",
@@ -487,28 +506,45 @@ _NIFTI_DTYPE = {
     1024: "int64", 1280: "uint64", 1792: "complex128",
 }
 _NIFTI_MAGIC = (b"n+1\x00", b"ni1\x00")
+_NIFTI2_MAGIC = (b"n+2\x00\r\n\x1a\n", b"ni2\x00\r\n\x1a\n")
+NIFTI1_HEADER_BYTES = 348
+NIFTI2_HEADER_BYTES = 540
 
 
 def decode_nifti_header(data: bytes) -> Optional[DecodedHeader]:
-    if len(data) < 348:
+    if len(data) < NIFTI1_HEADER_BYTES:
         return None
-    # Detect byte order: sizeof_hdr reads as 348 only in the correct one.
-    order = None
+    # Detect version and byte order together: sizeof_hdr reads as 348 or 540
+    # only in the correct one.
+    version = order = None
     for bo in ("<", ">"):
-        if struct.unpack_from(bo + "i", data, 0)[0] == 348:
-            order = bo
+        size = struct.unpack_from(bo + "i", data, 0)[0]
+        if size == NIFTI1_HEADER_BYTES:
+            version, order = 1, bo
             break
-    if order is None or data[344:348] not in _NIFTI_MAGIC:
+        if size == NIFTI2_HEADER_BYTES:
+            version, order = 2, bo
+            break
+    if order is None:
         return None
 
-    dim = struct.unpack_from(order + "8h", data, 40)
-    (datatype,) = struct.unpack_from(order + "h", data, 70)
-    pixdim = struct.unpack_from(order + "8f", data, 76)
+    if version == 1:
+        if data[344:348] not in _NIFTI_MAGIC:
+            return None
+        dim = struct.unpack_from(order + "8h", data, 40)
+        (datatype,) = struct.unpack_from(order + "h", data, 70)
+        pixdim = struct.unpack_from(order + "8f", data, 76)
+    else:
+        if len(data) < NIFTI2_HEADER_BYTES or data[4:12] not in _NIFTI2_MAGIC:
+            return None
+        (datatype,) = struct.unpack_from(order + "h", data, 12)
+        dim = struct.unpack_from(order + "8q", data, 16)
+        pixdim = struct.unpack_from(order + "8d", data, 104)
     ndim = dim[0]
     if not 1 <= ndim <= 7:
         return None
 
-    shape = list(dim[1:1 + ndim])
+    shape = [int(d) for d in dim[1:1 + ndim]]
     # _finite guards against uninitialized / garbage pixdim decoding to NaN/inf.
     voxel = [_finite(round(pixdim[i], 4)) for i in range(1, min(1 + ndim, 4))]
     dtype = _NIFTI_DTYPE.get(datatype, f"code{datatype}")
@@ -519,10 +555,11 @@ def decode_nifti_header(data: bytes) -> Optional[DecodedHeader]:
     tail = f", {mm} mm" if mm else ""
     return DecodedHeader(
         format="nifti",
-        summary=f"NIfTI-1 volume {dims}, {dtype}{tail}",
+        summary=f"NIfTI-{version} volume {dims}, {dtype}{tail}",
         fields={
             "ndim": ndim, "shape": shape, "dtype": dtype,
             "voxelSizesMm": voxel, "datatypeCode": datatype,
+            "niftiVersion": version,
         },
     )
 

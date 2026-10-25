@@ -1,5 +1,36 @@
 # Changelog
 
+## 0.9.0
+
+- NIfTI-2: the 540-byte header (`n+2` / `ni2` magic, 64-bit dims, double
+  pixdim) decodes through the same `nifti` decoder as NIfTI-1, so an axis past
+  32767 voxels reads correctly. A `niftiVersion` field (1 or 2) is added to
+  both. Verified against nibabel-written files, both byte orders.
+- NRRD: a decoder for `.nrrd` and detached `.nhdr` headers (teem, ITK, 3D
+  Slicer, the Allen CCFv3 atlases): sizes, dtype, encoding, endian, space,
+  space directions and derived per-axis spacing, origin, units, kinds, labels,
+  measurement frame, data file, `key:=value` pairs, and whether the header fit
+  the read. Verified on the real CCFv3 `annotation_25.nrrd` header and against
+  pynrrd.
+- NWB: `.nwb` files (Neurodata Without Borders, the DANDI archive format)
+  decode through the HDF5 reader as their own format: version, identifier,
+  session description, start time and id, institution, lab, experimenters,
+  keywords, publications, subject, devices, electrode groups and count,
+  imaging planes, acquisition series (type, shape, dtype, unit, rate),
+  processing modules and interfaces, unit count and columns, interval tables,
+  stimuli, embedded schema namespaces and extensions. Targeted lookups rather
+  than a walk. Verified against h5py on four DANDI files and pynwb output.
+- HDF5: a soft link in a v1 symbol-table group (an undefined object address
+  in the symbol node) no longer ends the listing of that node; the entries
+  after it are read. An NWB TimeSeries keeps its `electrode` link in front of
+  `starting_time`, so the sampling rate of every MIES series was unreadable.
+- HDF5: the global heap scan widens in steps (8 KiB, 256 KiB, 1 MiB, never
+  past the collection's own size) instead of a fixed 8 KiB window, so strings
+  on the large collections a session file builds are read.
+- HDF5: identical reads and group listings are memoized within one decode,
+  so repeated lookups through the same group no longer count against the
+  read cap; no byte is fetched that was not fetched before.
+
 ## 0.8.0
 
 - A3M: a decoder for multiple sequence alignments (`.a3m`, `.a3m.gz`), the

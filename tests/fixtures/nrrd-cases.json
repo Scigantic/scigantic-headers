@@ -1,0 +1,257 @@
+{
+ "_comment": "The first case is the real header of the Allen Institute CCFv3 25 um annotation volume (download.alleninstitute.org/informatics-archive/current-release/mouse_ccf/annotation/ccf_2017/annotation_25.nrrd, fetched by Range request); the rest were written by pynrrd 1.1.3. Every expected value was checked against pynrrd's read_header on the same bytes at generation time.",
+ "cases": [
+  {
+   "name": "Allen CCFv3 annotation_25.nrrd (real header; download.alleninstitute.org, first 512 bytes)",
+   "hex": "4e525244303030340a2320436f6d706c657465204e5252442066696c6520666f726d61742073706563696669636174696f6e2061743a0a2320687474703a2f2f7465656d2e736f75726365666f7267652e6e65742f6e7272642f666f726d61742e68746d6c0a747970653a20756e7369676e656420696e740a64696d656e73696f6e3a20330a73706163653a206c6566742d706f73746572696f722d7375706572696f720a73697a65733a2035323820333230203435360a737061636520646972656374696f6e733a202832352c302c30292028302c32352c30292028302c302c3235290a6b696e64733a20646f6d61696e20646f6d61696e20646f6d61696e0a656e6469616e3a206c6974746c650a656e636f64696e673a20677a69700a7370616365206f726967696e3a2028302c302c30290a0a1f8b0800000000000003ecc101010000008090feafee080a00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+   "expected": {
+    "format": "nrrd",
+    "summary": "NRRD 3-D, 528x320x456, uint32, gzip, spacing 25x25x25",
+    "fields": {
+     "nrrdVersion": 4,
+     "dimension": 3,
+     "shape": [
+      528,
+      320,
+      456
+     ],
+     "dtype": "uint32",
+     "encoding": "gzip",
+     "endian": "little",
+     "numElements": 77045760,
+     "space": "left-posterior-superior",
+     "spaceDimension": null,
+     "spaceDirections": [
+      [
+       25.0,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       25.0,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       25.0
+      ]
+     ],
+     "spaceOrigin": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "spaceUnits": null,
+     "spacing": [
+      25.0,
+      25.0,
+      25.0
+     ],
+     "kinds": [
+      "domain",
+      "domain",
+      "domain"
+     ],
+     "labels": null,
+     "units": null,
+     "centerings": null,
+     "measurementFrame": null,
+     "content": null,
+     "dataFile": null,
+     "detached": false,
+     "byteSkip": null,
+     "lineSkip": null,
+     "keyValueCount": 0,
+     "keyValues": {},
+     "headerComplete": true,
+     "headerBytes": 310
+    }
+   }
+  },
+  {
+   "name": "pynrrd gzip, space directions, units, labels, key/value",
+   "hex": "4e525244303030350a232054686973204e5252442066696c65207761732067656e6572617465642062792070796e7272640a23206f6e20323032362d31302d32352032313a34383a323028474d54292e0a2320436f6d706c657465204e5252442066696c6520666f726d61742073706563696669636174696f6e2061743a0a2320687474703a2f2f7465656d2e736f75726365666f7267652e6e65742f6e7272642f666f726d61742e68746d6c0a747970653a20696e7431360a64696d656e73696f6e3a20330a73706163653a206c6566742d706f73746572696f722d7375706572696f720a73697a65733a2034203520360a737061636520646972656374696f6e733a2028302e36393939393939393939393939393939362c302c30292028302c302e36393939393939393939393939393939362c30292028302c302c312e32290a6b696e64733a20646f6d61696e20646f6d61696e20646f6d61696e0a656e6469616e3a206c6974746c650a656e636f64696e673a20677a69700a6c6162656c733a202278222022792220227a220a737061636520756e6974733a20226d6d2220226d6d2220226d6d220a7370616365206f726967696e3a2028312c322c33290a637573746f6d206b65793a3d637573746f6d2076616c75650a0a1f8b0800000000000213636018590000132461bcf0000000",
+   "expected": {
+    "format": "nrrd",
+    "summary": "NRRD 3-D, 4x5x6, int16, gzip, spacing 0.7x0.7x1.2 mm",
+    "fields": {
+     "nrrdVersion": 5,
+     "dimension": 3,
+     "shape": [
+      4,
+      5,
+      6
+     ],
+     "dtype": "int16",
+     "encoding": "gzip",
+     "endian": "little",
+     "numElements": 120,
+     "space": "left-posterior-superior",
+     "spaceDimension": null,
+     "spaceDirections": [
+      [
+       0.7,
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       0.7,
+       0.0
+      ],
+      [
+       0.0,
+       0.0,
+       1.2
+      ]
+     ],
+     "spaceOrigin": [
+      1.0,
+      2.0,
+      3.0
+     ],
+     "spaceUnits": [
+      "mm",
+      "mm",
+      "mm"
+     ],
+     "spacing": [
+      0.7,
+      0.7,
+      1.2
+     ],
+     "kinds": [
+      "domain",
+      "domain",
+      "domain"
+     ],
+     "labels": [
+      "x",
+      "y",
+      "z"
+     ],
+     "units": null,
+     "centerings": null,
+     "measurementFrame": null,
+     "content": null,
+     "dataFile": null,
+     "detached": false,
+     "byteSkip": null,
+     "lineSkip": null,
+     "keyValueCount": 1,
+     "keyValues": {
+      "custom key": "custom value"
+     },
+     "headerComplete": true,
+     "headerBytes": 477
+    }
+   }
+  },
+  {
+   "name": "pynrrd detached .nhdr, spacings, raw",
+   "hex": "4e525244303030350a232054686973204e5252442066696c65207761732067656e6572617465642062792070796e7272640a23206f6e20323032362d31302d32352032313a34383a323028474d54292e0a2320436f6d706c657465204e5252442066696c6520666f726d61742073706563696669636174696f6e2061743a0a2320687474703a2f2f7465656d2e736f75726365666f7267652e6e65742f6e7272642f666f726d61742e68746d6c0a747970653a20646f75626c650a64696d656e73696f6e3a20330a73697a65733a2034203520360a656e6469616e3a206c6974746c650a656e636f64696e673a207261770a73706163696e67733a2032203220320a646174612066696c653a2074322e7261770a0a",
+   "expected": {
+    "format": "nrrd",
+    "summary": "NRRD 3-D, 4x5x6, float64, raw, spacing 2x2x2, detached header",
+    "fields": {
+     "nrrdVersion": 5,
+     "dimension": 3,
+     "shape": [
+      4,
+      5,
+      6
+     ],
+     "dtype": "float64",
+     "encoding": "raw",
+     "endian": "little",
+     "numElements": 120,
+     "space": null,
+     "spaceDimension": null,
+     "spaceDirections": null,
+     "spaceOrigin": null,
+     "spaceUnits": null,
+     "spacing": [
+      2.0,
+      2.0,
+      2.0
+     ],
+     "kinds": null,
+     "labels": null,
+     "units": null,
+     "centerings": null,
+     "measurementFrame": null,
+     "content": null,
+     "dataFile": "t2.raw",
+     "detached": true,
+     "byteSkip": null,
+     "lineSkip": null,
+     "keyValueCount": 0,
+     "keyValues": {},
+     "headerComplete": true,
+     "headerBytes": 277
+    }
+   }
+  },
+  {
+   "name": "pynrrd ascii, RGB axis with no space direction",
+   "hex": "4e525244303030350a232054686973204e5252442066696c65207761732067656e6572617465642062792070796e7272640a23206f6e20323032362d31302d32352032313a34383a333328474d54292e0a2320436f6d706c657465204e5252442066696c6520666f726d61742073706563696669636174696f6e2061743a0a2320687474703a2f2f7465656d2e736f75726365666f7267652e6e65742f6e7272642f666f726d61742e68746d6c0a747970653a2075696e74380a64696d656e73696f6e3a20330a73706163652064696d656e73696f6e3a20320a73697a65733a2033203820390a737061636520646972656374696f6e733a206e6f6e652028312c30292028302c31290a6b696e64733a205247422d636f6c6f7220646f6d61696e20646f6d61696e0a656e636f64696e673a2061736369690a0a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a300a",
+   "expected": {
+    "format": "nrrd",
+    "summary": "NRRD 3-D, 3x8x9, uint8, ascii",
+    "fields": {
+     "nrrdVersion": 5,
+     "dimension": 3,
+     "shape": [
+      3,
+      8,
+      9
+     ],
+     "dtype": "uint8",
+     "encoding": "ascii",
+     "endian": null,
+     "numElements": 216,
+     "space": null,
+     "spaceDimension": 2,
+     "spaceDirections": [
+      null,
+      [
+       1.0,
+       0.0
+      ],
+      [
+       0.0,
+       1.0
+      ]
+     ],
+     "spaceOrigin": null,
+     "spaceUnits": null,
+     "spacing": [
+      null,
+      1.0,
+      1.0
+     ],
+     "kinds": [
+      "RGB-color",
+      "domain",
+      "domain"
+     ],
+     "labels": null,
+     "units": null,
+     "centerings": null,
+     "measurementFrame": null,
+     "content": null,
+     "dataFile": null,
+     "detached": false,
+     "byteSkip": null,
+     "lineSkip": null,
+     "keyValueCount": 0,
+     "keyValues": {},
+     "headerComplete": true,
+     "headerBytes": 314
+    }
+   }
+  }
+ ]
+}

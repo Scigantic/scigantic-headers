@@ -10,6 +10,16 @@ resolutions/subdivisions tables). The synthetic .h5 fixtures were written by h5p
 with libver 'earliest' (superblock v0, v1 object headers, symbol tables) and
 'latest' (superblock v3, OHDR, dense links and attributes); when h5py is installed
 the test re-derives their expectations live, otherwise the committed values stand.
+
+NWB goldens (hdf5-nwb-*.sparse.json) are three DANDI archive files from three labs
+and writers (000127 Miller lab NWB 2.4.0; 000004 Rutishauser lab NWB 2.1.0;
+000020 Allen Institute patch-seq written by MIES, NWB 2.2.5 with the ndx-mies
+extension, 38 acquisition and 38 stimulus series) plus a pynwb 4.2.0 file. Every
+structural value in hdf5-cases.json (version, identifier, session start, subject,
+unit and electrode counts, acquisition, processing and stimulus listings, interval
+row counts, embedded namespaces) was checked against h5py on the full files. Two
+of the four read wrong before the global-heap scan learned to widen past 8 KiB,
+which is why they are here.
 """
 
 import json
@@ -152,3 +162,108 @@ def test_budget_exhaustion_is_reported_not_raised():
     data = open(_fixture("hdf5-generic-latest.h5"), "rb").read()
     h = decode_hdf5(BytesSource(data, budget=600))
     assert h is None or h.fields["walkComplete"] is False
+
+
+# ── NWB ──────────────────────────────────────────────────────────────────────
+
+def test_nwb_extension_registered():
+    from scigantic_headers import has_decoder_for
+    assert has_decoder_for("sub-01/sub-01_ses-1_ecephys.nwb")
+
+
+def test_nwb_session_fields_from_real_files():
+    f = _CASES["hdf5-nwb-dandi-000127"]["expected"]["fields"]
+    assert f["nwbVersion"] == "2.4.0" and f["namespace"] == "core"
+    assert f["sessionStartTime"] == "2017-12-07T17:06:09.727000-05:00" and f["sessionId"] == "20171207"
+    assert f["institution"] == "Northwestern University" and f["lab"] == "Miller"
+    assert f["experimenter"] == ["Raeed H. Chowdhury"]
+    assert f["subject"]["subjectId"] == "Han" and f["subject"]["species"] == "Macaca mulatta" and f["subject"]["sex"] == "M"
+    assert f["unitCount"] == 49 and f["electrodeCount"] == 96
+    assert f["intervals"] == [{"name": "trials", "rows": 98}]
+    assert f["specifications"] == {"core": ["2.4.0"], "hdmf-common": ["1.5.0"], "hdmf-experimental": ["0.1.0"]}
+    assert f["extensions"] == []
+    assert _CASES["hdf5-nwb-dandi-000127"]["expected"]["summary"] == \
+        "NWB 2.4.0, session 2017-12-07, Macaca mulatta, 49 units, 96 electrodes"
+
+
+def test_nwb_strings_on_a_large_global_heap():
+    # 000004 keeps its strings in a global heap collection far larger than the
+    # 8 KiB the scan used to read; the subject and the acquisition types were
+    # unreadable until the scan widened.
+    f = _CASES["hdf5-nwb-dandi-000004"]["expected"]["fields"]
+    assert f["subject"]["species"] == "Human" and f["subject"]["subjectId"] == "P10HMH" and f["subject"]["age"] == "37"
+    assert f["identifier"] == "H10_7" and f["unitCount"] == 38 and f["electrodeCount"] == 18
+    assert [a["neurodataType"] for a in f["acquisition"]] == ["AnnotationSeries", "TimeSeries"]
+    assert f["acquisition"][0]["shape"] == [1004]
+    assert f["specifications"] == {}  # pynwb of that era did not embed the schema
+
+
+def test_nwb_detail_stops_before_the_read_cap_and_names_everything():
+    # The patch-seq file has 38 acquisition and 38 stimulus series. Describing
+    # each costs reads, so the detail pass stops short of the cap, but every
+    # series is still named and nothing after it (modules, units, specs) is
+    # starved: the ndx-mies extension is seen.
+    f = _CASES["hdf5-nwb-dandi-000020"]["expected"]["fields"]
+    assert f["nwbVersion"] == "2.2.5" and f["extensions"] == ["ndx-mies"]
+    assert f["acquisitionCount"] == 38 and len(f["acquisitionNames"]) == 38
+    assert 0 < len(f["acquisition"]) < 38
+    # MIES writes scalar attributes as one-element arrays; rate and unit unwrap.
+    assert f["acquisition"][0] == {"name": "data_00000_AD0", "neurodataType": "VoltageClampSeries",
+                                   "shape": [66000], "dtype": "float32", "unit": "amperes", "rate": 200000.0}
+    assert len(f["stimulusPresentationNames"]) == 38 and f["stimulusPresentation"] == []
+    assert [m["name"] for m in f["processingModules"]] == ["spikes"]
+    assert len(f["processingModules"][0]["interfaceNames"]) == 15
+    assert f["subject"]["genotype"].startswith("Vipr2-IRES2-Cre") and f["subject"]["dateOfBirth"] == "2019-12-03T16:00:00-08:00"
+    # A one-element string array (how MIES writes identifier) reads as the string.
+    assert isinstance(f["identifier"], str) and len(f["identifier"]) == 64
+
+
+def test_nwb_pynwb_file_is_read_in_full():
+    f = _CASES["hdf5-nwb-pynwb-rich"]["expected"]["fields"]
+    assert f["sessionId"] == "sess-42" and f["experimenter"] == ["Doe, Jane", "Roe, Rick"] and f["keywords"] == ["V1", "neuropixels"]
+    assert f["subject"] == {"subjectId": "M123", "species": "Mus musculus", "sex": "M", "age": "P90D", "genotype": "wt",
+                            "strain": "C57BL/6J", "dateOfBirth": None, "weight": None, "description": "a mouse"}
+    assert f["devices"] == [{"name": "Camera", "description": "behavior camera", "manufacturer": None},
+                            {"name": "Neuropixels 1.0", "description": "probe", "manufacturer": "imec"}]
+    assert f["electrodeGroups"] == ["shank0"] and f["electrodeCount"] == 64
+    assert f["acquisition"] == [
+        {"name": "ElectricalSeries", "neurodataType": "ElectricalSeries", "shape": [1000, 64], "dtype": "int16", "unit": "volts", "rate": 30000.0},
+        {"name": "running_speed", "neurodataType": "TimeSeries", "shape": [500], "dtype": "float32", "unit": "cm/s", "rate": 60.0},
+    ]
+    assert [(m["name"], m["interfaceNames"]) for m in f["processingModules"]] == [("behavior", []), ("ecephys", ["LFP"])]
+    assert f["unitCount"] == 120 and f["unitColumns"] == ["quality", "spike_times"]
+    assert f["intervals"] == [{"name": "trials", "rows": 30}]
+    assert f["specifications"]["core"] == ["2.11.0"] and f["rootComplete"] is True
+
+
+def test_nwb_is_not_claimed_by_a_plain_hdf5_file():
+    # The synthetic generic fixtures have no nwb_version: they stay "hdf5".
+    for name in ("hdf5-generic-earliest.h5", "hdf5-generic-latest.h5"):
+        d = decode_file(os.path.join(FIXTURES_DIR, name))
+        assert d is not None and d.format == "hdf5"
+
+
+def test_nwb_repeated_lookups_are_memoized():
+    # Resolving the same group twice must not spend a second read.
+    from scigantic_headers.hdf5 import _H5, _lookup
+    src = load_sparse("hdf5-nwb-pynwb-rich")
+    h = _H5(src)
+    assert h.open()
+    root = h.object(h.root)
+    _lookup(h, root, "general/subject/species")
+    n = src._reads
+    _lookup(h, root, "general/subject/species")
+    assert src._reads == n
+
+
+def test_soft_link_in_v1_group_does_not_end_the_listing():
+    # hdf5-softlink-earliest.h5 was written by h5py 3.16 with libver 'earliest':
+    # the group `series` holds a_first, data, a soft link `electrode`, then
+    # starting_time. The soft link has no object address; before, the symbol
+    # node listing stopped there and starting_time was never seen.
+    d = decode_file(os.path.join(FIXTURES_DIR, "hdf5-softlink-earliest.h5"))
+    assert d is not None and d.format == "hdf5"
+    paths = [ds["path"] for ds in d.fields["datasets"]]
+    assert paths == ["series/a_first", "series/data", "series/starting_time"]
+    assert d.fields["groups"] == ["series", "table"]
+    assert d.fields["walkComplete"] is True

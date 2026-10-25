@@ -1,8 +1,12 @@
 """NPY and NIfTI decoders — the non-cryo-EM formats that prove the framework is
 format-general. Synthetic headers here; both are separately cross-checked
 against numpy and nibabel (the reference libraries) in the benchmark/dev notes.
+The NIfTI-2 golden (tests/fixtures/nifti2-cases.json) holds headers nibabel
+5.4.2 wrote, with nibabel's own read of each beside the expected decode.
 """
 
+import json
+import os
 import struct
 
 import pytest
@@ -133,3 +137,67 @@ def test_nifti_rejects_bad_sizeof_and_magic():
     assert decode_nifti_header(make_nifti((10, 10, 10), sizeof=999)) is None
     assert decode_nifti_header(make_nifti((10, 10, 10), magic=b"XXXX")) is None
     assert decode_nifti_header(b"\x00" * 100) is None  # too short
+
+
+def test_nifti1_reports_its_version():
+    assert decode_nifti_header(make_nifti((10, 10, 10))).fields["niftiVersion"] == 1
+
+
+# ── NIfTI-2 ──────────────────────────────────────────────────────────────────
+
+NIFTI2_FIX = os.path.join(os.path.dirname(__file__), "fixtures", "nifti2-cases.json")
+
+
+def make_nifti2(shape, datatype=16, voxel=(1.0, 1.0, 1.0), order="<", magic=b"n+2\x00\r\n\x1a\n", sizeof=540):
+    buf = bytearray(544)
+    struct.pack_into(order + "i", buf, 0, sizeof)
+    buf[4:12] = magic
+    struct.pack_into(order + "h", buf, 12, datatype)
+    dim = ([len(shape)] + list(shape) + [1] * 8)[:8]
+    struct.pack_into(order + "8q", buf, 16, *dim)
+    pixdim = ([0.0] + list(voxel) + [0.0] * 8)[:8]
+    struct.pack_into(order + "8d", buf, 104, *pixdim)
+    return bytes(buf)
+
+
+def test_nifti2_golden_matches_nibabel_written_files():
+    with open(NIFTI2_FIX) as fh:
+        cases = json.load(fh)["cases"]
+    assert len(cases) >= 4
+    for case in cases:
+        d = decode_bytes("scan.nii", bytes.fromhex(case["hex"]))
+        assert d is not None and d.to_dict() == case["expected"], case["name"]
+        # The nibabel read of the same bytes, recorded at generation time.
+        assert d.fields["shape"] == case["nibabel"]["shape"]
+        assert d.fields["dtype"] == case["nibabel"]["dtype"]
+        assert d.fields["voxelSizesMm"] == case["nibabel"]["zooms"]
+
+
+def test_nifti2_same_fields_as_nifti1_plus_version():
+    d1 = decode_nifti_header(make_nifti((64, 64, 36, 200), datatype=4, voxel=(3.0, 3.0, 3.5)))
+    d2 = decode_nifti_header(make_nifti2((64, 64, 36, 200), datatype=4, voxel=(3.0, 3.0, 3.5)))
+    assert d2.format == "nifti" == d1.format
+    assert set(d2.fields) == set(d1.fields)
+    assert {k: v for k, v in d2.fields.items() if k != "niftiVersion"} == {k: v for k, v in d1.fields.items() if k != "niftiVersion"}
+    assert (d1.fields["niftiVersion"], d2.fields["niftiVersion"]) == (1, 2)
+    assert d2.summary == "NIfTI-2 volume 64x64x36x200, int16, 3.0x3.0x3.5 mm"
+
+
+def test_nifti2_axis_beyond_int16():
+    d = decode_nifti_header(make_nifti2((100000, 200, 300), voxel=(0.5, 0.5, 2.0)))
+    assert d.fields["shape"] == [100000, 200, 300]
+
+
+def test_nifti2_big_endian_and_pair_magic():
+    assert decode_nifti_header(make_nifti2((10, 10, 10), order=">")).fields["shape"] == [10, 10, 10]
+    assert decode_nifti_header(make_nifti2((10, 10, 10), magic=b"ni2\x00\r\n\x1a\n")) is not None
+
+
+def test_nifti2_rejects_bad_magic_and_short_read():
+    assert decode_nifti_header(make_nifti2((10, 10, 10), magic=b"n+1\x00\r\n\x1a\n")) is None
+    full = make_nifti2((10, 10, 10))
+    assert decode_nifti_header(full[:400]) is None  # sizeof says 540 but the read stops short
+    # ndim out of range
+    bad = bytearray(full)
+    struct.pack_into("<q", bad, 16, 9)
+    assert decode_nifti_header(bytes(bad)) is None
