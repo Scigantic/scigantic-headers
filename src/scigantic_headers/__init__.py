@@ -11,6 +11,7 @@ same way everywhere it runs.
 
 from importlib.metadata import PackageNotFoundError, version as _pkg_version
 
+from .a3m import decode_a3m
 from .acquisition import Finding, compare_acquisition
 from .bed import decode_bed
 from .czi import decode_czi
@@ -85,7 +86,7 @@ __all__ = [
     "decode_nifti_header", "decode_npy_header", "decode_cryosparc_header",
     "parse_cryosparc_optics", "read_cryosparc_optics", "read_session_optics",
     "decode_parquet", "decode_fcs", "decode_mzml",
-    "decode_fastq", "decode_illumina_run", "decode_vcf", "decode_sam", "decode_pdb",
+    "decode_a3m", "decode_fastq", "decode_illumina_run", "decode_vcf", "decode_sam", "decode_pdb",
     "decode_mmcif", "decode_genbank", "decode_gff", "decode_bed", "decode_dicom",
     "decode_czi", "decode_hdf5", "decode_ics", "decode_klb", "decode_lif", "decode_nd2", "decode_obf",
     "decode_tiff", "parse_ome_xml",

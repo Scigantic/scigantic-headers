@@ -83,6 +83,17 @@ Decoders today:
 - **mmCIF / CIF**: structures (the modern PDB format). Entry id, title,
   keywords, experiment method, deposition date, and resolution (including the
   cryo-EM resolution item).
+- **A3M**: multiple sequence alignments, the MSA format ColabFold and the
+  MMseqs2 server write and AlphaFold, Boltz, Chai, Protenix and OpenFold read.
+  Query name and length, depth (sequences in the read, `truncated` when the
+  file goes on past it), ColabFold's `#` chain lengths and copy counts, the
+  mean fraction of the query each row covers, rows with insertions, rows whose
+  aligned length does not fit the query (an un-realigned or mis-staged MSA),
+  HH-suite `ss_pred`/`ss_conf` annotation rows, the databases the hits came
+  from (UniRef, UniProtKB, UniParc, MGnify, SRA) and the first hit's header.
+  The server's NUL-separated multi-query files report every query. Checked
+  against an independent parse on 188 ColabFold, Protenix, Boltz, OpenFold3
+  and jackhmmer files.
 - **GenBank**: annotated sequence records. LOCUS (name, length, molecule type,
   topology), definition, accession, version, and organism.
 - **GFF3 / GTF**: genome annotation. Version and a preview of the sources and
@@ -275,6 +286,7 @@ detector-pixel-size / magnification pair are all handled.
       sam.py        SAM alignment-header decode
       pdb.py        PDB structure-header decode
       mmcif.py      mmCIF / CIF structure-header decode
+      a3m.py        A3M multiple-sequence-alignment decode
       genbank.py    GenBank flat-file header decode
       gff.py        GFF3 / GTF annotation-header decode
       bed.py        BED interval-file decode
@@ -297,7 +309,7 @@ detector-pixel-size / magnification pair are all handled.
       optics.py     read_session_optics: find a data file's optics file
       cli.py        scigantic-headers <file|url|--dir>
       benchmark.py  scigantic-headers-bench, measures the speed levers
-    tests/          pytest (454 tests, incl. fuzz, golden and sparse real-file fixtures)
+    tests/          pytest (507 tests, incl. fuzz, golden and sparse real-file fixtures)
 
 ## Robustness
 
