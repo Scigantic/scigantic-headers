@@ -13,7 +13,12 @@ What each file carries:
 
   zarr.json       Zarr v3: zarr_format 3, node_type "group" | "array"; an array
                   node has shape, data_type, chunk_grid.configuration.chunk_shape,
-                  codecs; OME-NGFF 0.5 keeps its model under attributes.ome.
+                  codecs; OME-NGFF 0.5 keeps its model under attributes.ome, and
+                  a store written with consolidated metadata keeps the whole
+                  tree here as a flat path map.
+  .zmetadata      Zarr v2 consolidated metadata: every node's `.zattrs`,
+                  `.zgroup` and `.zarray` in one document. Claimed here only
+                  for an NWB store, which it describes in full.
   .zattrs         Zarr v2 group attributes. OME-NGFF 0.1-0.4 keeps multiscales
                   (axes, datasets with coordinateTransformations), omero
                   (channels), plus plate / well / labels / bioformats2raw.layout.
@@ -24,7 +29,8 @@ What each file carries:
                   dimensions, blockSize, dataType, compression.type, and often
                   pixelResolution {dimensions, unit} or transform {scale, units}.
 
-Formats returned: "ome-zarr" when an OME multiscales model is present,
+Formats returned: "nwb-zarr" when the root group is an NWB file (see
+nwb_zarr.py), "ome-zarr" when an OME multiscales model is present,
 "zarr-array" for an array node, "zarr-group" for a bare group, "n5" for N5.
 
 Units: OME-NGFF axis units are UDUNITS names ("micrometer", "nanometer");
@@ -38,9 +44,15 @@ import json
 import math
 from typing import Dict, List, Optional
 
+from . import nwb_zarr
 from .decoders import DecodedHeader, Read, register_decoder_for_name
 
 _READ = Read(leading=1024 * 1024)
+# A v2 store's `.zmetadata` holds every node's metadata in one document and
+# must parse whole, so it gets a bigger read than the per-node sidecars: a
+# real 3170-node NWB store from DANDI is 1.4 MB. A store past this declines
+# here and falls back to the root `.zattrs`, which still names the file.
+_ZMETADATA_READ = Read(leading=8 * 1024 * 1024)
 
 # UDUNITS-2 length names (OME-NGFF axes) and the common abbreviations, to micrometres.
 _TO_UM = {
@@ -253,11 +265,16 @@ def with_level0_array(group: DecodedHeader, array: Optional[DecodedHeader]) -> D
 # ── Zarr v2 ───────────────────────────────────────────────────────────────────
 
 def decode_zattrs(data: bytes) -> Optional[DecodedHeader]:
-    """A Zarr v2 group's `.zattrs`: OME-Zarr when it holds multiscales, else a
-    plain group whose attribute keys are listed."""
+    """A Zarr v2 group's `.zattrs`: NWB when it carries `nwb_version`,
+    OME-Zarr when it holds multiscales, else a plain group whose attribute
+    keys are listed. A v2 store keeps its consolidated metadata in a separate
+    `.zmetadata` beside this file, so an NWB record from here names the file
+    and its version but not its structure."""
     obj = _load(data)
     if obj is None:
         return None
+    if nwb_zarr.is_nwb(obj):
+        return nwb_zarr.decode(obj, None, 2)
     ome = _ome_fields(obj)
     if ome is not None:
         ome["zarrFormat"] = 2
@@ -314,6 +331,19 @@ def decode_zgroup(data: bytes) -> Optional[DecodedHeader]:
 
 
 # ── Zarr v3 ───────────────────────────────────────────────────────────────────
+
+def _consolidated(obj: dict) -> Optional[Dict[str, dict]]:
+    """A v3 store written with consolidated metadata keeps the whole tree in
+    the root's own file, as a flat map of slash-separated path to node. That
+    is what lets one bounded read describe a session with hundreds of
+    objects; without it, only the root's own attributes are here."""
+    block = obj.get("consolidated_metadata")
+    if not isinstance(block, dict):
+        return None
+    metadata = block.get("metadata")
+    if not isinstance(metadata, dict):
+        return None
+    return {str(k): v for k, v in metadata.items() if isinstance(v, dict)}
 
 def _v3_chunk_shape(obj: dict) -> Optional[List[int]]:
     grid = obj.get("chunk_grid")
@@ -372,12 +402,31 @@ def decode_zarr_json(data: bytes) -> Optional[DecodedHeader]:
 
     if node != "group":
         return None
+    if nwb_zarr.is_nwb(attrs):
+        return nwb_zarr.decode(attrs, _consolidated(obj), 3)
     if ome is not None:
         ome["zarrFormat"] = 3
         return DecodedHeader(format="ome-zarr", summary=_ome_summary(ome), fields=ome)
     keys = sorted(str(k) for k in attrs)[:64]
     return DecodedHeader(format="zarr-group", summary="Zarr v3 group, %d attributes" % len(attrs),
                          fields={"zarrFormat": 3, "attributeKeys": keys})
+
+
+def decode_zmetadata(data: bytes) -> Optional[DecodedHeader]:
+    """A Zarr v2 store's consolidated `.zmetadata`. Only an NWB store is
+    claimed here: for anything else the per-node sidecars already say
+    everything this document would, and the root `.zattrs` is what the
+    directory dispatch falls through to."""
+    obj = _load(data)
+    if obj is None:
+        return None
+    folded = nwb_zarr.normalize_v2(obj)
+    if folded is None:
+        return None
+    attrs, nodes = folded
+    if not nwb_zarr.is_nwb(attrs):
+        return None
+    return nwb_zarr.decode(attrs, nodes, 2)
 
 
 # ── N5 ────────────────────────────────────────────────────────────────────────
@@ -463,6 +512,10 @@ def decode_n5_attributes(data: bytes) -> Optional[DecodedHeader]:
 # the v3 document first, then the v2 group attributes (OME model), the array,
 # the bare group marker, and the N5 sidecar.
 register_decoder_for_name("zarr.json", decode_zarr_json, read=_READ)
+# Registered before `.zattrs`: `sources._decode_directory` tries the sidecar
+# names in registration order, so a consolidated NWB store is described in
+# full and anything else falls through to the per-node files below.
+register_decoder_for_name(".zmetadata", decode_zmetadata, read=_ZMETADATA_READ)
 register_decoder_for_name(".zattrs", decode_zattrs, read=_READ)
 register_decoder_for_name(".zarray", decode_zarray, read=_READ)
 register_decoder_for_name(".zgroup", decode_zgroup, read=_READ)
