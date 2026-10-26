@@ -15,7 +15,7 @@ Read the metadata of a scientific file and return its fields (dimensions, data
 type, pixel size, columns, row count) as a dict, without reading the rest of the
 file. Decodes formats across cryo-EM, light microscopy and light-sheet imaging,
 arrays, tabular data, flow cytometry, mass spec, sequencing, genome annotation,
-and structural biology (the full list is below). The decode functions have no
+structural biology, and electrophysiology (the full list is below). The decode functions have no
 dependencies; separate reader functions fetch the bytes from a file or a URL:
 the leading bytes for most formats, the trailing bytes for Parquet (whose schema
 is in a footer), and a bounded handful of reads wherever the pointers lead for
@@ -110,6 +110,54 @@ Decoders today:
 - **DICOM**: medical images. Modality, dimensions, bit depth, manufacturer, and
   study/series description. Reads technical fields only, never patient
   identifiers.
+
+Electrophysiology and BIDS (added in 0.10.0). What an EEG, iEEG or Neuropixels
+rig writes beside its raw samples, and the sidecars that describe a dataset
+organised to the Brain Imaging Data Structure:
+
+- **EDF / EDF+ / BDF / BDF+** (`.edf`, `.bdf`): the clinical and research
+  electrophysiology container. Flavour and continuity (`EDF+C` / `EDF+D`), bit
+  depth, start date and time (resolved to a four-digit year from the EDF+
+  recording field), the EDF+ patient and recording subfields, data record
+  count and duration, recording length, and per signal the label, units,
+  physical and digital range, samples per record, derived sampling rate,
+  transducer and prefiltering. The annotations channel is named and kept out
+  of the recording's sampling rate. Cross-checked against pyedflib.
+- **BrainVision** (`.vhdr`, `.vmrk`): Brain Products' header and marker files,
+  one of the three container formats BIDS allows for EEG and iEEG. Format
+  version, data file and orientation, channel count, sampling interval and
+  rate, binary format and byte order, data points and duration, per-channel
+  name, reference, resolution and unit, and whether electrode coordinates are
+  present; from the marker file, the marker count, the count per type, the
+  first markers and the segment start timestamp. Cross-checked against mne on
+  64 public files.
+- **SpikeGLX** (`.meta`): the run metadata SpikeGLX writes beside every
+  Neuropixels binary, which is the only description that headerless int16
+  matrix has. Stream type and kind, sample rate, channel counts split into AP,
+  LF and sync, run name with gate and trigger index, file size and duration,
+  derived sample count, probe type, model, part number and serial, slot, port
+  and dock, and the microvolts per bit for the two probe generations the
+  metadata reference defines it for. The per-channel tables are counted, not
+  copied. Cross-checked against neo.
+- **Neuralynx** (`.ncs`, `.nev`, `.nse`, `.ntt`, `.nvt`): the 16 KiB ASCII
+  header every Cheetah and Pegasus file opens with, in both dialects (the
+  older `##` comment lines with `-CheetahRev`, and the newer properties with
+  `-ApplicationName` and `-TimeCreated`). File type and record kind, record
+  size, application and version, channel name, sampling rate, AD range and
+  microvolts per bit, DSP filter settings, and the open and close times.
+  Checked against python-neo's header grammar.
+- **Open Ephys** (`structure.oebin`): the JSON manifest of a binary-format
+  recording directory, the only description of its headerless `.dat`
+  matrices. GUI version, continuous streams with folder, stream and processor
+  names, sample rate, channel count and the scaling where it is uniform
+  across the stream, plus the event and spike streams.
+- **BIDS sidecars** (`.json`, `.tsv`): `dataset_description.json`, the JSON
+  metadata sidecars, the column data dictionaries, and the tabular files
+  (events, participants, sessions, samples, scans, channels, electrodes,
+  optodes). Both extensions are generic, so a file is claimed only when it
+  carries a key the standard defines or one of its column signatures; key
+  names are kept exactly as the standard spells them. Swept over the whole
+  bids-standard/bids-examples corpus.
 
 Light microscopy and light-sheet (added in 0.6.0; most of these follow internal
 pointers, see "Pointer-based formats" below):
@@ -414,6 +462,11 @@ re-decoding.
   layouts and tested on constructed files; their tests say so. Olympus
   OIB (an OLE compound document) and OIR, Hamamatsu DCIMG, and raw `.bin` /
   `.dat` / `.raw` exports (which have no header to read) are not decoded.
+- **Neuralynx has no public sample** that was reachable, so its fixtures are
+  headers built to the per-version grammar documented in python-neo's
+  `NlxHeader` and parsed by neo, not copies of a rig's output. The binary
+  records after the header are not read, so a file's record count is not
+  reported.
 - **Legacy ND2** (JPEG2000 based) is recognised but not described.
 - BAM's BGZF framing and per-record structure are not handled; plain gzip is.
 - **Output is not a standard.** The fields are an ad-hoc dict, not an

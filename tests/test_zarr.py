@@ -43,8 +43,11 @@ def test_sidecar_names_dispatch(key):
     assert is_decodable(key) is True
 
 
-def test_unrelated_json_name_is_not_claimed():
-    assert has_decoder_for("x/config.json") is False
+def test_unrelated_json_content_is_not_claimed():
+    # The .json extension is registered (BIDS sidecars are content-sniffed
+    # under it), so dispatch reaches a decoder; no zarr name matches and the
+    # content is not BIDS, so nothing is claimed.
+    assert decode_bytes("x/config.json", b'{"debug": true, "port": 8080}') is None
 
 
 # ── IDR 6001240 (OME-NGFF 0.4, Zarr v2) ───────────────────────────────────────
