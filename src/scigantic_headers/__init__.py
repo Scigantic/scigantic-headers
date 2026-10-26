@@ -24,11 +24,19 @@ from .lif import decode_lif
 from .mdoc import decode_mdoc
 from .nd2 import decode_nd2
 from .nrrd import decode_nrrd
+from .nwb_zarr import decode as decode_nwb_zarr
 from .obf import decode_obf
 from .ome_xml import parse_ome_xml
 from .tiff import decode_tiff
 from .xml_sidecar import decode_bdv_xml, decode_ome_xml, decode_xml_sidecar
-from .zarr import decode_n5_attributes, decode_zarr_json, decode_zarray, decode_zattrs, decode_zgroup
+from .zarr import (
+    decode_n5_attributes,
+    decode_zarr_json,
+    decode_zarray,
+    decode_zattrs,
+    decode_zgroup,
+    decode_zmetadata,
+)
 from .cryosparc import parse_cryosparc_optics, read_cryosparc_optics
 from .dicom import decode_dicom
 from .edf import decode_edf
@@ -102,6 +110,7 @@ __all__ = [
     "decode_tiff", "parse_ome_xml",
     "decode_bdv_xml", "decode_ome_xml", "decode_xml_sidecar",
     "decode_n5_attributes", "decode_zarr_json", "decode_zarray", "decode_zattrs", "decode_zgroup",
+    "decode_zmetadata", "decode_nwb_zarr",
     "extension_of", "has_decoder_for", "read_for", "register_decoder", "register_decoder_for_name",
     "DEFAULT_WORKERS", "decode_file", "decode_paths", "decode_url",
     "decode_urls", "is_decodable", "iter_decodable_files", "read_leading_bytes",

@@ -1,0 +1,662 @@
+{
+ "_comment": "NWB stored in a Zarr store. zarr-nwb-hdmf-v3.zarr.json is the root metadata file of a store written by hdmf-zarr 0.14.0 with pynwb 4.2.0 (Zarr v3, consolidated metadata, so the whole tree is in this one file). zarr-nwb-dandi-000719.zmetadata is the real consolidated metadata of DANDI dandiset 000719 asset icephys_DS_11_21_24/sub-1214579789_ses-1214621812_icephys_DirectoryStore.nwb.zarr (Zarr v2, 3170 keys, 139 acquisition series), fetched from the DANDI S3 bucket. Both record only what the metadata holds: a Zarr string dataset's value is chunk data behind a compressor this library does not carry, so the identifier, session description and subject are absent and stringValuesUnread names where they are.",
+ "cases": {
+  "zarr-nwb-hdmf-v3.zarr.json": {
+   "key": "sample.nwb.zarr/zarr.json",
+   "expected": {
+    "format": "nwb-zarr",
+    "summary": "NWB 2.11.0 on Zarr v3, 2 acquisition, 1 processing module, 2 units, 8 electrodes",
+    "fields": {
+     "nwbVersion": "2.11.0",
+     "namespace": "core",
+     "objectId": "7551077c-fcde-47ee-aa35-022f666ebe17",
+     "container": "zarr",
+     "zarrFormat": 3,
+     "consolidatedMetadata": true,
+     "nodeCount": 84,
+     "stringValuesUnread": [
+      "file_create_date",
+      "general/experiment_description",
+      "general/experimenter",
+      "general/extracellular_ephys/electrodes/group",
+      "general/extracellular_ephys/electrodes/group_name",
+      "general/extracellular_ephys/electrodes/location",
+      "general/institution",
+      "general/keywords",
+      "general/lab",
+      "general/related_publications",
+      "general/session_id",
+      "general/subject/age",
+      "general/subject/genotype",
+      "general/subject/sex",
+      "general/subject/species",
+      "general/subject/strain",
+      "general/subject/subject_id",
+      "identifier",
+      "session_description",
+      "session_start_time",
+      "timestamps_reference_time"
+     ],
+     "devices": [
+      {
+       "name": "Neuropixels",
+       "description": "probe",
+       "manufacturer": "imec"
+      }
+     ],
+     "electrodeGroups": [
+      "shank0"
+     ],
+     "electrodeCount": 8,
+     "imagingPlanes": null,
+     "subjectPresent": true,
+     "acquisitionNames": [
+      "ElectricalSeries",
+      "running_speed"
+     ],
+     "acquisitionCount": 2,
+     "acquisition": [
+      {
+       "name": "ElectricalSeries",
+       "neurodataType": "ElectricalSeries",
+       "shape": [
+        100,
+        8
+       ],
+       "dtype": "int16",
+       "unit": "volts",
+       "rate": 30000.0
+      },
+      {
+       "name": "running_speed",
+       "neurodataType": "TimeSeries",
+       "shape": [
+        50
+       ],
+       "dtype": "float32",
+       "unit": "cm/s",
+       "rate": 50.0
+      }
+     ],
+     "processingModules": [
+      {
+       "name": "behavior",
+       "description": "processed behaviour",
+       "interfaceNames": [
+        "position"
+       ],
+       "interfaces": [
+        {
+         "name": "position",
+         "neurodataType": "TimeSeries",
+         "shape": [
+          50
+         ],
+         "dtype": "float32",
+         "unit": "cm",
+         "rate": 50.0
+        }
+       ]
+      }
+     ],
+     "unitCount": 2,
+     "unitColumns": [
+      "spike_times"
+     ],
+     "intervals": [
+      {
+       "name": "trials",
+       "rows": 2,
+       "columns": [
+        "start_time",
+        "stop_time",
+        "condition"
+       ]
+      }
+     ],
+     "stimulusPresentationNames": [],
+     "stimulusPresentation": [],
+     "stimulusTemplates": [],
+     "analysis": [],
+     "specifications": {
+      "core": [
+       "2.11.0"
+      ],
+      "hdmf-common": [
+       "1.10.0"
+      ],
+      "hdmf-experimental": [
+       "0.6.0"
+      ]
+     },
+     "extensions": []
+    }
+   }
+  },
+  "zarr-nwb-dandi-000719.zmetadata": {
+   "key": "sub-1214579789_ses-1214621812_icephys_DirectoryStore.nwb.zarr/.zmetadata",
+   "expected": {
+    "format": "nwb-zarr",
+    "summary": "NWB 2.6.0 on Zarr v2, 139 acquisition, 1 processing module",
+    "fields": {
+     "nwbVersion": "2.6.0",
+     "namespace": "core",
+     "objectId": "ef216af1-2b6e-45d5-98ce-687394b5a132",
+     "container": "zarr",
+     "zarrFormat": 2,
+     "consolidatedMetadata": true,
+     "nodeCount": 1589,
+     "stringValuesUnread": [
+      "general/data_collection",
+      "general/institution",
+      "general/intracellular_ephys/electrode_0/description",
+      "general/intracellular_ephys/filtering",
+      "general/session_id",
+      "general/source_script",
+      "general/subject/age",
+      "general/subject/genotype",
+      "general/subject/sex",
+      "general/subject/species",
+      "general/subject/subject_id",
+      "identifier",
+      "session_description"
+     ],
+     "devices": [
+      {
+       "name": "device_ITC18USB_Dev_0",
+       "description": "Harvard Bioscience (formerly HEKA/Instrutech) Model: ITC18USB",
+       "manufacturer": null
+      }
+     ],
+     "electrodeGroups": null,
+     "electrodeCount": null,
+     "imagingPlanes": null,
+     "subjectPresent": true,
+     "acquisitionNames": [
+      "data_00000_AD0",
+      "data_00001_AD0",
+      "data_00002_AD0",
+      "data_00003_AD0",
+      "data_00004_AD0",
+      "data_00005_AD0",
+      "data_00006_AD0",
+      "data_00007_AD0",
+      "data_00008_AD0",
+      "data_00009_AD0",
+      "data_00010_AD0",
+      "data_00011_AD0",
+      "data_00012_AD0",
+      "data_00013_AD0",
+      "data_00014_AD0",
+      "data_00015_AD0",
+      "data_00016_AD0",
+      "data_00017_AD0",
+      "data_00018_AD0",
+      "data_00019_AD0",
+      "data_00020_AD0",
+      "data_00021_AD0",
+      "data_00022_AD0",
+      "data_00023_AD0",
+      "data_00024_AD0",
+      "data_00025_AD0",
+      "data_00026_AD0",
+      "data_00027_AD0",
+      "data_00028_AD0",
+      "data_00029_AD0",
+      "data_00030_AD0",
+      "data_00031_AD0",
+      "data_00032_AD0",
+      "data_00033_AD0",
+      "data_00034_AD0",
+      "data_00035_AD0",
+      "data_00036_AD0",
+      "data_00037_AD0",
+      "data_00038_AD0",
+      "data_00039_AD0",
+      "data_00040_AD0",
+      "data_00041_AD0",
+      "data_00042_AD0",
+      "data_00043_AD0",
+      "data_00044_AD0",
+      "data_00045_AD0",
+      "data_00046_AD0",
+      "data_00047_AD0",
+      "data_00048_AD0",
+      "data_00049_AD0",
+      "data_00050_AD0",
+      "data_00051_AD0",
+      "data_00052_AD0",
+      "data_00053_AD0",
+      "data_00054_AD0",
+      "data_00055_AD0",
+      "data_00056_AD0",
+      "data_00057_AD0",
+      "data_00058_AD0",
+      "data_00059_AD0",
+      "data_00060_AD0",
+      "data_00061_AD0",
+      "data_00062_AD0",
+      "data_00063_AD0"
+     ],
+     "acquisitionCount": 139,
+     "acquisition": [
+      {
+       "name": "data_00000_AD0",
+       "neurodataType": "VoltageClampSeries",
+       "shape": [
+        161000
+       ],
+       "dtype": "float32",
+       "unit": "amperes",
+       "rate": 200000.0
+      },
+      {
+       "name": "data_00001_AD0",
+       "neurodataType": "VoltageClampSeries",
+       "shape": [
+        161000
+       ],
+       "dtype": "float32",
+       "unit": "amperes",
+       "rate": 200000.0
+      },
+      {
+       "name": "data_00002_AD0",
+       "neurodataType": "VoltageClampSeries",
+       "shape": [
+        12297000
+       ],
+       "dtype": "float32",
+       "unit": "amperes",
+       "rate": 200000.0
+      },
+      {
+       "name": "data_00003_AD0",
+       "neurodataType": "VoltageClampSeries",
+       "shape": [
+        161000
+       ],
+       "dtype": "float32",
+       "unit": "amperes",
+       "rate": 200000.0
+      },
+      {
+       "name": "data_00004_AD0",
+       "neurodataType": "CurrentClampSeries",
+       "shape": [
+        310204
+       ],
+       "dtype": "float32",
+       "unit": "volts",
+       "rate": 50000.0
+      },
+      {
+       "name": "data_00005_AD0",
+       "neurodataType": "CurrentClampSeries",
+       "shape": [
+        187255
+       ],
+       "dtype": "float32",
+       "unit": "volts",
+       "rate": 50000.0
+      },
+      {
+       "name": "data_00006_AD0",
+       "neurodataType": "CurrentClampSeries",
+       "shape": [
+        187255
+       ],
+       "dtype": "float32",
+       "unit": "volts",
+       "rate": 50000.0
+      },
+      {
+       "name": "data_00007_AD0",
+       "neurodataType": "CurrentClampSeries",
+       "shape": [
+        187255
+       ],
+       "dtype": "float32",
+       "unit": "volts",
+       "rate": 50000.0
+      },
+      {
+       "name": "data_00008_AD0",
+       "neurodataType": "CurrentClampSeries",
+       "shape": [
+        187255
+       ],
+       "dtype": "float32",
+       "unit": "volts",
+       "rate": 50000.0
+      },
+      {
+       "name": "data_00009_AD0",
+       "neurodataType": "CurrentClampSeries",
+       "shape": [
+        187255
+       ],
+       "dtype": "float32",
+       "unit": "volts",
+       "rate": 50000.0
+      },
+      {
+       "name": "data_00010_AD0",
+       "neurodataType": "CurrentClampSeries",
+       "shape": [
+        187255
+       ],
+       "dtype": "float32",
+       "unit": "volts",
+       "rate": 50000.0
+      },
+      {
+       "name": "data_00011_AD0",
+       "neurodataType": "CurrentClampSeries",
+       "shape": [
+        187255
+       ],
+       "dtype": "float32",
+       "unit": "volts",
+       "rate": 50000.0
+      },
+      {
+       "name": "data_00012_AD0",
+       "neurodataType": "CurrentClampSeries",
+       "shape": [
+        187255
+       ],
+       "dtype": "float32",
+       "unit": "volts",
+       "rate": 50000.0
+      },
+      {
+       "name": "data_00013_AD0",
+       "neurodataType": "CurrentClampSeries",
+       "shape": [
+        187255
+       ],
+       "dtype": "float32",
+       "unit": "volts",
+       "rate": 50000.0
+      },
+      {
+       "name": "data_00014_AD0",
+       "neurodataType": "CurrentClampSeries",
+       "shape": [
+        187255
+       ],
+       "dtype": "float32",
+       "unit": "volts",
+       "rate": 50000.0
+      },
+      {
+       "name": "data_00015_AD0",
+       "neurodataType": "CurrentClampSeries",
+       "shape": [
+        187255
+       ],
+       "dtype": "float32",
+       "unit": "volts",
+       "rate": 50000.0
+      }
+     ],
+     "processingModules": [
+      {
+       "name": "spikes",
+       "description": "detected spikes",
+       "interfaceNames": [
+        "Sweep_125",
+        "Sweep_13",
+        "Sweep_42",
+        "Sweep_43",
+        "Sweep_5",
+        "Sweep_60",
+        "Sweep_61"
+       ],
+       "interfaces": [
+        {
+         "name": "Sweep_125",
+         "neurodataType": "TimeSeries",
+         "shape": [
+          0
+         ],
+         "dtype": "float64",
+         "unit": "seconds",
+         "timestamps": true
+        },
+        {
+         "name": "Sweep_13",
+         "neurodataType": "TimeSeries",
+         "shape": [
+          0
+         ],
+         "dtype": "float64",
+         "unit": "seconds",
+         "timestamps": true
+        },
+        {
+         "name": "Sweep_42",
+         "neurodataType": "TimeSeries",
+         "shape": [
+          0
+         ],
+         "dtype": "float64",
+         "unit": "seconds",
+         "timestamps": true
+        },
+        {
+         "name": "Sweep_43",
+         "neurodataType": "TimeSeries",
+         "shape": [
+          1
+         ],
+         "dtype": "float64",
+         "unit": "seconds",
+         "timestamps": true
+        },
+        {
+         "name": "Sweep_5",
+         "neurodataType": "TimeSeries",
+         "shape": [
+          0
+         ],
+         "dtype": "float64",
+         "unit": "seconds",
+         "timestamps": true
+        },
+        {
+         "name": "Sweep_60",
+         "neurodataType": "TimeSeries",
+         "shape": [
+          0
+         ],
+         "dtype": "float64",
+         "unit": "seconds",
+         "timestamps": true
+        },
+        {
+         "name": "Sweep_61",
+         "neurodataType": "TimeSeries",
+         "shape": [
+          0
+         ],
+         "dtype": "float64",
+         "unit": "seconds",
+         "timestamps": true
+        }
+       ]
+      }
+     ],
+     "unitCount": null,
+     "unitColumns": null,
+     "intervals": [
+      {
+       "name": "epochs",
+       "rows": 1316,
+       "columns": [
+        "start_time",
+        "stop_time",
+        "tags",
+        "timeseries",
+        "treelevel"
+       ]
+      }
+     ],
+     "stimulusPresentationNames": [
+      "data_00000_DA0",
+      "data_00001_DA0",
+      "data_00002_DA0",
+      "data_00003_DA0",
+      "data_00004_DA0",
+      "data_00005_DA0",
+      "data_00006_DA0",
+      "data_00007_DA0",
+      "data_00008_DA0",
+      "data_00009_DA0",
+      "data_00010_DA0",
+      "data_00011_DA0",
+      "data_00012_DA0",
+      "data_00013_DA0",
+      "data_00014_DA0",
+      "data_00015_DA0",
+      "data_00016_DA0",
+      "data_00017_DA0",
+      "data_00018_DA0",
+      "data_00019_DA0",
+      "data_00020_DA0",
+      "data_00021_DA0",
+      "data_00022_DA0",
+      "data_00023_DA0",
+      "data_00024_DA0",
+      "data_00025_DA0",
+      "data_00026_DA0",
+      "data_00027_DA0",
+      "data_00028_DA0",
+      "data_00029_DA0",
+      "data_00030_DA0",
+      "data_00031_DA0",
+      "data_00032_DA0",
+      "data_00033_DA0",
+      "data_00034_DA0",
+      "data_00035_DA0",
+      "data_00036_DA0",
+      "data_00037_DA0",
+      "data_00038_DA0",
+      "data_00039_DA0",
+      "data_00040_DA0",
+      "data_00041_DA0",
+      "data_00042_DA0",
+      "data_00043_DA0",
+      "data_00044_DA0",
+      "data_00045_DA0",
+      "data_00046_DA0",
+      "data_00047_DA0",
+      "data_00048_DA0",
+      "data_00049_DA0",
+      "data_00050_DA0",
+      "data_00051_DA0",
+      "data_00052_DA0",
+      "data_00053_DA0",
+      "data_00054_DA0",
+      "data_00055_DA0",
+      "data_00056_DA0",
+      "data_00057_DA0",
+      "data_00058_DA0",
+      "data_00059_DA0",
+      "data_00060_DA0",
+      "data_00061_DA0",
+      "data_00062_DA0",
+      "data_00063_DA0"
+     ],
+     "stimulusPresentation": [
+      {
+       "name": "data_00000_DA0",
+       "neurodataType": "VoltageClampStimulusSeries",
+       "shape": [
+        161000
+       ],
+       "dtype": "float32",
+       "unit": "volts",
+       "rate": 200000.0
+      },
+      {
+       "name": "data_00001_DA0",
+       "neurodataType": "VoltageClampStimulusSeries",
+       "shape": [
+        161000
+       ],
+       "dtype": "float32",
+       "unit": "volts",
+       "rate": 200000.0
+      },
+      {
+       "name": "data_00002_DA0",
+       "neurodataType": "VoltageClampStimulusSeries",
+       "shape": [
+        12297000
+       ],
+       "dtype": "float32",
+       "unit": "volts",
+       "rate": 200000.0
+      },
+      {
+       "name": "data_00003_DA0",
+       "neurodataType": "VoltageClampStimulusSeries",
+       "shape": [
+        161000
+       ],
+       "dtype": "float32",
+       "unit": "volts",
+       "rate": 200000.0
+      },
+      {
+       "name": "data_00004_DA0",
+       "neurodataType": "CurrentClampStimulusSeries",
+       "shape": [
+        310204
+       ],
+       "dtype": "float32",
+       "unit": "amperes",
+       "rate": 50000.0
+      },
+      {
+       "name": "data_00005_DA0",
+       "neurodataType": "CurrentClampStimulusSeries",
+       "shape": [
+        187255
+       ],
+       "dtype": "float32",
+       "unit": "amperes",
+       "rate": 50000.0
+      },
+      {
+       "name": "data_00006_DA0",
+       "neurodataType": "CurrentClampStimulusSeries",
+       "shape": [
+        187255
+       ],
+       "dtype": "float32",
+       "unit": "amperes",
+       "rate": 50000.0
+      },
+      {
+       "name": "data_00007_DA0",
+       "neurodataType": "CurrentClampStimulusSeries",
+       "shape": [
+        187255
+       ],
+       "dtype": "float32",
+       "unit": "amperes",
+       "rate": 50000.0
+      }
+     ],
+     "stimulusTemplates": [],
+     "analysis": [],
+     "specifications": {},
+     "extensions": []
+    }
+   }
+  }
+ }
+}

@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.11.0
+
+- NWB on Zarr: an NWB file written by `hdmf-zarr` into a Zarr store decodes as
+  `nwb-zarr`, alongside the HDF5 flavour. Zarr v3 reads the root `zarr.json`,
+  Zarr v2 the consolidated `.zmetadata`, which is now a registered sidecar
+  name and is tried before `.zattrs` so a consolidated store is described in
+  full. Version, namespace, object id, devices, electrode groups and count,
+  imaging planes, acquisition series with type, shape, dtype, unit and rate,
+  processing modules and interfaces, unit count and columns, interval tables
+  with rows and columns, stimuli, and the cached schema namespaces with their
+  versions. Verified against the real consolidated metadata of a DANDI 000719
+  asset (Zarr v2, 3170 keys, 139 series) and a store written by hdmf-zarr
+  0.14.0 with pynwb 4.2.0 (Zarr v3).
+- A Zarr NWB record does not carry the scalar strings the HDF5 one does
+  (identifier, session description, start time, institution, lab, subject):
+  in Zarr those are chunk data behind a compressor this library does not
+  carry. They are absent rather than guessed, and `stringValuesUnread` names
+  the paths that hold them.
+- `.zmetadata` is claimed only for an NWB store. Any other consolidated
+  document declines, so the directory dispatch falls through to the per-node
+  sidecars exactly as before.
+
 ## 0.10.0
 
 - EDF, EDF+, BDF and BDF+ (`.edf`, `.bdf`): the electrophysiology container

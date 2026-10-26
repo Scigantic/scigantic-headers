@@ -204,6 +204,19 @@ pointers, see "Pointer-based formats" below):
     thousands of objects still reads in a few hundred bounded reads.
     Verified against h5py on four DANDI files from four labs and on
     pynwb-written files.
+  - **NWB on Zarr** (`.nwb.zarr`, a directory): the same NWB model written by
+    `hdmf-zarr` into a Zarr store. Version, namespace, object id, devices,
+    electrode groups and count, imaging planes, every acquisition series with
+    its type, shape, dtype, unit and rate, processing modules and their
+    interfaces, unit count and columns, interval tables with row counts and
+    columns, stimuli, and the cached schema namespaces with the version each
+    was cached at. Both container versions: Zarr v3 reads the root
+    `zarr.json`, Zarr v2 the consolidated `.zmetadata`. Unlike the HDF5
+    flavour this cannot report the scalar strings (identifier, session
+    description, subject): in Zarr those are chunk data behind a compressor
+    this library does not carry, so they are absent and `stringValuesUnread`
+    names the paths that hold them. Verified against a real DANDI 000719
+    store and an hdmf-zarr-written one.
   - **generic `.h5` / `.hdf5` / `.he5`**: root attributes (fixed and
     variable-length strings, numbers), groups, and datasets with shape, dtype,
     layout, chunks and filters, bounded and with the truncation stated.
@@ -469,6 +482,11 @@ re-decoding.
   reported.
 - **Legacy ND2** (JPEG2000 based) is recognised but not described.
 - BAM's BGZF framing and per-record structure are not handled; plain gzip is.
+- **A Zarr store's chunk data is never opened**, so an NWB-on-Zarr record
+  carries the structure, shapes, units and rates but not the scalar strings
+  the HDF5 flavour reads out of its object headers. A store written without
+  consolidated metadata is named and versioned but not described, since
+  walking it would mean one read per node.
 - **Output is not a standard.** The fields are an ad-hoc dict, not an
   interchange format such as Allotrope ASM. Map the dict to a standard if you
   need one.
