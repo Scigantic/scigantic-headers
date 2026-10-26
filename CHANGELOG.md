@@ -1,5 +1,51 @@
 # Changelog
 
+## 0.10.0
+
+- EDF, EDF+, BDF and BDF+ (`.edf`, `.bdf`): the electrophysiology container
+  clinical and research rigs write. Flavour and continuity, bit depth, start
+  date resolved to a four-digit year from the EDF+ recording field, the EDF+
+  patient and recording subfields, record count and duration, and per signal
+  the label, units, physical and digital range, samples per record, derived
+  rate, transducer and prefiltering. The annotations channel is named and kept
+  out of the recording's sampling rate. Verified on a PhysioNet Sleep-EDF
+  recording and against pyedflib.
+- BrainVision (`.vhdr`, `.vmrk`): header and marker files, one of the three
+  container formats BIDS allows for EEG and iEEG. Version, data file and
+  orientation, channel count, sampling interval and rate, binary format and
+  byte order, data points and duration, per-channel name, reference,
+  resolution and unit, coordinates present; and from the marker file the
+  counts per type, the first markers and the segment start timestamp.
+  Cross-checked against mne on all 64 non-empty `.vhdr` files in
+  bids-standard/bids-examples; all 64 agreed.
+- SpikeGLX (`.meta`): the run metadata beside every Neuropixels binary.
+  Stream type and kind, sample rate, AP/LF/sync channel counts, run name with
+  gate and trigger index, size, duration and derived sample count, probe type,
+  model, part number, serial, slot, port and dock, and microvolts per bit for
+  the probe generations the metadata reference defines it for. Per-channel
+  tables are counted, not copied. Verified against neo on Neuropixels 1.0 and
+  2.0 files; a 2016 Phase 3A file that neo cannot open still decodes.
+- Neuralynx (`.ncs`, `.nev`, `.nse`, `.ntt`, `.nvt`): the 16 KiB ASCII header,
+  in both the `##` comment-line dialect of Cheetah before 5.6.4 and the
+  property dialect of 5.7 onwards and Pegasus. File type and record kind,
+  record size, application and version, channel name, sampling rate, AD range
+  and microvolts per bit, DSP filters, open and close times. Checked against
+  python-neo's header grammar on four generations of file.
+- Open Ephys (`structure.oebin`): the JSON manifest of a binary-format
+  recording. GUI version, continuous streams with folder, stream and processor
+  names, sample rate, channel count and uniform scaling, plus event and spike
+  streams. Verified on three real manifests from GUI 0.4.4.1, 0.4.5 and 0.6.0.
+- BIDS sidecars (`.json`, `.tsv`): `dataset_description.json`, JSON metadata
+  sidecars, column data dictionaries, and the tabular files (events,
+  participants, sessions, samples, scans, channels, electrodes, optodes).
+  Both extensions are generic, so a file is claimed only when it carries a key
+  the standard defines or one of its column signatures. Swept over the whole
+  bids-standard/bids-examples corpus: 5853 files decoded, no exception, and
+  what declined is headerless derivative tables and non-core derivative JSON.
+- `.json` and `.tsv` are now registered extensions. Dispatch reaches a decoder
+  for any file with those extensions; a name-registered decoder (`zarr.json`,
+  `.zattrs`, `attributes.json`) still wins, and non-BIDS content is declined.
+
 ## 0.9.0
 
 - NIfTI-2: the 540-byte header (`n+2` / `ni2` magic, 64-bit dims, double

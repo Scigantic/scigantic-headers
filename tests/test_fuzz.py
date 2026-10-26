@@ -20,6 +20,7 @@ from scigantic_headers.decoders import (
     decode_nifti_header,
     decode_npy_header,
 )
+from scigantic_headers.edf import decode_edf
 from scigantic_headers.decoders import _DECODERS_BY_EXT, _DECODERS_BY_NAME
 
 SEED = 1729
@@ -48,7 +49,7 @@ def _assert_valid_or_none(result):
 
 
 def _seed_magic(rng, kind):
-    n = rng.randint(0, 1200)
+    n = rng.randint(0, 2400)
     buf = bytearray(rng.getrandbits(8) for _ in range(n))
     if kind == "mrc" and len(buf) >= 212:
         buf[208:212] = b"MAP "
@@ -59,6 +60,13 @@ def _seed_magic(rng, kind):
     elif kind == "nifti" and len(buf) >= 348:
         struct.pack_into("<i", buf, 0, 348)   # sizeof_hdr passes
         buf[344:348] = b"n+1\x00"             # magic passes -> reaches pixdim
+    elif kind in ("edf", "bdf") and len(buf) >= 2048:
+        # Magic, plus the two counts that must agree, so the decoder gets past
+        # its validity check and into the ASCII field parsing.
+        signals = rng.randint(0, 6)
+        buf[0:8] = b"0       " if kind == "edf" else b"\xffBIOSEMI"
+        buf[184:192] = b"%-8d" % (256 * (signals + 1))
+        buf[252:256] = b"%-4d" % signals
     elif kind == "nifti2" and len(buf) >= 540:
         struct.pack_into("<i", buf, 0, 540)   # sizeof_hdr passes
         buf[4:12] = b"n+2\x00\r\n\x1a\n"       # magic passes -> reaches the 64-bit dims
@@ -82,6 +90,8 @@ def test_decode_bytes_total_over_random():
     ("npy", decode_npy_header),
     ("nifti", decode_nifti_header),
     ("nifti2", decode_nifti_header),
+    ("edf", decode_edf),
+    ("bdf", decode_edf),
 ])
 def test_decoders_total_on_magic_seeded(kind, fn):
     # Buffers that pass the magic check and drive the field-parsing paths where
