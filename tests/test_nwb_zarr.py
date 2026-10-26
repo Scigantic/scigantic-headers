@@ -140,3 +140,29 @@ def test_helpers_reject_garbage():
     assert is_nwb({"nwb_version": "2.0.0"}) is True
     assert normalize_v2({}) is None
     assert normalize_v2({"metadata": "not a dict"}) is None
+
+
+def test_bare_nan_in_metadata_never_reaches_the_record():
+    """Zarr writers emit bare `NaN`, which Python's json reads as a float and
+    strict JSON rejects. An NWB TimeSeries writes `"resolution": NaN` whenever
+    the resolution is unspecified, 278 times over in the DANDI fixture."""
+    document = json.dumps({
+        "zarr_format": 3, "node_type": "group",
+        "attributes": {"nwb_version": "2.0.0", "namespace": "core"},
+        "consolidated_metadata": {"metadata": {
+            "acquisition": {"node_type": "group"},
+            "acquisition/s": {"node_type": "group",
+                              "attributes": {"neurodata_type": "TimeSeries"}},
+            "acquisition/s/data": {"node_type": "array", "shape": [4],
+                                   "data_type": "float32",
+                                   "attributes": {"unit": float("nan")}},
+            "acquisition/s/starting_time": {"node_type": "array", "shape": [],
+                                            "data_type": "float64",
+                                            "attributes": {"rate": float("nan")}},
+        }},
+    }).encode()
+    assert b"NaN" in document  # what the writers actually produce
+    d = decode_bytes("x/zarr.json", document)
+    series = d.fields["acquisition"][0]
+    assert "rate" not in series and "unit" not in series
+    json.dumps(d.to_dict(), allow_nan=False)  # the record is standards-valid JSON

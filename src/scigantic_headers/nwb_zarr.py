@@ -20,6 +20,7 @@ the shapes and dtypes, the units and the sampling rates, is reported in full.
 Dispatched from `zarr.py`, which owns the `zarr.json` and `.zattrs` names.
 """
 
+import math
 from typing import Dict, List, Optional, Tuple
 
 from .decoders import DecodedHeader
@@ -105,6 +106,20 @@ def _node(metadata: Dict[str, dict], path: str) -> Optional[dict]:
     return node if isinstance(node, dict) else None
 
 
+def _safe(value):
+    """An attribute value that is valid JSON. Zarr metadata is written by
+    Python writers and carries bare `NaN` tokens, which `json.load` accepts
+    as floats: an NWB TimeSeries writes `"resolution": NaN` whenever the
+    resolution is unspecified, 278 times over in one real DANDI store. A
+    non-finite number cannot be written back out, so it becomes None, which
+    is also what the Go port sees after it rewrites the token to null."""
+    if isinstance(value, float) and not math.isfinite(value):
+        return None
+    if isinstance(value, list):
+        return [_safe(v) for v in value]
+    return value
+
+
 def _attrs(node: Optional[dict]) -> dict:
     if not node:
         return {}
@@ -152,18 +167,18 @@ def _series(metadata: Dict[str, dict], base: str, names: List[str], cap: int) ->
     for name in names[:cap]:
         path = base + "/" + name if base else name
         attrs = _attrs(_node(metadata, path))
-        entry: Dict[str, object] = {"name": name, "neurodataType": attrs.get("neurodata_type")}
+        entry: Dict[str, object] = {"name": name, "neurodataType": _safe(attrs.get("neurodata_type"))}
         data = _node(metadata, path + "/data")
         if data is not None:
             entry["shape"] = _shape(data)
             dtype = data.get("data_type")
             entry["dtype"] = str(dtype) if isinstance(dtype, str) else None
-            unit = _attrs(data).get("unit")
+            unit = _safe(_attrs(data).get("unit"))
             if unit is not None:
                 entry["unit"] = unit
         start = _node(metadata, path + "/starting_time")
         if start is not None:
-            rate = _attrs(start).get("rate")
+            rate = _safe(_attrs(start).get("rate"))
             if isinstance(rate, (int, float)) and not isinstance(rate, bool):
                 entry["rate"] = rate
         elif _node(metadata, path + "/timestamps") is not None:
@@ -226,8 +241,8 @@ def decode(attributes: dict, metadata: Optional[Dict[str, dict]], zarr_format: i
     devices = []
     for name in _children(metadata, "general/devices")[:NWB_LIST_CAP]:
         a = _attrs(_node(metadata, "general/devices/" + name))
-        devices.append({"name": name, "description": a.get("description"),
-                        "manufacturer": a.get("manufacturer")})
+        devices.append({"name": name, "description": _safe(a.get("description")),
+                        "manufacturer": _safe(a.get("manufacturer"))})
     fields["devices"] = devices
 
     ephys = _children(metadata, "general/extracellular_ephys")
@@ -251,7 +266,7 @@ def decode(attributes: dict, metadata: Optional[Dict[str, dict]], zarr_format: i
     fields["processingModules"] = [
         {
             "name": name,
-            "description": _attrs(_node(metadata, "processing/" + name)).get("description"),
+            "description": _safe(_attrs(_node(metadata, "processing/" + name)).get("description")),
             "interfaceNames": _children(metadata, "processing/" + name)[:NWB_LIST_CAP],
             "interfaces": _series(metadata, "processing/" + name,
                                   _children(metadata, "processing/" + name), 8),
