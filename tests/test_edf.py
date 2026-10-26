@@ -2,11 +2,14 @@
 
 Golden: tests/fixtures/edf-cases.json. The first case is the real header of the
 PhysioNet Sleep-EDF Expanded cassette recording SC4001E0-PSG.edf; the rest were
-written by pyedflib 0.1.42. Every expected value was checked against pyedflib's
-own reader on the same files when the fixture was made, with two known and
+written by pyedflib 0.1.42, and every expected value in those five was checked
+against pyedflib's own reader when the fixture was made, with two known and
 intended differences: pyedflib hides the annotations channel from its signal
 list, and its start time carries the sub-second offset that lives in the
-annotations record rather than the header this decoder reads.
+annotations record rather than the header this decoder reads. The PhysioNet
+case could not be checked that way, since pyedflib refuses a file whose samples
+are absent and PhysioNet truncated every attempt to fetch all 48 MB; its header
+is self-checking instead (see test_physionet_sleep_cassette_header).
 """
 
 import json
