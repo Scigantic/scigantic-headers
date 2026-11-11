@@ -1,0 +1,772 @@
+{
+ "cases": [
+  {
+   "name": "gen5-absorbance-pathlength",
+   "file": "gen5-absorbance-pathlength.txt",
+   "expected": {
+    "format": "Agilent Gen5",
+    "summary": "Agilent Gen5 plate reader export: Gen5 3.12.08, Absorbance, 96-well, Generic Reader",
+    "fields": {
+     "instrumentSoftware": "Agilent Gen5",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "Agilent",
+     "detectionModes": [
+      "Absorbance",
+      "Fluorescence",
+      "Luminescence"
+     ],
+     "allotropyParser": "agilent_gen5",
+     "softwareVersion": "3.12.08",
+     "instrumentModel": "Generic Reader",
+     "serialNumber": "12345678",
+     "plateType": "Generic 96 UV",
+     "plateFormat": 96,
+     "runDate": "9/15/2023 12:30:00 PM",
+     "readingType": "Reader",
+     "experimentFile": "ExperimentFile.xpt",
+     "protocolFile": "Plate123.prt",
+     "exportFormat": "text export",
+     "plateCount": 1,
+     "readModes": [
+      "Absorbance"
+     ],
+     "readType": "Endpoint",
+     "readCount": 1,
+     "wavelengthsNm": [
+      260,
+      280,
+      230
+     ]
+    }
+   }
+  },
+  {
+   "name": "gen5-multiple-read-modes",
+   "file": "gen5-multiple-read-modes.txt",
+   "expected": {
+    "format": "Agilent Gen5",
+    "summary": "Agilent Gen5 plate reader export: Gen5 3.15.15, Absorbance, Fluorescence, 96-well, Synergy H1",
+    "fields": {
+     "instrumentSoftware": "Agilent Gen5",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "Agilent",
+     "detectionModes": [
+      "Absorbance",
+      "Fluorescence",
+      "Luminescence"
+     ],
+     "allotropyParser": "agilent_gen5",
+     "softwareVersion": "3.15.15",
+     "instrumentModel": "Synergy H1",
+     "serialNumber": "12345678",
+     "plateType": "96 WELL PLATE (Use plate lid)",
+     "plateFormat": 96,
+     "runDate": "6/12/2024 5:47:49 PM",
+     "readingType": "Reader",
+     "experimentFile": "20240612-benchling_test_exp.xpt",
+     "protocolFile": "benchling_connect_test_protocol.prt",
+     "exportFormat": "text export",
+     "plateCount": 1,
+     "readModes": [
+      "Absorbance",
+      "Fluorescence"
+     ],
+     "readType": "Endpoint",
+     "readCount": 2,
+     "wavelengthsNm": [
+      600,
+      616,
+      520
+     ],
+     "excitationWavelengthsNm": [
+      579,
+      479
+     ]
+    }
+   }
+  },
+  {
+   "name": "gen5-fluorescence-multiplate",
+   "file": "gen5-fluorescence-multiplate.txt",
+   "expected": {
+    "format": "Agilent Gen5",
+    "summary": "Agilent Gen5 plate reader export: Gen5 3.12.08, Fluorescence, 96-well",
+    "fields": {
+     "instrumentSoftware": "Agilent Gen5",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "Agilent",
+     "detectionModes": [
+      "Absorbance",
+      "Fluorescence",
+      "Luminescence"
+     ],
+     "allotropyParser": "agilent_gen5",
+     "softwareVersion": "3.12.08",
+     "plateType": "96 WELL PLATE (Use plate lid)",
+     "plateFormat": 96,
+     "runDate": "10/10/2022 8:49:40 PM",
+     "readingType": "Manual",
+     "experimentFile": "2022_10_10_DAPI_GFP_POS-NEG-CON_Norm_multiPlate.xpt",
+     "protocolFile": "2022_10_10_DAPI_GFP_POS-NEG-CON-Normalization_defaultExport.prt",
+     "exportFormat": "text export",
+     "plateCount": 3,
+     "readModes": [
+      "Fluorescence"
+     ],
+     "readType": "Endpoint",
+     "readCount": 1,
+     "wavelengthsNm": [
+      460,
+      528
+     ],
+     "excitationWavelengthsNm": [
+      360,
+      485
+     ]
+    }
+   }
+  },
+  {
+   "name": "gen5-kinetic-fibrillation-head",
+   "file": "gen5-kinetic-fibrillation-head.txt",
+   "expected": {
+    "format": "Agilent Gen5",
+    "summary": "Agilent Gen5 plate reader export: Gen5 3.15.15, Fluorescence, 96-well, Synergy H1",
+    "fields": {
+     "instrumentSoftware": "Agilent Gen5",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "Agilent",
+     "detectionModes": [
+      "Absorbance",
+      "Fluorescence",
+      "Luminescence"
+     ],
+     "allotropyParser": "agilent_gen5",
+     "softwareVersion": "3.15.15",
+     "instrumentModel": "Synergy H1",
+     "serialNumber": "24031313",
+     "plateType": "96 WELL PLATE (Use plate lid)",
+     "plateFormat": 96,
+     "runDate": "10/14/2024 2:23:45 PM",
+     "readingType": "Reader",
+     "experimentFile": "LP49_104.xpt",
+     "protocolFile": "96h continious agitation 40 C.prt",
+     "exportFormat": "text export",
+     "plateCount": 1,
+     "readModes": [
+      "Fluorescence"
+     ],
+     "readType": "Kinetic",
+     "readCount": 3,
+     "wavelengthsNm": [
+      490,
+      350,
+      335
+     ],
+     "excitationWavelengthsNm": [
+      450,
+      295
+     ]
+    }
+   }
+  },
+  {
+   "name": "gen5-image-cell-count",
+   "file": "gen5-image-cell-count.txt",
+   "expected": {
+    "format": "Agilent Gen5 Image",
+    "summary": "Agilent Gen5 imaging export: Gen5 3.12.08, Montage, 96-well, Cytation7",
+    "fields": {
+     "instrumentSoftware": "Agilent Gen5 Image",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "Agilent",
+     "detectionModes": [
+      "Optical Imaging"
+     ],
+     "allotropyParser": "agilent_gen5_image",
+     "softwareVersion": "3.12.08",
+     "instrumentModel": "Cytation7",
+     "serialNumber": "172EM-02",
+     "plateType": "Corning 96 well for AutoScratch (Use plate lid)",
+     "plateFormat": 96,
+     "runDate": "3/5/2020 8:23:01 AM",
+     "readingType": "Reader",
+     "experimentFile": "Cell_Count_DAPI_GFP.xpt",
+     "protocolFile": "Cell_Count_DAPI_GFP.prt",
+     "exportFormat": "text export",
+     "plateCount": 1,
+     "readModes": [
+      "Imaging"
+     ],
+     "imagingModes": [
+      "Montage"
+     ],
+     "readCount": 1,
+     "objectives": [
+      "4x"
+     ],
+     "imagingChannels": [
+      "DAPI 377,447",
+      "GFP 469,525"
+     ],
+     "excitationWavelengthsNm": [
+      377,
+      469
+     ],
+     "wavelengthsNm": [
+      447,
+      525
+     ]
+    }
+   }
+  },
+  {
+   "name": "gen5-image-comet-two-reads",
+   "file": "gen5-image-comet-two-reads.txt",
+   "expected": {
+    "format": "Agilent Gen5 Image",
+    "summary": "Agilent Gen5 imaging export: Gen5 3.12.08, Single Image, Montage, 96-well, Cytation5",
+    "fields": {
+     "instrumentSoftware": "Agilent Gen5 Image",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "Agilent",
+     "detectionModes": [
+      "Optical Imaging"
+     ],
+     "allotropyParser": "agilent_gen5_image",
+     "softwareVersion": "3.12.08",
+     "instrumentModel": "Cytation5",
+     "serialNumber": "EM-18",
+     "plateType": "Trevigen 96-Well Comet Chip and Adapter (Use plate lid)",
+     "plateFormat": 96,
+     "runDate": "9/30/2015 6:26:57 AM",
+     "readingType": "Reader",
+     "experimentFile": "96-Well Trevigen CometAssayCometChip Imaging and Analysis Sample File 23Nov15.xpt",
+     "protocolFile": "Trevigen 96-Well Comet Slide Imaging and Analysis Customer Demo Protocol.prt",
+     "exportFormat": "text export",
+     "plateCount": 1,
+     "readModes": [
+      "Imaging"
+     ],
+     "imagingModes": [
+      "Single Image",
+      "Montage"
+     ],
+     "readCount": 2,
+     "objectives": [
+      "2.74x",
+      "4x"
+     ],
+     "imagingChannels": [
+      "GFP 469,525"
+     ],
+     "excitationWavelengthsNm": [
+      469
+     ],
+     "wavelengthsNm": [
+      525
+     ]
+    }
+   }
+  },
+  {
+   "name": "gen5-image-6well-brightfield",
+   "file": "gen5-image-6well-brightfield.txt",
+   "expected": {
+    "format": "Agilent Gen5 Image",
+    "summary": "Agilent Gen5 imaging export: Gen5 1.11.11, Montage, 6-well, Cytation5",
+    "fields": {
+     "instrumentSoftware": "Agilent Gen5 Image",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "Agilent",
+     "detectionModes": [
+      "Optical Imaging"
+     ],
+     "allotropyParser": "agilent_gen5_image",
+     "softwareVersion": "1.11.11",
+     "instrumentModel": "Cytation5",
+     "serialNumber": "99999999A",
+     "plateType": "Costar 6 well (Use plate lid)",
+     "plateFormat": 6,
+     "runDate": "9/19/2024 10:34:43 AM",
+     "readingType": "Reader",
+     "experimentFile": "4ChTest.xpt",
+     "protocolFile": "4ChTest.prt",
+     "exportFormat": "text export",
+     "plateCount": 1,
+     "readModes": [
+      "Imaging"
+     ],
+     "imagingModes": [
+      "Montage"
+     ],
+     "readCount": 1,
+     "objectives": [
+      "4x"
+     ],
+     "imagingChannels": [
+      "Bright Field",
+      "DAPI 377,447",
+      "Bright Field:High Contrast",
+      "GFP 469,525"
+     ],
+     "excitationWavelengthsNm": [
+      377,
+      469
+     ],
+     "wavelengthsNm": [
+      447,
+      525
+     ]
+    }
+   }
+  },
+  {
+   "name": "softmax-fluorescence-utf16",
+   "file": "softmax-fluorescence-utf16.txt",
+   "expected": {
+    "format": "Molecular Devices SoftMax Pro",
+    "summary": "SoftMax Pro plate export: 2 blocks, Fluorescence, Endpoint, 96-well",
+    "fields": {
+     "instrumentSoftware": "Molecular Devices SoftMax Pro",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "Molecular Devices",
+     "detectionModes": [
+      "Absorbance",
+      "Fluorescence",
+      "Luminescence"
+     ],
+     "allotropyParser": "moldev_softmax_pro",
+     "exportVersion": "1.3",
+     "exportFormat": "TimeFormat",
+     "readModes": [
+      "Fluorescence"
+     ],
+     "readType": "Endpoint",
+     "plateFormat": 96,
+     "blockCount": 2,
+     "plateCount": 1,
+     "groupCount": 1,
+     "wavelengthsNm": [
+      535,
+      610,
+      720
+     ],
+     "excitationWavelengthsNm": [
+      485,
+      550,
+      650
+     ]
+    }
+   }
+  },
+  {
+   "name": "softmax-absorbance-utf8",
+   "file": "softmax-absorbance-utf8.txt",
+   "expected": {
+    "format": "Molecular Devices SoftMax Pro",
+    "summary": "SoftMax Pro plate export: 2 blocks, Absorbance, Endpoint, 96-well",
+    "fields": {
+     "instrumentSoftware": "Molecular Devices SoftMax Pro",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "Molecular Devices",
+     "detectionModes": [
+      "Absorbance",
+      "Fluorescence",
+      "Luminescence"
+     ],
+     "allotropyParser": "moldev_softmax_pro",
+     "exportVersion": "1.3",
+     "exportFormat": "PlateFormat",
+     "readModes": [
+      "Absorbance"
+     ],
+     "readType": "Endpoint",
+     "plateFormat": 96,
+     "blockCount": 2,
+     "plateCount": 1,
+     "groupCount": 0,
+     "wavelengthsNm": [
+      426
+     ]
+    }
+   }
+  },
+  {
+   "name": "softmax-luminescence-two-plates",
+   "file": "softmax-luminescence-two-plates.txt",
+   "expected": {
+    "format": "Molecular Devices SoftMax Pro",
+    "summary": "SoftMax Pro plate export: 2 blocks, Luminescence, Endpoint, 96-well",
+    "fields": {
+     "instrumentSoftware": "Molecular Devices SoftMax Pro",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "Molecular Devices",
+     "detectionModes": [
+      "Absorbance",
+      "Fluorescence",
+      "Luminescence"
+     ],
+     "allotropyParser": "moldev_softmax_pro",
+     "exportVersion": "1.3",
+     "exportFormat": "TimeFormat",
+     "readModes": [
+      "Luminescence"
+     ],
+     "readType": "Endpoint",
+     "plateFormat": 96,
+     "blockCount": 2,
+     "plateCount": 2,
+     "groupCount": 0
+    }
+   }
+  },
+  {
+   "name": "softmax-kinetic-spectramax340",
+   "file": "softmax-kinetic-spectramax340.txt",
+   "expected": {
+    "format": "Molecular Devices SoftMax Pro",
+    "summary": "SoftMax Pro plate export: 6 blocks, Absorbance, Kinetic, 96-well",
+    "fields": {
+     "instrumentSoftware": "Molecular Devices SoftMax Pro",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "Molecular Devices",
+     "detectionModes": [
+      "Absorbance",
+      "Fluorescence",
+      "Luminescence"
+     ],
+     "allotropyParser": "moldev_softmax_pro",
+     "exportVersion": "1.3",
+     "exportFormat": "PlateFormat",
+     "readModes": [
+      "Absorbance"
+     ],
+     "readType": "Kinetic",
+     "plateFormat": 96,
+     "blockCount": 6,
+     "plateCount": 1,
+     "groupCount": 3,
+     "wavelengthsNm": [
+      405
+     ]
+    }
+   }
+  },
+  {
+   "name": "mars-fluorescence-384",
+   "file": "mars-fluorescence-384.csv",
+   "expected": {
+    "format": "BMG Labtech MARS",
+    "summary": "BMG MARS plate reader export: Fluorescence (FI), 384-well, test Transcreener ADP2 FI",
+    "fields": {
+     "instrumentSoftware": "BMG Labtech MARS",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "BMG Labtech",
+     "detectionModes": [
+      "Absorbance",
+      "Fluorescence",
+      "Luminescence"
+     ],
+     "allotropyParser": "bmg_mars",
+     "testName": "Transcreener ADP2 FI",
+     "testRunNumber": "4",
+     "runDate": "29/02/2016 14:34:46",
+     "plateIdentifier": "black 384w small volume",
+     "measurementMode": "Fluorescence (FI)",
+     "readModes": [
+      "Fluorescence"
+     ],
+     "wavelengthsNm": [
+      620
+     ],
+     "excitationWavelengthsNm": [
+      580
+     ],
+     "exportFormat": "csv",
+     "plateFormat": 384,
+     "sampleCount": 302
+    }
+   }
+  },
+  {
+   "name": "mars-absorbance-384",
+   "file": "mars-absorbance-384.csv",
+   "expected": {
+    "format": "BMG Labtech MARS",
+    "summary": "BMG MARS plate reader export: Absorbance, 384-well, test 472 ABS 384 QC",
+    "fields": {
+     "instrumentSoftware": "BMG Labtech MARS",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "BMG Labtech",
+     "detectionModes": [
+      "Absorbance",
+      "Fluorescence",
+      "Luminescence"
+     ],
+     "allotropyParser": "bmg_mars",
+     "testName": "472 ABS 384 QC",
+     "testRunNumber": "3",
+     "runDate": "03/03/2016 16:54:03",
+     "plateIdentifier": "472-0016",
+     "measurementMode": "Absorbance",
+     "readModes": [
+      "Absorbance"
+     ],
+     "wavelengthsNm": [
+      484
+     ],
+     "exportFormat": "csv",
+     "plateFormat": 384,
+     "sampleCount": 99
+    }
+   }
+  },
+  {
+   "name": "mars-luminescence-1536-partial",
+   "file": "mars-luminescence-1536-partial.csv",
+   "expected": {
+    "format": "BMG Labtech MARS",
+    "summary": "BMG MARS plate reader export: Luminescence, test HrpElisa1536",
+    "fields": {
+     "instrumentSoftware": "BMG Labtech MARS",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "BMG Labtech",
+     "detectionModes": [
+      "Absorbance",
+      "Fluorescence",
+      "Luminescence"
+     ],
+     "allotropyParser": "bmg_mars",
+     "testName": "HrpElisa1536",
+     "testRunNumber": "412",
+     "runDate": "10/16/2024 3:09:52 PM",
+     "plateIdentifier": "92A_4",
+     "measurementMode": "Luminescence",
+     "readModes": [
+      "Luminescence"
+     ],
+     "exportFormat": "csv",
+     "sampleCount": 288
+    }
+   }
+  },
+  {
+   "name": "mars-absorbance-96-two-numbers",
+   "file": "mars-absorbance-96-two-numbers.csv",
+   "expected": {
+    "format": "BMG Labtech MARS",
+    "summary": "BMG MARS plate reader export: Absorbance, 96-well, test xxxxxxxxxxxxx",
+    "fields": {
+     "instrumentSoftware": "BMG Labtech MARS",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "BMG Labtech",
+     "detectionModes": [
+      "Absorbance",
+      "Fluorescence",
+      "Luminescence"
+     ],
+     "allotropyParser": "bmg_mars",
+     "testName": "xxxxxxxxxxxxx",
+     "testRunNumber": "445",
+     "runDate": "5/14/2021 3:29:50 PM",
+     "plateIdentifier": "xxxxxxxxxxxxx",
+     "measurementMode": "Absorbance",
+     "readModes": [
+      "Absorbance"
+     ],
+     "exportFormat": "csv",
+     "plateFormat": 96,
+     "sampleCount": 96
+    }
+   }
+  },
+  {
+   "name": "smart-control-fluorescence",
+   "file": "smart-control-fluorescence.xlsx",
+   "expected": {
+    "format": "BMG Labtech SMART Control",
+    "summary": "BMG SMART Control export: Fluorescence (FI), 96-well, test 96 PicoGreen, Quant-iT",
+    "fields": {
+     "instrumentSoftware": "BMG Labtech SMART Control",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "BMG Labtech",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "bmg_labtech_smart_control",
+     "testName": "96 PicoGreen, Quant-iT",
+     "runDate": "11/12/2024 1:06:28 PM",
+     "measurementMode": "Fluorescence (FI)",
+     "readModes": [
+      "Fluorescence"
+     ],
+     "plateType": "NUNC 96",
+     "plateFormat": 96,
+     "excitationWavelengthsNm": [
+      480
+     ],
+     "wavelengthsNm": [
+      520
+     ],
+     "opticPreset": "Fluorescein (FITC) *",
+     "sampleCount": 96,
+     "exportFormat": "xlsx"
+    }
+   }
+  },
+  {
+   "name": "magellan-od-96",
+   "file": "magellan-od-96.xlsx",
+   "expected": {
+    "format": "Tecan Magellan",
+    "summary": "Tecan Magellan export: Absorbance, at 595 nm, 96 wells, ULTRA",
+    "fields": {
+     "instrumentSoftware": "Tecan Magellan",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "Tecan",
+     "detectionModes": [
+      "Absorbance"
+     ],
+     "allotropyParser": "tecan_magellan",
+     "runDate": "2021-07-06T09:43:07",
+     "instrumentName": "ULTRA",
+     "serialNumber": "12901000069",
+     "methodFile": "200609_DHT_OD.mth",
+     "workspaceFile": "06072021-001.wsp",
+     "readModes": [
+      "Absorbance"
+     ],
+     "wavelengthsNm": [
+      595
+     ],
+     "sampleCount": 96,
+     "exportFormat": "xlsx"
+    }
+   }
+  },
+  {
+   "name": "magellan-pro-compact",
+   "file": "magellan-pro-compact.xlsx",
+   "expected": {
+    "format": "Tecan Magellan",
+    "summary": "Tecan Magellan export: Absorbance, at 492 nm, 4 wells, Example Device",
+    "fields": {
+     "instrumentSoftware": "Tecan Magellan",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "Tecan",
+     "detectionModes": [
+      "Absorbance"
+     ],
+     "allotropyParser": "tecan_magellan",
+     "runDate": "2025-01-01T10:00:00",
+     "instrumentName": "Example Device",
+     "serialNumber": "000000000",
+     "methodFile": "Example.mth",
+     "workspaceFile": "Example.wsp",
+     "readModes": [
+      "Absorbance"
+     ],
+     "wavelengthsNm": [
+      492
+     ],
+     "sampleCount": 4,
+     "exportFormat": "xlsx"
+    }
+   }
+  },
+  {
+   "name": "skanit-absorbance",
+   "file": "skanit-absorbance.xlsx",
+   "expected": {
+    "format": "Thermo Fisher Scientific SkanIt",
+    "summary": "Thermo SkanIt export: SkanIt 7.0.0.50, Absorbance, 96-well, Varioskan LUX",
+    "fields": {
+     "instrumentSoftware": "Thermo Fisher Scientific SkanIt",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "Thermo Fisher Scientific",
+     "detectionModes": [
+      "Absorbance",
+      "Fluorescence",
+      "Luminescence"
+     ],
+     "allotropyParser": "thermo_skanit",
+     "softwareVersion": "7.0.0.50",
+     "instrumentModel": "Varioskan LUX",
+     "serialNumber": "3020-81776",
+     "firmwareVersion": "1.00.38",
+     "sessionName": "5. APOE potency MOA_EB_20230522_003 (1).skax",
+     "runDate": "6/5/2023 6:09:56 PM",
+     "readModes": [
+      "Absorbance"
+     ],
+     "wavelengthsNm": [
+      450
+     ],
+     "plateFormat": 96,
+     "exportFormat": "xlsx"
+    }
+   }
+  },
+  {
+   "name": "skanit-luminescence-results-only",
+   "file": "skanit-luminescence-results-only.xlsx",
+   "expected": {
+    "format": "Thermo Fisher Scientific SkanIt",
+    "summary": "Thermo SkanIt export: Luminescence, 96-well",
+    "fields": {
+     "instrumentSoftware": "Thermo Fisher Scientific SkanIt",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "Thermo Fisher Scientific",
+     "detectionModes": [
+      "Absorbance",
+      "Fluorescence",
+      "Luminescence"
+     ],
+     "allotropyParser": "thermo_skanit",
+     "sessionName": "experiment.skax",
+     "runDate": "8/23/2024 3:02:30 PM",
+     "readModes": [
+      "Luminescence"
+     ],
+     "plateFormat": 96,
+     "exportFormat": "xlsx"
+    }
+   }
+  },
+  {
+   "name": "skanit-multi-plate-serial-date",
+   "file": "skanit-multi-plate-serial-date.xlsx",
+   "expected": {
+    "format": "Thermo Fisher Scientific SkanIt",
+    "summary": "Thermo SkanIt export: SkanIt 7.0.2.5, Absorbance, 96-well, Varioskan LUX",
+    "fields": {
+     "instrumentSoftware": "Thermo Fisher Scientific SkanIt",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "Thermo Fisher Scientific",
+     "detectionModes": [
+      "Absorbance",
+      "Fluorescence",
+      "Luminescence"
+     ],
+     "allotropyParser": "thermo_skanit",
+     "softwareVersion": "7.0.2.5",
+     "instrumentModel": "Varioskan LUX",
+     "serialNumber": "1234",
+     "firmwareVersion": "1.00.38",
+     "sessionName": "multi-plate_example01.skax",
+     "runDate": "2025-06-27T11:00:00",
+     "readModes": [
+      "Absorbance"
+     ],
+     "wavelengthsNm": [
+      214,
+      280
+     ],
+     "plateFormat": 96,
+     "exportFormat": "xlsx"
+    }
+   }
+  }
+ ]
+}
