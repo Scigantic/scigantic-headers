@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <Workspace version="20.0"  modDate="Tue Mar 18 11:47:24 PDT 2025"  clientTimestamp="1742323644865"  flowJoVersion="10.10.0"  drawRowBorders="1"  drawColumnBorders="1"  hideCompNodes="1"  curGroup="All Samples"  groupPaneHeight="107"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xmlns:gating="http://www.isac-net.org/std/Gating-ML/v2.0/gating"  xmlns:transforms="http://www.isac-net.org/std/Gating-ML/v2.0/transformations"  xmlns:data-type="http://www.isac-net.org/std/Gating-ML/v2.0/datatypes"  xsi:schemaLocation="http://www.isac-net.org/std/Gating-ML/v2.0/gating http://www.isac-net.org/std/Gating-ML/v2.0/gating/Gating-ML.v2.0.xsd http://www.isac-net.org/std/Gating-ML/v2.0/transformations http://www.isac-net.org/std/Gating-ML/v2.0/gating/Transformations.v2.0.xsd http://www.isac-net.org/std/Gating-ML/v2.0/datatypes http://www.isac-net.org/std/Gating-ML/v2.0/gating/DataTypes.v2.0.xsd "  nonAutoSaveFileName="file:/Y:/Documents/Flow%20Cytometry/FlowJo/LST_Depletion_check_14-Feb-2022.wsp" >
+   <WindowPosition x="-7"  y="-7"  width="1549"  height="933"  displayed="1"  panelState="" />
+   <TextTraits font="SansSerif"  size="11"  name=""  style="plain"  color="#000000"  background="#00ffffff"  just="left" />
+   <Columns>
+     <TColumn width="612" >
+       <Property key="fj.appnode.prop.name" />
+     </TColumn>
+     <TColumn width="452" >
+       <Property key="fj.appnode.prop.statistic" />
+     </TColumn>
+     <TColumn width="452" >
+       <Property key="fj.appnode.prop.ncells" />
+     </TColumn>
+   </Columns>
+   <Matrices>
+     <transforms:spilloverMatrix spectral="0"  weightOptAlgorithmType="OLS"  prefix="Comp-"  name="Acquisition-defined"  editable="0"  color="#c0c0c0"  version="FlowJo-10.10.0"  status="FINALIZED"  transforms:id="b12a0c95-113b-425b-aa08-a97ecd5e1148"  suffix="" >
+       <data-type:parameters>
+         <data-type:parameter data-type:name="BV421-A"  userProvidedCompInfix="Comp-BV421-A" />
+         <data-type:parameter data-type:name="BV510-A"  userProvidedCompInfix="Comp-BV510-A" />
+         <data-type:parameter data-type:name="BV605-A"  userProvidedCompInfix="Comp-BV605-A" />
+         <data-type:parameter data-type:name="BV650-A"  userProvidedCompInfix="Comp-BV650-A" />
+         <data-type:parameter data-type:name="BV786-A"  userProvidedCompInfix="Comp-BV786-A" />
+         <data-type:parameter data-type:name="BB515-A"  userProvidedCompInfix="Comp-BB515-A" />
+         <data-type:parameter data-type:name="PE-A"  userProvidedCompInfix="Comp-PE-A" />
+         <data-type:parameter data-type:name="PE-CF594-A"  userProvidedCompInfix="Comp-PE-CF594-A" />
+         <data-type:parameter data-type:name="PerCP-Cy5-5-A"  userProvidedCompInfix="Comp-PerCP-Cy5-5-A" />
+         <data-type:parameter data-type:name="APC-A"  userProvidedCompInfix="Comp-APC-A" />
+         <data-type:parameter data-type:name="APC-R700-A"  userProvidedCompInfix="Comp-APC-R700-A" />
+         <data-type:parameter data-type:name="APC-Cy7-A"  userProvidedCompInfix="Comp-APC-Cy7-A" />
+       </data-type:parameters>
+       <transforms:spillover data-type:parameter="BV421-A"  userProvidedCompInfix="Comp-BV421-A" >
+         <transforms:coefficient data-type:parameter="BV421-A"  transforms:value="1" />
+         <transforms:coefficient data-type:parameter="BV510-A"  transforms:value="0.1552047133" />
+         <transforms:coefficient data-type:parameter="BV605-A"  transforms:value="0.0070707756" />
+         <transforms:coefficient data-type:parameter="BV650-A"  transforms:value="0.0015525852" />
+         <transforms:coefficient data-type:parameter="BV786-A"  transforms:value="0.0001366839" />
+         <transforms:coefficient data-type:parameter="BB515-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="PE-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="PE-CF594-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="PerCP-Cy5-5-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="APC-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="APC-R700-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="APC-Cy7-A"  transforms:value="0" />
+       </transforms:spillover>
+       <transforms:spillover data-type:parameter="BV510-A"  userProvidedCompInfix="Comp-BV510-A" >
+         <transforms:coefficient data-type:parameter="BV421-A"  transforms:value="0.0693255216" />
+         <transforms:coefficient data-type:parameter="BV510-A"  transforms:value="1" />
+         <transforms:coefficient data-type:parameter="BV605-A"  transforms:value="0.3164453804" />
+         <transforms:coefficient data-type:parameter="BV650-A"  transforms:value="0.1562869102" />
+         <transforms:coefficient data-type:parameter="BV786-A"  transforms:value="0.0170378592" />
+         <transforms:coefficient data-type:parameter="BB515-A"  transforms:value="0.0013170874" />
+         <transforms:coefficient data-type:parameter="PE-A"  transforms:value="0.0009745969" />
+         <transforms:coefficient data-type:parameter="PE-CF594-A"  transforms:value="0.0004871629" />
+         <transforms:coefficient data-type:parameter="PerCP-Cy5-5-A"  transforms:value="0.0003942144" />
+         <transforms:coefficient data-type:parameter="APC-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="APC-R700-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="APC-Cy7-A"  transforms:value="0.0001915892" />
+       </transforms:spillover>
+       <transforms:spillover data-type:parameter="BV605-A"  userProvidedCompInfix="Comp-BV605-A" >
+         <transforms:coefficient data-type:parameter="BV421-A"  transforms:value="0.0198942553" />
+         <transforms:coefficient data-type:parameter="BV510-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="BV605-A"  transforms:value="1" />
+         <transforms:coefficient data-type:parameter="BV650-A"  transforms:value="0.6566870213" />
+         <transforms:coefficient data-type:parameter="BV786-A"  transforms:value="0.0633363873" />
+         <transforms:coefficient data-type:parameter="BB515-A"  transforms:value="0.0002494187" />
+         <transforms:coefficient data-type:parameter="PE-A"  transforms:value="0.0062285764" />
+         <transforms:coefficient data-type:parameter="PE-CF594-A"  transforms:value="0.018224353" />
+         <transforms:coefficient data-type:parameter="PerCP-Cy5-5-A"  transforms:value="0.0069903312" />
+         <transforms:coefficient data-type:parameter="APC-A"  transforms:value="0.0030740064" />
+         <transforms:coefficient data-type:parameter="APC-R700-A"  transforms:value="0.0000978058" />
+         <transforms:coefficient data-type:parameter="APC-Cy7-A"  transforms:value="0" />
+       </transforms:spillover>
+       <transforms:spillover data-type:parameter="BV650-A"  userProvidedCompInfix="Comp-BV650-A" >
+         <transforms:coefficient data-type:parameter="BV421-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="BV510-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="BV605-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="BV650-A"  transforms:value="1" />
+         <transforms:coefficient data-type:parameter="BV786-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="BB515-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="PE-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="PE-CF594-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="PerCP-Cy5-5-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="APC-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="APC-R700-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="APC-Cy7-A"  transforms:value="0" />
+       </transforms:spillover>
+       <transforms:spillover data-type:parameter="BV786-A"  userProvidedCompInfix="Comp-BV786-A" >
+         <transforms:coefficient data-type:parameter="BV421-A"  transforms:value="0.0286829975" />
+         <transforms:coefficient data-type:parameter="BV510-A"  transforms:value="0.0055983257" />
+         <transforms:coefficient data-type:parameter="BV605-A"  transforms:value="0.0009154325" />
+         <transforms:coefficient data-type:parameter="BV650-A"  transforms:value="0.0028675506" />
+         <transforms:coefficient data-type:parameter="BV786-A"  transforms:value="1" />
+         <transforms:coefficient data-type:parameter="BB515-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="PE-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="PE-CF594-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="PerCP-Cy5-5-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="APC-A"  transforms:value="0.0003855596" />
+         <transforms:coefficient data-type:parameter="APC-R700-A"  transforms:value="0.0030639537" />
+         <transforms:coefficient data-type:parameter="APC-Cy7-A"  transforms:value="0.0376155712" />
+       </transforms:spillover>
+       <transforms:spillover data-type:parameter="BB515-A"  userProvidedCompInfix="Comp-BB515-A" >
+         <transforms:coefficient data-type:parameter="BV421-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="BV510-A"  transforms:value="0.1233772635" />
+         <transforms:coefficient data-type:parameter="BV605-A"  transforms:value="0.0142825395" />
+         <transforms:coefficient data-type:parameter="BV650-A"  transforms:value="0.0039697457" />
+         <transforms:coefficient data-type:parameter="BV786-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="BB515-A"  transforms:value="1" />
+         <transforms:coefficient data-type:parameter="PE-A"  transforms:value="0.3269636333" />
+         <transforms:coefficient data-type:parameter="PE-CF594-A"  transforms:value="0.0774732903" />
+         <transforms:coefficient data-type:parameter="PerCP-Cy5-5-A"  transforms:value="0.0143348882" />
+         <transforms:coefficient data-type:parameter="APC-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="APC-R700-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="APC-Cy7-A"  transforms:value="0" />
+       </transforms:spillover>
+       <transforms:spillover data-type:parameter="PE-A"  userProvidedCompInfix="Comp-PE-A" >
+         <transforms:coefficient data-type:parameter="BV421-A"  transforms:value="0.0000729046" />
+         <transforms:coefficient data-type:parameter="BV510-A"  transforms:value="0.0060725003" />
+         <transforms:coefficient data-type:parameter="BV605-A"  transforms:value="0.1414580345" />
+         <transforms:coefficient data-type:parameter="BV650-A"  transforms:value="0.0426916294" />
+         <transforms:coefficient data-type:parameter="BV786-A"  transforms:value="0.0027954609" />
+         <transforms:coefficient data-type:parameter="BB515-A"  transforms:value="0.0074323444" />
+         <transforms:coefficient data-type:parameter="PE-A"  transforms:value="1" />
+         <transforms:coefficient data-type:parameter="PE-CF594-A"  transforms:value="0.2992334366" />
+         <transforms:coefficient data-type:parameter="PerCP-Cy5-5-A"  transforms:value="0.065363206" />
+         <transforms:coefficient data-type:parameter="APC-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="APC-R700-A"  transforms:value="0.0001150873" />
+         <transforms:coefficient data-type:parameter="APC-Cy7-A"  transforms:value="0" />
+       </transforms:spillover>
+       <transforms:spillover data-type:parameter="PE-CF594-A"  userProvidedCompInfix="Comp-PE-CF594-A" >
+         <transforms:coefficient data-type:parameter="BV421-A"  transforms:value="0.0003319511" />
+         <transforms:coefficient data-type:parameter="BV510-A"  transforms:value="0.001227204" />
+         <transforms:coefficient data-type:parameter="BV605-A"  transforms:value="0.4062365592" />
+         <transforms:coefficient data-type:parameter="BV650-A"  transforms:value="0.2126982212" />
+         <transforms:coefficient data-type:parameter="BV786-A"  transforms:value="0.016153466" />
+         <transforms:coefficient data-type:parameter="BB515-A"  transforms:value="0.0016723977" />
+         <transforms:coefficient data-type:parameter="PE-A"  transforms:value="0.1586004049" />
+         <transforms:coefficient data-type:parameter="PE-CF594-A"  transforms:value="1" />
+         <transforms:coefficient data-type:parameter="PerCP-Cy5-5-A"  transforms:value="0.3456736207" />
+         <transforms:coefficient data-type:parameter="APC-A"  transforms:value="0.0054775905" />
+         <transforms:coefficient data-type:parameter="APC-R700-A"  transforms:value="0.0008336373" />
+         <transforms:coefficient data-type:parameter="APC-Cy7-A"  transforms:value="0" />
+       </transforms:spillover>
+       <transforms:spillover data-type:parameter="PerCP-Cy5-5-A"  userProvidedCompInfix="Comp-PerCP-Cy5-5-A" >
+         <transforms:coefficient data-type:parameter="BV421-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="BV510-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="BV605-A"  transforms:value="0.1952787787" />
+         <transforms:coefficient data-type:parameter="BV650-A"  transforms:value="1.0275951624" />
+         <transforms:coefficient data-type:parameter="BV786-A"  transforms:value="0.1664793342" />
+         <transforms:coefficient data-type:parameter="BB515-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="PE-A"  transforms:value="0.0280153789" />
+         <transforms:coefficient data-type:parameter="PE-CF594-A"  transforms:value="0.2581709027" />
+         <transforms:coefficient data-type:parameter="PerCP-Cy5-5-A"  transforms:value="1" />
+         <transforms:coefficient data-type:parameter="APC-A"  transforms:value="0.1584506631" />
+         <transforms:coefficient data-type:parameter="APC-R700-A"  transforms:value="0.0458653495" />
+         <transforms:coefficient data-type:parameter="APC-Cy7-A"  transforms:value="0.0172821917" />
+       </transforms:spillover>
+       <transforms:spillover data-type:parameter="APC-A"  userProvidedCompInfix="Comp-APC-A" >
+         <transforms:coefficient data-type:parameter="BV421-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="BV510-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="BV605-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="BV650-A"  transforms:value="0.0801060423" />
+         <transforms:coefficient data-type:parameter="BV786-A"  transforms:value="0.0060279248" />
+         <transforms:coefficient data-type:parameter="BB515-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="PE-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="PE-CF594-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="PerCP-Cy5-5-A"  transforms:value="0.0019741028" />
+         <transforms:coefficient data-type:parameter="APC-A"  transforms:value="1" />
+         <transforms:coefficient data-type:parameter="APC-R700-A"  transforms:value="0.148722887" />
+         <transforms:coefficient data-type:parameter="APC-Cy7-A"  transforms:value="0.054270003" />
+       </transforms:spillover>
+       <transforms:spillover data-type:parameter="APC-R700-A"  userProvidedCompInfix="Comp-APC-R700-A" >
+         <transforms:coefficient data-type:parameter="BV421-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="BV510-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="BV605-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="BV650-A"  transforms:value="0.0222544707" />
+         <transforms:coefficient data-type:parameter="BV786-A"  transforms:value="0.0291819163" />
+         <transforms:coefficient data-type:parameter="BB515-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="PE-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="PE-CF594-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="PerCP-Cy5-5-A"  transforms:value="0.0084592942" />
+         <transforms:coefficient data-type:parameter="APC-A"  transforms:value="0.3959051669" />
+         <transforms:coefficient data-type:parameter="APC-R700-A"  transforms:value="1" />
+         <transforms:coefficient data-type:parameter="APC-Cy7-A"  transforms:value="0.2912940681" />
+       </transforms:spillover>
+       <transforms:spillover data-type:parameter="APC-Cy7-A"  userProvidedCompInfix="Comp-APC-Cy7-A" >
+         <transforms:coefficient data-type:parameter="BV421-A"  transforms:value="0.0001616274" />
+         <transforms:coefficient data-type:parameter="BV510-A"  transforms:value="0.0007385579" />
+         <transforms:coefficient data-type:parameter="BV605-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="BV650-A"  transforms:value="0.0054885657" />
+         <transforms:coefficient data-type:parameter="BV786-A"  transforms:value="0.1237648055" />
+         <transforms:coefficient data-type:parameter="BB515-A"  transforms:value="0.0001508768" />
+         <transforms:coefficient data-type:parameter="PE-A"  transforms:value="0.0000843006" />
+         <transforms:coefficient data-type:parameter="PE-CF594-A"  transforms:value="0.00019091" />
+         <transforms:coefficient data-type:parameter="PerCP-Cy5-5-A"  transforms:value="0" />
+         <transforms:coefficient data-type:parameter="APC-A"  transforms:value="0.0636686012" />
+         <transforms:coefficient data-type:parameter="APC-R700-A"  transforms:value="0.0693781152" />
+         <transforms:coefficient data-type:parameter="APC-Cy7-A"  transforms:value="1" />
+       </transforms:spillover>
+     </transforms:spilloverMatrix>
+   </Matrices>
+   <Cytometers>
+     <Cytometer name="GENERIC"  cyt="FACSCelesta"  useFCS3="1"  extraNegs="0"  widthBasis="-10"  linMin="0"  logMin="1"  linMax="10000"  logMax="10000"  linearRescale="1"  logRescale="1"  linFromKW="1"  logFromKW="1"  useGain="0"  useTransform="0"  transformType="LOG"  manufacturer=""  serialnumber=""  homepage="workspaces-and-samples/flowjo-and-your-cytometer/ws-instrumentation/"  icon="generic.png" >
+       <LinParams>
+         <Param>time</Param>
+       </LinParams>
+       <LogParams/>
+       <FilterParams/>
+       <TransformStore>
+         <MatrixID matrixId="b12a0c95-113b-425b-aa08-a97ecd5e1148" >
+           <Transforms>
+             <transforms:linear transforms:minRange="0"  transforms:maxRange="262144"  gain="1" >
+               <data-type:parameter data-type:name="FSC-W" />
+             </transforms:linear>
+             <transforms:log transforms:offset="1"  transforms:decades="5.418539922" >
+               <data-type:parameter data-type:name="BV421-A" />
+             </transforms:log>
+             <transforms:linear transforms:minRange="0"  transforms:maxRange="262144"  gain="1" >
+               <data-type:parameter data-type:name="SSC-H" />
+             </transforms:linear>
+             <transforms:biex transforms:length="256"  transforms:maxRange="262144"  transforms:neg="0"  transforms:width="-63.095734448"  transforms:pos="4.418539922" >
+               <data-type:parameter data-type:name="BV786-A" />
+             </transforms:biex>
+             <transforms:log transforms:offset="1"  transforms:decades="5.418539922" >
+               <data-type:parameter data-type:name="APC-R700-A" />
+             </transforms:log>
+             <transforms:log transforms:offset="1"  transforms:decades="5.418539922" >
+               <data-type:parameter data-type:name="BV510-A" />
+             </transforms:log>
+             <transforms:linear transforms:minRange="0"  transforms:maxRange="262144"  gain="1" >
+               <data-type:parameter data-type:name="FSC-A" />
+             </transforms:linear>
+             <transforms:biex transforms:length="256"  transforms:maxRange="262144"  transforms:neg="0"  transforms:width="-15.8489319246"  transforms:pos="4.418539922" >
+               <data-type:parameter data-type:name="PE-A" />
+             </transforms:biex>
+             <transforms:log transforms:offset="1"  transforms:decades="5.418539922" >
+               <data-type:parameter data-type:name="APC-Cy7-A" />
+             </transforms:log>
+             <transforms:linear transforms:minRange="0"  transforms:maxRange="262144"  gain="1" >
+               <data-type:parameter data-type:name="SSC-A" />
+             </transforms:linear>
+             <transforms:log transforms:offset="1"  transforms:decades="5.418539922" >
+               <data-type:parameter data-type:name="BV605-A" />
+             </transforms:log>
+             <transforms:log transforms:offset="1"  transforms:decades="5.418539922" >
+               <data-type:parameter data-type:name="BB515-A" />
+             </transforms:log>
+             <transforms:linear transforms:minRange="0"  transforms:maxRange="262144"  gain="1" >
+               <data-type:parameter data-type:name="FSC-H" />
+             </transforms:linear>
+             <transforms:biex transforms:length="256"  transforms:maxRange="262144"  transforms:neg="0.5"  transforms:width="-12.5892541179"  transforms:pos="4.418539922" >
+               <data-type:parameter data-type:name="APC-A" />
+             </transforms:biex>
+             <transforms:biex transforms:length="256"  transforms:maxRange="262144"  transforms:neg="0.5"  transforms:width="-15.8489319246"  transforms:pos="4.418539922" >
+               <data-type:parameter data-type:name="PerCP-Cy5-5-A" />
+             </transforms:biex>
+             <transforms:linear transforms:minRange="0"  transforms:maxRange="262144"  gain="1" >
+               <data-type:parameter data-type:name="SSC-W" />
+             </transforms:linear>
+             <transforms:log transforms:offset="1"  transforms:decades="5.418539922" >
+               <data-type:parameter data-type:name="BV650-A" />
+             </transforms:log>
+             <transforms:log transforms:offset="1"  transforms:decades="5.418539922" >
+               <data-type:parameter data-type:name="PE-CF594-A" />
+             </transforms:log>
+           </Transforms>
+         </MatrixID>
+       </TransformStore>
+     </Cytometer>
+   </Cytometers>
+   <Groups>
+     <GroupNode name="All Samples"  annotation=""  owningGroup="All Samples"  expanded="1"  sortPriority="10"  count="-1" >
+       <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
+         <Axis dimension="x"  name=""  label=""  auto="auto" />
+         <Axis dimension="y"  name=""  label=""  auto="auto" />
+         <GraphSettings level="5%"  smoothingHighResolution="1"  contourHighResolution="1"  histogramSmoothingCount="0"  graphResolution="256"  showOutliers="0"  drawLargeDots="0"  dotsToDraw="8000"  tint="le.chartfill.tinted.40"  lineWeight="le.lineweight.normal"  lineStyle="le.linestyle.solid" />
+         <GraphEnvironment showGrid="0"  showAxes="tnlTNL"  showGates="1"  showFreqOnPlots="1"  showGateNameOnPlots="1"  showMedians="0"  showUncomped="0"  addEventParam="0"  lastYAxisName="" >
+           <TextTraits font="SansSerif"  size="11"  name="Labels"  style="plain"  color="#000000"  background="#00ffffff"  just="left" />
+           <TextTraits font="SansSerif"  size="11"  name="LayoutGates"  style="plain"  color="#000000"  background="#00ffffff"  just="left" />
+           <TextTraits font="SansSerif"  size="9"  name="Numbers"  style="plain"  color="#000000"  background="#00ffffff"  just="left" />
+           <TextTraits font="SansSerif"  size="9"  name="Legend"  style="plain"  color="#000000"  background="#00ffffff"  just="left" />
+         </GraphEnvironment>
+       </Graph>
+       <Subpopulations>
+         <Population name="Lymphocytes"  annotation=""  owningGroup="All Samples"  expanded="1"  sortPriority="10"  count="33282" >
+           <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  heatMapStatParameter="Comp-BV421-A"  type="Pseudocolor

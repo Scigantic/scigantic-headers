@@ -1,0 +1,901 @@
+{
+ "_comment": "Golden cases for the cell counter and solution analyzer family. Inputs are real exports from allotropy's test data (see cells/NOTICE.md). Each expected value was checked by hand against the file and against allotropy's ASM output for the same file. Cases with go=false (.xlsx and binary .xls) are decoded only by scigantic-headers.",
+ "cases": [
+  {
+   "name": "Beckman_Vi-Cell-BLU_detail_export_multiple_samples.csv",
+   "key": "Beckman_Vi-Cell-BLU_detail_export_multiple_samples.csv",
+   "file": "cells/Beckman_Vi-Cell-BLU_detail_export_multiple_samples.csv",
+   "go": true,
+   "expected": {
+    "format": "Beckman Coulter Vi-Cell BLU",
+    "summary": "Beckman Coulter Vi-Cell BLU detail csv export, 2 samples",
+    "fields": {
+     "instrumentSoftware": "Beckman Coulter Vi-Cell BLU",
+     "instrumentCategory": "Cell Counting",
+     "vendor": "Beckman Coulter",
+     "detectionModes": [
+      "Brightfield"
+     ],
+     "allotropyParser": "beckman_vi_cell_blu",
+     "exportFormat": "detail csv",
+     "sampleCount": 2,
+     "sampleIds": [
+      "00123",
+      "CLB002"
+     ]
+    }
+   }
+  },
+  {
+   "name": "Beckman_Vi-Cell-BLU_example01.csv",
+   "key": "Beckman_Vi-Cell-BLU_example01.csv",
+   "file": "cells/Beckman_Vi-Cell-BLU_example01.csv",
+   "go": true,
+   "expected": {
+    "format": "Beckman Coulter Vi-Cell BLU",
+    "summary": "Beckman Coulter Vi-Cell BLU summary csv export, 10 samples",
+    "fields": {
+     "instrumentSoftware": "Beckman Coulter Vi-Cell BLU",
+     "instrumentCategory": "Cell Counting",
+     "vendor": "Beckman Coulter",
+     "detectionModes": [
+      "Brightfield"
+     ],
+     "allotropyParser": "beckman_vi_cell_blu",
+     "exportFormat": "summary csv",
+     "sampleCount": 10,
+     "sampleIds": [
+      "CLB001",
+      "CLB002",
+      "CLB003",
+      "CLB005",
+      "CLB006",
+      "CLB007",
+      "CLB008",
+      "CLB009",
+      "CLB010",
+      "CLB011"
+     ]
+    }
+   }
+  },
+  {
+   "name": "Beckman_Vi-Cell-BLU_example01_utf16.csv",
+   "key": "Beckman_Vi-Cell-BLU_example01_utf16.csv",
+   "file": "cells/Beckman_Vi-Cell-BLU_example01_utf16.csv",
+   "go": true,
+   "expected": {
+    "format": "Beckman Coulter Vi-Cell BLU",
+    "summary": "Beckman Coulter Vi-Cell BLU summary csv export, 10 samples",
+    "fields": {
+     "instrumentSoftware": "Beckman Coulter Vi-Cell BLU",
+     "instrumentCategory": "Cell Counting",
+     "vendor": "Beckman Coulter",
+     "detectionModes": [
+      "Brightfield"
+     ],
+     "allotropyParser": "beckman_vi_cell_blu",
+     "exportFormat": "summary csv",
+     "sampleCount": 10,
+     "sampleIds": [
+      "CLB001",
+      "CLB002",
+      "CLB003",
+      "CLB005",
+      "CLB006",
+      "CLB007",
+      "CLB008",
+      "CLB009",
+      "CLB010",
+      "CLB011"
+     ]
+    }
+   }
+  },
+  {
+   "name": "Beckman_Vi-Cell-XR_example03_instrumentOutput.xls",
+   "key": "Beckman_Vi-Cell-XR_example03_instrumentOutput.xls",
+   "file": "cells/Beckman_Vi-Cell-XR_example03_instrumentOutput.xls",
+   "go": false,
+   "expected": {
+    "format": "Beckman Coulter Vi-Cell XR",
+    "summary": "Beckman Coulter Vi-Cell XR xls export",
+    "fields": {
+     "instrumentSoftware": "Beckman Coulter Vi-Cell XR",
+     "instrumentCategory": "Cell Counting",
+     "vendor": "Beckman Coulter",
+     "detectionModes": [
+      "Brightfield"
+     ],
+     "allotropyParser": "beckman_vi_cell_xr",
+     "softwareVersion": "2.04",
+     "exportFormat": "xls"
+    }
+   }
+  },
+  {
+   "name": "Beckman_Vi-Cell-XR_example05_instrumentOutput.xlsx",
+   "key": "Beckman_Vi-Cell-XR_example05_instrumentOutput.xlsx",
+   "file": "cells/Beckman_Vi-Cell-XR_example05_instrumentOutput.xlsx",
+   "go": false,
+   "expected": {
+    "format": "Beckman Coulter Vi-Cell XR",
+    "summary": "Beckman Coulter Vi-Cell XR xlsx export, 4 samples",
+    "fields": {
+     "instrumentSoftware": "Beckman Coulter Vi-Cell XR",
+     "instrumentCategory": "Cell Counting",
+     "vendor": "Beckman Coulter",
+     "detectionModes": [
+      "Brightfield"
+     ],
+     "allotropyParser": "beckman_vi_cell_xr",
+     "softwareVersion": "2.06.3",
+     "serialNumber": "AV123456789",
+     "exportFormat": "xlsx",
+     "sampleCount": 4,
+     "sampleIds": [
+      "CLB001",
+      "CLB002",
+      "CLB003",
+      "CLB004"
+     ]
+    }
+   }
+  },
+  {
+   "name": "Beckman_Vi-Cell-XR_example07_instrumentOutput.txt",
+   "key": "Beckman_Vi-Cell-XR_example07_instrumentOutput.txt",
+   "file": "cells/Beckman_Vi-Cell-XR_example07_instrumentOutput.txt",
+   "go": true,
+   "expected": {
+    "format": "Beckman Coulter Vi-Cell XR",
+    "summary": "Beckman Coulter Vi-Cell XR txt export, 1 sample",
+    "fields": {
+     "instrumentSoftware": "Beckman Coulter Vi-Cell XR",
+     "instrumentCategory": "Cell Counting",
+     "vendor": "Beckman Coulter",
+     "detectionModes": [
+      "Brightfield"
+     ],
+     "allotropyParser": "beckman_vi_cell_xr",
+     "softwareVersion": "2.06.3",
+     "serialNumber": "AW123456789",
+     "analysisVersion": "2.42",
+     "sampleCount": 1,
+     "sampleIds": [
+      "CLB001"
+     ],
+     "runDate": "2023-09-29T05:21:32",
+     "exportFormat": "txt"
+    }
+   }
+  },
+  {
+   "name": "Beckman_Vi-Cell-XR_report_format.xlsx",
+   "key": "Beckman_Vi-Cell-XR_report_format.xlsx",
+   "file": "cells/Beckman_Vi-Cell-XR_report_format.xlsx",
+   "go": false,
+   "expected": {
+    "format": "Beckman Coulter Vi-Cell XR",
+    "summary": "Beckman Coulter Vi-Cell XR xlsx report export, 1 sample",
+    "fields": {
+     "instrumentSoftware": "Beckman Coulter Vi-Cell XR",
+     "instrumentCategory": "Cell Counting",
+     "vendor": "Beckman Coulter",
+     "detectionModes": [
+      "Brightfield"
+     ],
+     "allotropyParser": "beckman_vi_cell_xr",
+     "softwareVersion": "2.04",
+     "sampleCount": 1,
+     "sampleIds": [
+      "7B"
+     ],
+     "runDate": "2026-05-11T14:59:27",
+     "exportFormat": "xlsx report"
+    }
+   }
+  },
+  {
+   "name": "Cellaca_Example1.xlsx",
+   "key": "Cellaca_Example1.xlsx",
+   "file": "cells/Cellaca_Example1.xlsx",
+   "go": false,
+   "expected": {
+    "format": "Revvity Matrix",
+    "summary": "Revvity Matrix xlsx export, 3 samples",
+    "fields": {
+     "instrumentSoftware": "Revvity Matrix",
+     "instrumentCategory": "Cell Counting",
+     "vendor": "Revvity",
+     "detectionModes": [
+      "Brightfield"
+     ],
+     "allotropyParser": "revvity_matrix",
+     "serialNumber": "MX-123-123",
+     "exportVersion": "2",
+     "plateName": "Plate1",
+     "runDate": "2025-05-20T12:25:15",
+     "sampleIds": [
+      "1",
+      "2",
+      "3"
+     ],
+     "exportFormat": "xlsx",
+     "sampleCount": 3
+    }
+   }
+  },
+  {
+   "name": "Cellaca_Example_1.csv",
+   "key": "Cellaca_Example_1.csv",
+   "file": "cells/Cellaca_Example_1.csv",
+   "go": true,
+   "expected": {
+    "format": "Revvity Matrix",
+    "summary": "Revvity Matrix csv export, 3 samples",
+    "fields": {
+     "instrumentSoftware": "Revvity Matrix",
+     "instrumentCategory": "Cell Counting",
+     "vendor": "Revvity",
+     "detectionModes": [
+      "Brightfield"
+     ],
+     "allotropyParser": "revvity_matrix",
+     "serialNumber": "MX-123-123",
+     "exportVersion": "2",
+     "plateName": "Plate1",
+     "runDate": "5/20/25 12:25",
+     "sampleIds": [
+      "1",
+      "2",
+      "3"
+     ],
+     "exportFormat": "csv",
+     "sampleCount": 3
+    }
+   }
+  },
+  {
+   "name": "SampleResults2022-06-28_142558.csv",
+   "key": "SampleResults2022-06-28_142558.csv",
+   "file": "cells/SampleResults2022-06-28_142558.csv",
+   "go": true,
+   "expected": {
+    "format": "NovaBio Flex2",
+    "summary": "NovaBio Flex2 csv export, 1 sample",
+    "fields": {
+     "instrumentSoftware": "NovaBio Flex2",
+     "instrumentCategory": "Solution Analyzer",
+     "vendor": "Nova Biomedical",
+     "detectionModes": [
+      "Metabolite Detection",
+      "Blood Gas",
+      "pH",
+      "Osmolality",
+      "Cell Counting"
+     ],
+     "allotropyParser": "novabio_flex2",
+     "analytes": [
+      "Gln",
+      "Glu",
+      "Gluc",
+      "Lac",
+      "NH4+",
+      "Na+",
+      "K+",
+      "Ca++",
+      "pH",
+      "PO2",
+      "PCO2",
+      "HCO3"
+     ],
+     "sampleIds": [
+      "SMPL_1234"
+     ],
+     "exportFormat": "csv",
+     "sampleCount": 1
+    }
+   }
+  },
+  {
+   "name": "SampleResults2025-02-09_104000.csv",
+   "key": "SampleResults2025-02-09_104000.csv",
+   "file": "cells/SampleResults2025-02-09_104000.csv",
+   "go": true,
+   "expected": {
+    "format": "NovaBio Flex2",
+    "summary": "NovaBio Flex2 csv export, 3 samples",
+    "fields": {
+     "instrumentSoftware": "NovaBio Flex2",
+     "instrumentCategory": "Solution Analyzer",
+     "vendor": "Nova Biomedical",
+     "detectionModes": [
+      "Metabolite Detection",
+      "Blood Gas",
+      "pH",
+      "Osmolality",
+      "Cell Counting"
+     ],
+     "allotropyParser": "novabio_flex2",
+     "analytes": [
+      "Gluc",
+      "Lac",
+      "Na+",
+      "K+",
+      "pH",
+      "PO2",
+      "PCO2"
+     ],
+     "sampleIds": [
+      "BN7-1-071-D4-BR2-METREDO",
+      "BN7-1-071-D4-BR2-PHTEMP",
+      "BN7-1-071-D4-BR2-PHONLY"
+     ],
+     "exportFormat": "csv",
+     "sampleCount": 3
+    }
+   }
+  },
+  {
+   "name": "SampleResultsT000000001C2026-01-01_120000.csv",
+   "key": "SampleResultsT000000001C2026-01-01_120000.csv",
+   "file": "cells/SampleResultsT000000001C2026-01-01_120000.csv",
+   "go": true,
+   "expected": {
+    "format": "NovaBio Flex2",
+    "summary": "NovaBio Flex2 csv export, 3 samples",
+    "fields": {
+     "instrumentSoftware": "NovaBio Flex2",
+     "instrumentCategory": "Solution Analyzer",
+     "vendor": "Nova Biomedical",
+     "detectionModes": [
+      "Metabolite Detection",
+      "Blood Gas",
+      "pH",
+      "Osmolality",
+      "Cell Counting"
+     ],
+     "allotropyParser": "novabio_flex2",
+     "analytes": [
+      "Gln",
+      "Glu",
+      "Gluc",
+      "Lac",
+      "NH4+",
+      "Na+",
+      "K+",
+      "Ca++",
+      "pH",
+      "PO2",
+      "PCO2",
+      "Osm",
+      "HCO3"
+     ],
+     "sampleIds": [
+      "01JAN26_TEST_D01-1",
+      "TEST2-1-01-001",
+      "TEST3F1D10"
+     ],
+     "exportFormat": "csv",
+     "sampleCount": 3
+    }
+   }
+  },
+  {
+   "name": "chememotec_nc_view_example.csv",
+   "key": "chememotec_nc_view_example.csv",
+   "file": "cells/chememotec_nc_view_example.csv",
+   "go": true,
+   "expected": {
+    "format": "ChemoMetec NC View",
+    "summary": "ChemoMetec NC View csv export, 32 samples",
+    "fields": {
+     "instrumentSoftware": "ChemoMetec NC View",
+     "instrumentCategory": "Cell Counting",
+     "vendor": "ChemoMetec",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "chemometec_nc_view",
+     "serialNumber": "9002020102201902",
+     "protocol": "Count & Viability",
+     "sampleIds": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15",
+      "16",
+      "17",
+      "18",
+      "19",
+      "20"
+     ],
+     "exportFormat": "csv",
+     "sampleCount": 32
+    }
+   }
+  },
+  {
+   "name": "chemometec_nucleoview_example01.csv",
+   "key": "chemometec_nucleoview_example01.csv",
+   "file": "cells/chemometec_nucleoview_example01.csv",
+   "go": true,
+   "expected": {
+    "format": "ChemoMetec Nucleoview",
+    "summary": "ChemoMetec Nucleoview semicolon csv export, 1 sample",
+    "fields": {
+     "instrumentSoftware": "ChemoMetec Nucleoview",
+     "instrumentCategory": "Cell Counting",
+     "vendor": "ChemoMetec",
+     "detectionModes": [
+      "Dark Field"
+     ],
+     "allotropyParser": "chemometec_nucleoview",
+     "softwareVersion": "1.4.2.0",
+     "instrumentModel": "NucleoView NC-200",
+     "serialNumber": "9000201099909999",
+     "runDate": "2023-11-20T16:30:16+02:00",
+     "protocol": "Viability and Cell Count Assay",
+     "exportVersion": "2",
+     "sampleCount": 1,
+     "exportFormat": "semicolon csv"
+    }
+   }
+  },
+  {
+   "name": "chemometec_nucleoview_example07.csv",
+   "key": "chemometec_nucleoview_example07.csv",
+   "file": "cells/chemometec_nucleoview_example07.csv",
+   "go": true,
+   "expected": {
+    "format": "ChemoMetec Nucleoview",
+    "summary": "ChemoMetec Nucleoview semicolon csv export, 1 sample",
+    "fields": {
+     "instrumentSoftware": "ChemoMetec Nucleoview",
+     "instrumentCategory": "Cell Counting",
+     "vendor": "ChemoMetec",
+     "detectionModes": [
+      "Dark Field"
+     ],
+     "allotropyParser": "chemometec_nucleoview",
+     "softwareVersion": "1.4.0.0",
+     "instrumentModel": "NucleoView NC-200",
+     "serialNumber": "9000201099909999",
+     "runDate": "2023-11-20T11:03:00-07:00",
+     "protocol": "Viability and Cell Count Assay",
+     "exportVersion": "2",
+     "sampleCount": 1,
+     "exportFormat": "semicolon csv"
+    }
+   }
+  },
+  {
+   "name": "chemometec_nucleoview_example08.csv",
+   "key": "chemometec_nucleoview_example08.csv",
+   "file": "cells/chemometec_nucleoview_example08.csv",
+   "go": true,
+   "expected": {
+    "format": "ChemoMetec Nucleoview",
+    "summary": "ChemoMetec Nucleoview key-value csv export, 1 sample",
+    "fields": {
+     "instrumentSoftware": "ChemoMetec Nucleoview",
+     "instrumentCategory": "Cell Counting",
+     "vendor": "ChemoMetec",
+     "detectionModes": [
+      "Dark Field"
+     ],
+     "allotropyParser": "chemometec_nucleoview",
+     "softwareVersion": "9.9.9.99",
+     "serialNumber": "99999999999",
+     "protocol": "Count & Viability; 1.49",
+     "sampleCount": 1,
+     "sampleIds": [
+      "1111_viability count new 99x_pass 99"
+     ],
+     "exportFormat": "key-value csv"
+    }
+   }
+  },
+  {
+   "name": "hiac_example_1.xlsx",
+   "key": "hiac_example_1.xlsx",
+   "file": "cells/hiac_example_1.xlsx",
+   "go": false,
+   "expected": {
+    "format": "Beckman Coulter PharmSpec",
+    "summary": "Beckman Coulter PharmSpec xlsx export",
+    "fields": {
+     "instrumentSoftware": "Beckman Coulter PharmSpec",
+     "instrumentCategory": "Solution Analyzer",
+     "vendor": "Beckman Coulter",
+     "detectionModes": [
+      "Light Obscuration"
+     ],
+     "allotropyParser": "beckman_pharmspec",
+     "softwareVersion": "3.0",
+     "sensorModel": "HRLD150@10ml",
+     "sensorSerialNumber": "1808303021",
+     "sampleIds": [
+      "ExampleTimepoint"
+     ],
+     "runDate": "08.12.2022 07:51:50",
+     "runCount": 2,
+     "exportFormat": "xlsx"
+    }
+   }
+  },
+  {
+   "name": "hiac_example_6.xls",
+   "key": "hiac_example_6.xls",
+   "file": "cells/hiac_example_6.xls",
+   "go": false,
+   "expected": {
+    "format": "Beckman Coulter PharmSpec",
+    "summary": "Beckman Coulter PharmSpec xls export",
+    "fields": {
+     "instrumentSoftware": "Beckman Coulter PharmSpec",
+     "instrumentCategory": "Solution Analyzer",
+     "vendor": "Beckman Coulter",
+     "detectionModes": [
+      "Light Obscuration"
+     ],
+     "allotropyParser": "beckman_pharmspec",
+     "exportFormat": "xls"
+    }
+   }
+  },
+  {
+   "name": "hiac_example_7.xls",
+   "key": "hiac_example_7.xls",
+   "file": "cells/hiac_example_7.xls",
+   "go": true,
+   "expected": {
+    "format": "Beckman Coulter PharmSpec",
+    "summary": "Beckman Coulter PharmSpec html xls export",
+    "fields": {
+     "instrumentSoftware": "Beckman Coulter PharmSpec",
+     "instrumentCategory": "Solution Analyzer",
+     "vendor": "Beckman Coulter",
+     "detectionModes": [
+      "Light Obscuration"
+     ],
+     "allotropyParser": "beckman_pharmspec",
+     "sensorModel": "HRLD150",
+     "sensorSerialNumber": "2310303276",
+     "sampleIds": [
+      "MilliQ_end"
+     ],
+     "runDate": "5/6/2026 2:28:58 PM",
+     "runCount": 4,
+     "exportFormat": "html xls"
+    }
+   }
+  },
+  {
+   "name": "revvity_matrix_1_csv.csv",
+   "key": "revvity_matrix_1_csv.csv",
+   "file": "cells/revvity_matrix_1_csv.csv",
+   "go": true,
+   "expected": {
+    "format": "Revvity Matrix",
+    "summary": "Revvity Matrix csv export, 18 samples",
+    "fields": {
+     "instrumentSoftware": "Revvity Matrix",
+     "instrumentCategory": "Cell Counting",
+     "vendor": "Revvity",
+     "detectionModes": [
+      "Brightfield"
+     ],
+     "allotropyParser": "revvity_matrix",
+     "sampleIds": [
+      "P2-1",
+      "P2-2",
+      "P2-3",
+      "P2-4",
+      "P2-5",
+      "P2-6",
+      "P2-7",
+      "P2-8",
+      "P2-9",
+      "P3-1",
+      "P3-2",
+      "P3-3",
+      "P3-4",
+      "P3-5",
+      "P3-6",
+      "P3-7",
+      "P3-8",
+      "P3-9"
+     ],
+     "exportFormat": "csv",
+     "sampleCount": 18
+    }
+   }
+  },
+  {
+   "name": "roche_cedex_bioht_example01.txt",
+   "key": "roche_cedex_bioht_example01.txt",
+   "file": "cells/roche_cedex_bioht_example01.txt",
+   "go": true,
+   "expected": {
+    "format": "Roche Cedex BioHT",
+    "summary": "Roche Cedex BioHT txt export, 4 samples",
+    "fields": {
+     "instrumentSoftware": "Roche Cedex BioHT",
+     "instrumentCategory": "Solution Analyzer",
+     "vendor": "Roche",
+     "detectionModes": [
+      "Metabolite Detection"
+     ],
+     "allotropyParser": "roche_cedex_bioht",
+     "instrumentModel": "CEDEX BIO HT",
+     "serialNumber": "123456",
+     "softwareVersion": "6.0.0.1905 (1905)",
+     "exportVersion": "1.1a",
+     "runDate": "2023-09-17T13:04:06",
+     "exportFormat": "txt",
+     "sampleIds": [
+      "SMPL1",
+      "SMPL2",
+      "SMPL3",
+      "SMPL4"
+     ],
+     "analytes": [
+      "GLN2B",
+      "ODB",
+      "LDH2B",
+      "NH3B",
+      "LAC2B",
+      "TP2LB",
+      "TP2B",
+      "TP2D"
+     ],
+     "sampleCount": 4,
+     "measurementCount": 26
+    }
+   }
+  },
+  {
+   "name": "roche_cedex_bioht_v5_example01.txt",
+   "key": "roche_cedex_bioht_v5_example01.txt",
+   "file": "cells/roche_cedex_bioht_v5_example01.txt",
+   "go": true,
+   "expected": {
+    "format": "Roche Cedex BioHT",
+    "summary": "Roche Cedex BioHT txt export, 8 samples",
+    "fields": {
+     "instrumentSoftware": "Roche Cedex BioHT",
+     "instrumentCategory": "Solution Analyzer",
+     "vendor": "Roche",
+     "detectionModes": [
+      "Metabolite Detection"
+     ],
+     "allotropyParser": "roche_cedex_bioht",
+     "instrumentModel": "CEDEX BIO HT",
+     "serialNumber": "123456",
+     "softwareVersion": "5.0.0.1206 (1206.0)",
+     "exportVersion": "1.1a",
+     "runDate": "2025-04-11T13:51:08",
+     "exportFormat": "txt",
+     "sampleIds": [
+      "SAMPLE_01",
+      "SAMPLE_02",
+      "SAMPLE_03",
+      "SAMPLE_04",
+      "SAMPLE_05",
+      "SAMPLE_06",
+      "SAMPLE_07",
+      "SAMPLE_08"
+     ],
+     "analytes": [
+      "GLN2B",
+      "AC2B",
+      "IGGHD",
+      "LDH2D",
+      "PYRB",
+      "NH3B",
+      "FE2D",
+      "TP2B",
+      "LAC2B",
+      "GLYD",
+      "CA2B",
+      "MG2B",
+      "KB",
+      "NAB",
+      "ASPB",
+      "GLYB",
+      "ASNLB",
+      "GLC3B",
+      "GLU2B",
+      "LDH2B",
+      "PHO2B"
+     ],
+     "sampleCount": 8,
+     "measurementCount": 168
+    }
+   }
+  },
+  {
+   "name": "roche_cedex_bioht_v7_example_01.txt",
+   "key": "roche_cedex_bioht_v7_example_01.txt",
+   "file": "cells/roche_cedex_bioht_v7_example_01.txt",
+   "go": true,
+   "expected": {
+    "format": "Roche Cedex BioHT",
+    "summary": "Roche Cedex BioHT txt export, 20 samples",
+    "fields": {
+     "instrumentSoftware": "Roche Cedex BioHT",
+     "instrumentCategory": "Solution Analyzer",
+     "vendor": "Roche",
+     "detectionModes": [
+      "Metabolite Detection"
+     ],
+     "allotropyParser": "roche_cedex_bioht",
+     "instrumentModel": "CEDEX BIO HT",
+     "serialNumber": "600086",
+     "softwareVersion": "7.0.0.2410 (2410)",
+     "exportVersion": "1.1a",
+     "runDate": "2025-11-20T14:51:33",
+     "exportFormat": "txt",
+     "sampleIds": [
+      "SAMPLE1",
+      "SAMPLE2",
+      "SAMPLE3",
+      "SAMPLE4",
+      "SAMPLE5",
+      "SAMPLE6",
+      "SAMPLE7",
+      "SAMPLE8",
+      "SAMPLE9",
+      "SAMPLE10",
+      "SAMPLE11",
+      "SAMPLE12",
+      "SAMPLE13",
+      "SAMPLE14",
+      "SAMPLE15",
+      "SAMPLE16",
+      "SAMPLE17",
+      "SAMPLE18",
+      "SAMPLE19",
+      "SAMPLE20"
+     ],
+     "analytes": [
+      "GLN2B",
+      "AC2B",
+      "ASPB",
+      "GLC3B",
+      "GLU2B",
+      "IGGHB",
+      "LAC2B",
+      "LDH2D",
+      "NAB",
+      "NH3B",
+      "PHO2B",
+      "PYRB",
+      "KB",
+      "FE2D",
+      "TP2B",
+      "GLYB",
+      "CA2B",
+      "MG2B",
+      "ASNLB",
+      "LDH2B"
+     ],
+     "sampleCount": 20,
+     "measurementCount": 20
+    }
+   }
+  },
+  {
+   "name": "roche_cedex_hires_example_1.csv",
+   "key": "roche_cedex_hires_example_1.csv",
+   "file": "cells/roche_cedex_hires_example_1.csv",
+   "go": true,
+   "expected": {
+    "format": "Roche Cedex HiRes",
+    "summary": "Roche Cedex HiRes csv export, 8 samples",
+    "fields": {
+     "instrumentSoftware": "Roche Cedex HiRes",
+     "instrumentCategory": "Cell Counting",
+     "vendor": "Roche",
+     "detectionModes": [
+      "Brightfield"
+     ],
+     "allotropyParser": "roche_cedex_hires",
+     "deviceIdentifier": "3714019",
+     "systemName": "G037DE019",
+     "sampleIds": [
+      "0618_F01",
+      "0618_F02",
+      "0618_F03",
+      "0618_F04",
+      "0618_F05",
+      "0618_F06",
+      "0618_F07",
+      "0618_F08"
+     ],
+     "exportFormat": "csv",
+     "sampleCount": 8
+    }
+   }
+  },
+  {
+   "name": "roche_cedex_hires_example_2.xlsx",
+   "key": "roche_cedex_hires_example_2.xlsx",
+   "file": "cells/roche_cedex_hires_example_2.xlsx",
+   "go": false,
+   "expected": {
+    "format": "Roche Cedex HiRes",
+    "summary": "Roche Cedex HiRes xlsx export, 8 samples",
+    "fields": {
+     "instrumentSoftware": "Roche Cedex HiRes",
+     "instrumentCategory": "Cell Counting",
+     "vendor": "Roche",
+     "detectionModes": [
+      "Brightfield"
+     ],
+     "allotropyParser": "roche_cedex_hires",
+     "deviceIdentifier": "3714019",
+     "systemName": "G037DE019",
+     "sampleIds": [
+      "0618_F01",
+      "0618_F02",
+      "0618_F03",
+      "0618_F04",
+      "0618_F05",
+      "0618_F06",
+      "0618_F07",
+      "0618_F08"
+     ],
+     "exportFormat": "xlsx",
+     "sampleCount": 8
+    }
+   }
+  },
+  {
+   "name": "roche_cedex_hires_example_3.csv",
+   "key": "roche_cedex_hires_example_3.csv",
+   "file": "cells/roche_cedex_hires_example_3.csv",
+   "go": true,
+   "expected": {
+    "format": "Roche Cedex HiRes",
+    "summary": "Roche Cedex HiRes csv export, 9 samples",
+    "fields": {
+     "instrumentSoftware": "Roche Cedex HiRes",
+     "instrumentCategory": "Cell Counting",
+     "vendor": "Roche",
+     "detectionModes": [
+      "Brightfield"
+     ],
+     "allotropyParser": "roche_cedex_hires",
+     "deviceIdentifier": "3700901",
+     "systemName": "G037D0901, MS, prem",
+     "sampleIds": [
+      "Sample2",
+      "Camron_Tests",
+      "KV020",
+      "KV013",
+      "KV017",
+      "KV016",
+      "KV014",
+      "KV012"
+     ],
+     "exportFormat": "csv",
+     "sampleCount": 9
+    }
+   }
+  }
+ ]
+}

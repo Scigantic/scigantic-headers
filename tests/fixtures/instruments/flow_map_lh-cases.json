@@ -1,0 +1,696 @@
+{
+ "cases": [
+  {
+   "name": "flowjo_example_1.head.wsp",
+   "file": "flowjo_example_1.head.wsp",
+   "key": "flowjo_example_1.head.wsp",
+   "pythonOnly": false,
+   "source": "tests/parsers/flowjo/testdata/flowjo_example_1.wsp (first 24576 bytes)",
+   "expected": {
+    "format": "FlowJo",
+    "summary": "FlowJo workspace 10.10.0, FACSCelesta",
+    "fields": {
+     "instrumentSoftware": "FlowJo",
+     "instrumentCategory": "Flow Cytometry",
+     "vendor": "BD Biosciences",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "flowjo",
+     "softwareVersion": "10.10.0",
+     "workspaceVersion": "20.0",
+     "instrumentModel": "FACSCelesta",
+     "exportFormat": "workspace xml"
+    }
+   }
+  },
+  {
+   "name": "flowjo_example_3.head.wsp",
+   "file": "flowjo_example_3.head.wsp",
+   "key": "flowjo_example_3.head.wsp",
+   "pythonOnly": false,
+   "source": "tests/parsers/flowjo/testdata/flowjo_example_3.wsp (first 4096 bytes)",
+   "expected": {
+    "format": "FlowJo",
+    "summary": "FlowJo workspace 10.9.0, ID7000",
+    "fields": {
+     "instrumentSoftware": "FlowJo",
+     "instrumentCategory": "Flow Cytometry",
+     "vendor": "BD Biosciences",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "flowjo",
+     "softwareVersion": "10.9.0",
+     "workspaceVersion": "20.0",
+     "instrumentModel": "ID7000",
+     "exportFormat": "workspace xml"
+    }
+   }
+  },
+  {
+   "name": "facsdiva_example_1.head.xml",
+   "file": "facsdiva_example_1.head.xml",
+   "key": "facsdiva_example_1.head.xml",
+   "pythonOnly": false,
+   "source": "tests/parsers/bd_biosciences_facsdiva/testdata/facsdiva_example_1.xml (first 4096 bytes)",
+   "expected": {
+    "format": "BD Biosciences FACSDiva",
+    "summary": "FACSDiva experiment 6.2",
+    "fields": {
+     "instrumentSoftware": "BD Biosciences FACSDiva",
+     "instrumentCategory": "Flow Cytometry",
+     "vendor": "BD Biosciences",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "bd_biosciences_facsdiva",
+     "softwareVersion": "6.2",
+     "experimentName": "GFP Topro3 BV510 PECy7 190415",
+     "experimentDate": "2019-04-15T16:20:39",
+     "exportDate": "2019-04-15T16:27:27",
+     "exportFormat": "experiment xml"
+    }
+   }
+  },
+  {
+   "name": "facsdiva_example_2.head.xml",
+   "file": "facsdiva_example_2.head.xml",
+   "key": "facsdiva_example_2.head.xml",
+   "pythonOnly": false,
+   "source": "tests/parsers/bd_biosciences_facsdiva/testdata/facsdiva_example_2.xml (first 4096 bytes)",
+   "expected": {
+    "format": "BD Biosciences FACSDiva",
+    "summary": "FACSDiva experiment 8.0.2",
+    "fields": {
+     "instrumentSoftware": "BD Biosciences FACSDiva",
+     "instrumentCategory": "Flow Cytometry",
+     "vendor": "BD Biosciences",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "bd_biosciences_facsdiva",
+     "softwareVersion": "8.0.2",
+     "experimentName": "20190503 TOPRO GFP BFP mCherry PECy7 BV510",
+     "experimentDate": "2019-05-03T13:53:21",
+     "exportDate": "2019-05-03T15:08:22",
+     "exportFormat": "experiment xml"
+    }
+   }
+  },
+  {
+   "name": "bio-rad_bio-plex_manager_example_01.head.xml",
+   "file": "bio-rad_bio-plex_manager_example_01.head.xml",
+   "key": "bio-rad_bio-plex_manager_example_01.head.xml",
+   "pythonOnly": false,
+   "source": "tests/parsers/biorad_bioplex_manager/testdata/bio-rad_bio-plex_manager_example_01.xml (first 8192 bytes)",
+   "expected": {
+    "format": "Bio-Rad Bio-Plex Manager",
+    "summary": "Bio-Plex Manager 6.2.0.175 export, 96-well plate, 15 analytes",
+    "fields": {
+     "instrumentSoftware": "Bio-Rad Bio-Plex Manager",
+     "instrumentCategory": "Multi Analyte Profiling",
+     "vendor": "Bio-Rad",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "biorad_bioplex_manager",
+     "softwareVersion": "6.2.0.175",
+     "serialNumber": "LX12345678912",
+     "firmwareVersion": "2.6.1",
+     "plateFormat": 96,
+     "analyteCount": 15,
+     "exportDate": "2024-01-09T13:20:40Z",
+     "exportFormat": "xml"
+    }
+   }
+  },
+  {
+   "name": "luminex_xPONENT_example02.csv",
+   "file": "luminex_xPONENT_example02.csv",
+   "key": "luminex_xPONENT_example02.csv",
+   "pythonOnly": false,
+   "source": "tests/parsers/luminex_xponent/testdata/luminex_xPONENT_example02.csv (whole file)",
+   "expected": {
+    "format": "Luminex xPONENT",
+    "summary": "xPONENT batch csv 4.3.229.0, FlexMAP 3D, 2 analytes, 4 wells",
+    "fields": {
+     "instrumentSoftware": "Luminex xPONENT",
+     "instrumentCategory": "Multi Analyte Profiling",
+     "vendor": "Luminex",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "luminex_xponent",
+     "softwareVersion": "4.3.229.0",
+     "instrumentModel": "FlexMAP 3D",
+     "serialNumber": "FM3DD20137021",
+     "batchName": "PCD00360_184221_20230517",
+     "protocolName": "V116_pnUAD",
+     "runDate": "5/17/2023 6:42:29 PM",
+     "plateFormat": 96,
+     "plateCount": 1,
+     "analyteCount": 2,
+     "measurementCount": 4,
+     "sampleCount": 4,
+     "sampleNames": [
+      "Unknown1",
+      "Unknown2",
+      "Unknown3",
+      "Unknown4"
+     ],
+     "exportFormat": "batch csv"
+    }
+   }
+  },
+  {
+   "name": "luminex_xPONENT_example02_saved.csv",
+   "file": "luminex_xPONENT_example02_saved.csv",
+   "key": "luminex_xPONENT_example02_saved.csv",
+   "pythonOnly": false,
+   "source": "tests/parsers/luminex_xponent/testdata/luminex_xPONENT_example02_saved.csv (whole file)",
+   "expected": {
+    "format": "Luminex xPONENT",
+    "summary": "xPONENT batch csv 4.3.229.0, FlexMAP 3D, 2 analytes, 4 wells",
+    "fields": {
+     "instrumentSoftware": "Luminex xPONENT",
+     "instrumentCategory": "Multi Analyte Profiling",
+     "vendor": "Luminex",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "luminex_xponent",
+     "softwareVersion": "4.3.229.0",
+     "instrumentModel": "FlexMAP 3D",
+     "serialNumber": "FM3DD20137021",
+     "batchName": "PCD00360_184221_20230517",
+     "protocolName": "V116_pnUAD",
+     "runDate": "5/17/2023 6:42:29 PM",
+     "plateFormat": 96,
+     "plateCount": 1,
+     "analyteCount": 2,
+     "measurementCount": 4,
+     "sampleCount": 4,
+     "sampleNames": [
+      "Unknown1",
+      "Unknown2",
+      "Unknown3",
+      "Unknown4"
+     ],
+     "exportFormat": "batch csv"
+    }
+   }
+  },
+  {
+   "name": "luminex_xPONENT_example03.csv",
+   "file": "luminex_xPONENT_example03.csv",
+   "key": "luminex_xPONENT_example03.csv",
+   "pythonOnly": false,
+   "source": "tests/parsers/luminex_xponent/testdata/luminex_xPONENT_example03.csv (whole file)",
+   "expected": {
+    "format": "Luminex xPONENT",
+    "summary": "xPONENT batch csv 4.3.229.0, FlexMAP 3D, 2 analytes, 4 wells",
+    "fields": {
+     "instrumentSoftware": "Luminex xPONENT",
+     "instrumentCategory": "Multi Analyte Profiling",
+     "vendor": "Luminex",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "luminex_xponent",
+     "softwareVersion": "4.3.229.0",
+     "instrumentModel": "FlexMAP 3D",
+     "serialNumber": "FM3DD12345678",
+     "batchName": "ABCD_123456_20230518",
+     "protocolName": "foo_bar",
+     "runDate": "5/18/2023 11:03:56 AM",
+     "plateFormat": 96,
+     "plateCount": 1,
+     "analyteCount": 2,
+     "measurementCount": 4,
+     "sampleCount": 4,
+     "sampleNames": [
+      "Unknown1",
+      "Unknown2",
+      "Unknown3",
+      "Unknown4"
+     ],
+     "exportFormat": "batch csv"
+    }
+   }
+  },
+  {
+   "name": "luminex_intelliflex_example_01.csv",
+   "file": "luminex_intelliflex_example_01.csv",
+   "key": "luminex_intelliflex_example_01.csv",
+   "pythonOnly": false,
+   "source": "tests/parsers/luminex_intelliflex/testdata/luminex_intelliflex_example_01.csv (whole file)",
+   "expected": {
+    "format": "Luminex INTELLIFLEX",
+    "summary": "INTELLIFLEX batch csv 2.1.1015, Intelliflex, 5 analytes, 12 wells",
+    "fields": {
+     "instrumentSoftware": "Luminex INTELLIFLEX",
+     "instrumentCategory": "Multi Analyte Profiling",
+     "vendor": "Luminex",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "luminex_intelliflex",
+     "softwareVersion": "2.1.1015",
+     "instrumentModel": "Intelliflex",
+     "serialNumber": "SERIAL_12345",
+     "batchName": "BATCH_1",
+     "runDate": "2024-10-18T11:36:00",
+     "plateFormat": 96,
+     "plateCount": 1,
+     "analyteCount": 5,
+     "measurementCount": 12,
+     "sampleCount": 7,
+     "sampleNames": [
+      "Donor14_1",
+      "Donor14_2",
+      "Donor14_3",
+      "Donor14_4",
+      "Donor14_5",
+      "Donor14_6",
+      "Background"
+     ],
+     "exportFormat": "batch csv"
+    }
+   }
+  },
+  {
+   "name": "luminex_intelliflex_single_dataset.csv",
+   "file": "luminex_intelliflex_single_dataset.csv",
+   "key": "luminex_intelliflex_single_dataset.csv",
+   "pythonOnly": false,
+   "source": "tests/parsers/luminex_intelliflex/testdata/luminex_intelliflex_single_dataset.csv (whole file)",
+   "expected": {
+    "format": "Luminex INTELLIFLEX",
+    "summary": "INTELLIFLEX results csv 2.0.1017, INTELLIFLEX, 14 regions, 3 wells",
+    "fields": {
+     "instrumentSoftware": "Luminex INTELLIFLEX",
+     "instrumentCategory": "Multi Analyte Profiling",
+     "vendor": "Luminex",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "luminex_intelliflex",
+     "softwareVersion": "2.0.1017",
+     "firmwareVersion": "2.0.15",
+     "instrumentType": "INTELLIFLEX",
+     "serialNumber": "IFLEXP24099001",
+     "plateName": "PLATE_11082024_RUN000",
+     "runDate": "11/8/2024 12:12",
+     "regionCount": 14,
+     "measurementCount": 3,
+     "sampleCount": 3,
+     "sampleNames": [
+      "Unknown1",
+      "Unknown13",
+      "Unknown25"
+     ],
+     "exportFormat": "results csv"
+    }
+   }
+  },
+  {
+   "name": "luminex_intelliflex_v2_1.csv",
+   "file": "luminex_intelliflex_v2_1.csv",
+   "key": "luminex_intelliflex_v2_1.csv",
+   "pythonOnly": false,
+   "source": "tests/parsers/luminex_intelliflex/testdata/luminex_intelliflex_v2_1.csv (whole file)",
+   "expected": {
+    "format": "Luminex INTELLIFLEX",
+    "summary": "INTELLIFLEX results csv 2.1.1015, xMAP INTELLIFLEX® DR-SE, 14 regions, 2 wells",
+    "fields": {
+     "instrumentSoftware": "Luminex INTELLIFLEX",
+     "instrumentCategory": "Multi Analyte Profiling",
+     "vendor": "Luminex",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "luminex_intelliflex",
+     "softwareVersion": "2.1.1015",
+     "firmwareVersion": "2.0.40",
+     "instrumentModel": "xMAP INTELLIFLEX® DR-SE",
+     "instrumentType": "INTELLIFLEX",
+     "serialNumber": "IFLEXP24226001",
+     "plateName": "CO024769_P4_Work Unit 1955",
+     "protocolName": "HPV14_LIA_cLIA [v5]",
+     "runDate": "12/8/2025 13:22",
+     "plateFormat": 96,
+     "regionCount": 14,
+     "measurementCount": 2,
+     "sampleCount": 1,
+     "sampleNames": [
+      "4074421429"
+     ],
+     "exportFormat": "results csv"
+    }
+   }
+  },
+  {
+   "name": "luminex_intelliflex_v2_2.csv",
+   "file": "luminex_intelliflex_v2_2.csv",
+   "key": "luminex_intelliflex_v2_2.csv",
+   "pythonOnly": false,
+   "source": "tests/parsers/luminex_intelliflex/testdata/luminex_intelliflex_v2_2.csv (whole file)",
+   "expected": {
+    "format": "Luminex INTELLIFLEX",
+    "summary": "INTELLIFLEX results csv 2.1.1015, xMAP INTELLIFLEX DR-SE, 14 regions, 10 wells",
+    "fields": {
+     "instrumentSoftware": "Luminex INTELLIFLEX",
+     "instrumentCategory": "Multi Analyte Profiling",
+     "vendor": "Luminex",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "luminex_intelliflex",
+     "softwareVersion": "2.1.1015",
+     "firmwareVersion": "2.0.40",
+     "instrumentModel": "xMAP INTELLIFLEX DR-SE",
+     "instrumentType": "INTELLIFLEX",
+     "serialNumber": "IFLXTEST001",
+     "plateName": "TEST_PLATE_001",
+     "protocolName": "TestProtocol [v1]",
+     "runDate": "2026-02-25T16:42:08",
+     "plateFormat": 96,
+     "regionCount": 14,
+     "measurementCount": 10,
+     "sampleCount": 10,
+     "sampleNames": [
+      "Sample_001",
+      "Sample_002",
+      "Sample_003",
+      "Sample_004",
+      "Sample_005",
+      "Sample_006",
+      "Sample_007",
+      "Sample_008",
+      "Sample_009",
+      "Sample_010"
+     ],
+     "documentSigned": true,
+     "exportFormat": "results csv"
+    }
+   }
+  },
+  {
+   "name": "luminex_intelliflex_v2_2_excel.xlsx",
+   "file": "luminex_intelliflex_v2_2_excel.xlsx",
+   "key": "luminex_intelliflex_v2_2_excel.xlsx",
+   "pythonOnly": true,
+   "source": "tests/parsers/luminex_intelliflex/testdata/luminex_intelliflex_v2_2_excel.xlsx (whole file)",
+   "expected": {
+    "format": "Luminex INTELLIFLEX",
+    "summary": "INTELLIFLEX results xlsx 2.2.1018, xMAP INTELLIFLEX® DR-SE, 14 regions, 2 wells",
+    "fields": {
+     "instrumentSoftware": "Luminex INTELLIFLEX",
+     "instrumentCategory": "Multi Analyte Profiling",
+     "vendor": "Luminex",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "luminex_intelliflex",
+     "softwareVersion": "2.2.1018",
+     "firmwareVersion": "2.0.15",
+     "instrumentModel": "xMAP INTELLIFLEX® DR-SE",
+     "instrumentType": "INTELLIFLEX",
+     "serialNumber": "IFLEXP24137001",
+     "plateName": "XX071889_Work Unit 2620_LH1_3_R6",
+     "protocolName": "HPV14_LIA_cLIA [v19]",
+     "runDate": "2026-07-21T15:24:35",
+     "plateFormat": 96,
+     "regionCount": 14,
+     "measurementCount": 2,
+     "sampleCount": 1,
+     "sampleNames": [
+      "4072744000"
+     ],
+     "exportFormat": "results xlsx"
+    }
+   }
+  },
+  {
+   "name": "biomek_example_01.csv",
+   "file": "biomek_example_01.csv",
+   "key": "biomek_example_01.csv",
+   "pythonOnly": false,
+   "source": "tests/parsers/beckman_coulter_biomek/testdata/example_01.csv (whole file)",
+   "expected": {
+    "format": "Beckman Coulter Biomek",
+    "summary": "Biomek transfer log, !Strain Engineering\\Pfast Feas\\FF2_Induction, 8 transfer steps",
+    "fields": {
+     "instrumentSoftware": "Beckman Coulter Biomek",
+     "instrumentCategory": "Liquid Handler",
+     "vendor": "Beckman Coulter",
+     "detectionModes": [],
+     "allotropyParser": "beckman_coulter_biomek",
+     "methodName": "!Strain Engineering\\Pfast Feas\\FF2_Induction",
+     "serialNumber": "B8758519K13",
+     "podCount": 2,
+     "podHeadSerialNumbers": [
+      "B8758919L19"
+     ],
+     "runDate": "09/04/2024 14:15:05",
+     "measurementCount": 8,
+     "logLayout": "unified pipetting",
+     "exportFormat": "transfer log"
+    }
+   }
+  },
+  {
+   "name": "biomek_example_03.log",
+   "file": "biomek_example_03.log",
+   "key": "biomek_example_03.log",
+   "pythonOnly": false,
+   "source": "tests/parsers/beckman_coulter_biomek/testdata/example_03.log (whole file)",
+   "expected": {
+    "format": "Beckman Coulter Biomek",
+    "summary": "Biomek transfer log, Cryovial to 96W Plate\\LabElite 5ml to 96 1ml FullPlate 99999999, 46 transfer steps",
+    "fields": {
+     "instrumentSoftware": "Beckman Coulter Biomek",
+     "instrumentCategory": "Liquid Handler",
+     "vendor": "Beckman Coulter",
+     "detectionModes": [],
+     "allotropyParser": "beckman_coulter_biomek",
+     "methodName": "Cryovial to 96W Plate\\LabElite 5ml to 96 1ml FullPlate 99999999",
+     "podCount": 2,
+     "runDate": "08/15/2025 10:59:31",
+     "measurementCount": 46,
+     "logLayout": "unified pipetting",
+     "exportFormat": "transfer log"
+    }
+   }
+  },
+  {
+   "name": "biomek_pipetting_example.log",
+   "file": "biomek_pipetting_example.log",
+   "key": "biomek_pipetting_example.log",
+   "pythonOnly": false,
+   "source": "tests/parsers/beckman_coulter_biomek/testdata/pipetting_example.log (whole file)",
+   "expected": {
+    "format": "Beckman Coulter Biomek",
+    "summary": "Biomek transfer log, Method1, 14 transfer steps",
+    "fields": {
+     "instrumentSoftware": "Beckman Coulter Biomek",
+     "instrumentCategory": "Liquid Handler",
+     "vendor": "Beckman Coulter",
+     "detectionModes": [],
+     "allotropyParser": "beckman_coulter_biomek",
+     "methodName": "Method1",
+     "podCount": 1,
+     "runDate": "09/14/2011 14:02:39",
+     "measurementCount": 14,
+     "logLayout": "pipetting",
+     "exportFormat": "transfer log"
+    }
+   }
+  },
+  {
+   "name": "biomek_UnifiedTransfer09-14-2011.log",
+   "file": "biomek_UnifiedTransfer09-14-2011.log",
+   "key": "biomek_UnifiedTransfer09-14-2011.log",
+   "pythonOnly": false,
+   "source": "tests/parsers/beckman_coulter_biomek/testdata/UnifiedTransfer09-14-2011.log (whole file)",
+   "expected": {
+    "format": "Beckman Coulter Biomek",
+    "summary": "Biomek transfer log, Method, 8 transfer steps",
+    "fields": {
+     "instrumentSoftware": "Beckman Coulter Biomek",
+     "instrumentCategory": "Liquid Handler",
+     "vendor": "Beckman Coulter",
+     "detectionModes": [],
+     "allotropyParser": "beckman_coulter_biomek",
+     "methodName": "Method",
+     "serialNumber": "1234",
+     "podCount": 2,
+     "runDate": "09/18/2025 10:59:31",
+     "measurementCount": 8,
+     "logLayout": "unified transfer",
+     "exportFormat": "transfer log"
+    }
+   }
+  },
+  {
+   "name": "echo_reformat_PartialTransfer.csv",
+   "file": "echo_reformat_PartialTransfer.csv",
+   "key": "echo_reformat_PartialTransfer.csv",
+   "pythonOnly": false,
+   "source": "tests/parsers/beckman_echo_plate_reformat/testdata/PartialTransfer.csv (whole file)",
+   "expected": {
+    "format": "Beckman Echo Plate Reformat",
+    "summary": "Echo Plate Reformat report 1.7.2, Echo 525, 2 transfers, 2 exceptions",
+    "fields": {
+     "instrumentSoftware": "Beckman Echo Plate Reformat",
+     "instrumentCategory": "Liquid Handler",
+     "vendor": "Beckman Coulter",
+     "detectionModes": [],
+     "allotropyParser": "beckman_echo_plate_reformat",
+     "applicationName": "Labcyte Echo Plate Reformat",
+     "softwareVersion": "1.7.2",
+     "instrumentModel": "Echo 525",
+     "serialNumber": "E5XX-19119",
+     "instrumentSoftwareVersion": "2.6.3",
+     "runId": "1733769202",
+     "runDate": "2024-12-09T13:39:19",
+     "protocolName": "connect_test_protocol.epr",
+     "sections": [
+      "EXCEPTIONS",
+      "DETAILS"
+     ],
+     "transferCount": 2,
+     "exceptionCount": 2,
+     "exportFormat": "transfer report csv"
+    }
+   }
+  },
+  {
+   "name": "echo_reformat_SurveyVolumeExamples.csv",
+   "file": "echo_reformat_SurveyVolumeExamples.csv",
+   "key": "echo_reformat_SurveyVolumeExamples.csv",
+   "pythonOnly": false,
+   "source": "tests/parsers/beckman_echo_plate_reformat/testdata/SurveyVolumeExamples.csv (whole file)",
+   "expected": {
+    "format": "Beckman Echo Plate Reformat",
+    "summary": "Echo Plate Reformat report 1.7.2, Echo 525, 0 transfers, 30 exceptions",
+    "fields": {
+     "instrumentSoftware": "Beckman Echo Plate Reformat",
+     "instrumentCategory": "Liquid Handler",
+     "vendor": "Beckman Coulter",
+     "detectionModes": [],
+     "allotropyParser": "beckman_echo_plate_reformat",
+     "applicationName": "Labcyte Echo Plate Reformat",
+     "softwareVersion": "1.7.2",
+     "instrumentModel": "Echo 525",
+     "serialNumber": "E5XX-19119",
+     "instrumentSoftwareVersion": "2.6.3",
+     "runId": "1741720420",
+     "runDate": "3/11/2025 15:14",
+     "protocolName": "SeV_r2_exc1.epr",
+     "sections": [
+      "EXCEPTIONS",
+      "DETAILS"
+     ],
+     "transferCount": 0,
+     "exceptionCount": 30,
+     "exportFormat": "transfer report csv"
+    }
+   }
+  },
+  {
+   "name": "echo_reformat_ExceptionsOnly.csv",
+   "file": "echo_reformat_ExceptionsOnly.csv",
+   "key": "echo_reformat_ExceptionsOnly.csv",
+   "pythonOnly": false,
+   "source": "tests/parsers/beckman_echo_plate_reformat/testdata/ExceptionsOnly.csv (whole file)",
+   "expected": {
+    "format": "Beckman Echo Plate Reformat",
+    "summary": "Echo Plate Reformat report 1.7.2, Echo 525, 4 exceptions",
+    "fields": {
+     "instrumentSoftware": "Beckman Echo Plate Reformat",
+     "instrumentCategory": "Liquid Handler",
+     "vendor": "Beckman Coulter",
+     "detectionModes": [],
+     "allotropyParser": "beckman_echo_plate_reformat",
+     "applicationName": "Labcyte Echo Plate Reformat",
+     "softwareVersion": "1.7.2",
+     "instrumentModel": "Echo 525",
+     "serialNumber": "E5XX-19119",
+     "instrumentSoftwareVersion": "2.6.3",
+     "runId": "1733768895",
+     "runDate": "2024-12-09T13:34:11",
+     "protocolName": "connect_test_protocol.epr",
+     "sections": [
+      "EXCEPTIONS"
+     ],
+     "exceptionCount": 4,
+     "exportFormat": "transfer report csv"
+    }
+   }
+  },
+  {
+   "name": "echo_reformat_TransferOnly.csv",
+   "file": "echo_reformat_TransferOnly.csv",
+   "key": "echo_reformat_TransferOnly.csv",
+   "pythonOnly": false,
+   "source": "tests/parsers/beckman_echo_plate_reformat/testdata/TransferOnly.csv (whole file)",
+   "expected": {
+    "format": "Beckman Echo Plate Reformat",
+    "summary": "Echo Plate Reformat report 1.7.2, Echo 525, 4 transfers",
+    "fields": {
+     "instrumentSoftware": "Beckman Echo Plate Reformat",
+     "instrumentCategory": "Liquid Handler",
+     "vendor": "Beckman Coulter",
+     "detectionModes": [],
+     "allotropyParser": "beckman_echo_plate_reformat",
+     "applicationName": "Labcyte Echo Plate Reformat",
+     "softwareVersion": "1.7.2",
+     "instrumentModel": "Echo 525",
+     "serialNumber": "E5XX-19119",
+     "instrumentSoftwareVersion": "2.6.3",
+     "runId": "1733769624",
+     "runDate": "2024-12-09T13:46:20",
+     "protocolName": "connect_test_protocol.epr",
+     "sections": [
+      "DETAILS"
+     ],
+     "transferCount": 4,
+     "exportFormat": "transfer report csv"
+    }
+   }
+  },
+  {
+   "name": "echo_cherry_pick_CherryPick_Transfer_Complete.trimmed.csv",
+   "file": "echo_cherry_pick_CherryPick_Transfer_Complete.trimmed.csv",
+   "key": "echo_cherry_pick_CherryPick_Transfer_Complete.trimmed.csv",
+   "pythonOnly": false,
+   "source": "tests/parsers/beckman_echo_cherry_pick/testdata/CherryPick_Transfer_Complete.csv (lines 1-53 and 545-551 (DETAILS rows 41-531 removed))",
+   "expected": {
+    "format": "Beckman Echo Cherry Pick",
+    "summary": "Echo Cherry Pick report 1.8.2, Echo 525, 41 transfers",
+    "fields": {
+     "instrumentSoftware": "Beckman Echo Cherry Pick",
+     "instrumentCategory": "Liquid Handler",
+     "vendor": "Beckman Coulter",
+     "detectionModes": [],
+     "allotropyParser": "beckman_echo_cherry_pick",
+     "applicationName": "Echo Cherry Pick",
+     "softwareVersion": "1.8.2",
+     "instrumentModel": "Echo 525",
+     "serialNumber": "E5XX-22154",
+     "instrumentSoftwareVersion": "2.7.3",
+     "runId": "1772741910",
+     "runDate": "2026-03-05T15:20:34",
+     "protocolName": "20260129_MACRO_CherryPickProtocol.ecp",
+     "sections": [
+      "DETAILS"
+     ],
+     "transferCount": 41,
+     "exportFormat": "transfer report csv"
+    }
+   }
+  }
+ ]
+}

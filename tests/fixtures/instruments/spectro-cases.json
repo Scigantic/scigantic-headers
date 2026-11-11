@@ -1,0 +1,733 @@
+{
+ "cases": [
+  {
+   "name": "visionlite_fixed_result_multi.csv",
+   "file": "spectro/visionlite_fixed_result_multi.csv",
+   "key": "visionlite_fixed_result_multi.csv",
+   "source": "tests/parsers/thermo_fisher_visionlite/testdata/Fixed_with_Result_Multi.csv",
+   "expected": {
+    "format": "Thermo Fisher Scientific VISIONlite",
+    "summary": "VISIONlite fixed export 4 samples at 500 nm, 280 nm",
+    "fields": {
+     "instrumentSoftware": "Thermo Fisher Scientific VISIONlite",
+     "instrumentCategory": "Spectrophotometry",
+     "vendor": "Thermo Fisher Scientific",
+     "detectionModes": [
+      "Absorbance"
+     ],
+     "allotropyParser": "thermo_fisher_visionlite",
+     "exportFormat": "fixed csv",
+     "wavelengthsNm": [
+      500,
+      280
+     ],
+     "sampleCount": 4
+    }
+   },
+   "asm": {
+    "sampleCount": 4,
+    "wavelengthsNm": [
+     280,
+     500
+    ],
+    "experimentType": "Fixed",
+    "softwareName": "VISIONlite"
+   }
+  },
+  {
+   "name": "visionlite_quant.csv",
+   "file": "spectro/visionlite_quant.csv",
+   "key": "visionlite_quant.csv",
+   "source": "tests/parsers/thermo_fisher_visionlite/testdata/Thermo_VISIONlite_example_quant.csv",
+   "expected": {
+    "format": "Thermo Fisher Scientific VISIONlite",
+    "summary": "VISIONlite quant export 2 samples",
+    "fields": {
+     "instrumentSoftware": "Thermo Fisher Scientific VISIONlite",
+     "instrumentCategory": "Spectrophotometry",
+     "vendor": "Thermo Fisher Scientific",
+     "detectionModes": [
+      "Absorbance"
+     ],
+     "allotropyParser": "thermo_fisher_visionlite",
+     "exportFormat": "quant csv",
+     "concentrationUnit": "mg/L",
+     "sampleCount": 2
+    }
+   },
+   "asm": {
+    "sampleCount": 2,
+    "experimentType": "Quant",
+    "softwareName": "VISIONlite"
+   }
+  },
+  {
+   "name": "visionlite_scan.csv",
+   "file": "spectro/visionlite_scan.csv",
+   "key": "visionlite_scan.csv",
+   "source": "tests/parsers/thermo_fisher_visionlite/testdata/Thermo_VISIONlite_example_scan.csv",
+   "expected": {
+    "format": "Thermo Fisher Scientific VISIONlite",
+    "summary": "VISIONlite scan export",
+    "fields": {
+     "instrumentSoftware": "Thermo Fisher Scientific VISIONlite",
+     "instrumentCategory": "Spectrophotometry",
+     "vendor": "Thermo Fisher Scientific",
+     "detectionModes": [
+      "Absorbance"
+     ],
+     "allotropyParser": "thermo_fisher_visionlite",
+     "exportFormat": "scan csv",
+     "sampleCount": 1,
+     "runDate": "10/7/2024 11:09:36 AM",
+     "measurementCount": 101,
+     "wavelengthRangeNm": [
+      400,
+      500
+     ]
+    }
+   },
+   "asm": {
+    "sampleCount": 1,
+    "experimentType": "Scan",
+    "dataCubePoints": 101,
+    "dataCubeRangeNm": [
+     400.0,
+     500.0
+    ],
+    "softwareName": "VISIONlite"
+   }
+  },
+  {
+   "name": "visionlite_rate.csv",
+   "file": "spectro/visionlite_rate.csv",
+   "key": "visionlite_rate.csv",
+   "source": "tests/parsers/thermo_fisher_visionlite/testdata/exclude/Thermo_VISIONlite_example_rate.csv",
+   "expected": {
+    "format": "Thermo Fisher Scientific VISIONlite",
+    "summary": "VISIONlite rate (kinetic) export",
+    "fields": {
+     "instrumentSoftware": "Thermo Fisher Scientific VISIONlite",
+     "instrumentCategory": "Spectrophotometry",
+     "vendor": "Thermo Fisher Scientific",
+     "detectionModes": [
+      "Absorbance"
+     ],
+     "exportFormat": "rate csv",
+     "sampleCount": 1,
+     "runDate": "10/7/2024 11:17:36 AM",
+     "measurementCount": 13,
+     "allotropySupported": false
+    }
+   }
+  },
+  {
+   "name": "visionlite_fixed_tab_utf16.csv",
+   "file": "spectro/visionlite_fixed_tab_utf16.csv",
+   "key": "visionlite_fixed_tab_utf16.csv",
+   "source": "tests/parsers/thermo_fisher_visionlite/testdata/Fixed_tab_sep.csv",
+   "expected": {
+    "format": "Thermo Fisher Scientific VISIONlite or Genesys On-Board",
+    "summary": "VISIONlite or Genesys On-Board fixed export 3 samples (the layout does not say which program wrote it)",
+    "fields": {
+     "instrumentCandidates": [
+      "Thermo Fisher Scientific VISIONlite",
+      "Thermo Fisher Scientific Genesys On-Board"
+     ],
+     "instrumentCategory": "Spectrophotometry",
+     "vendor": "Thermo Fisher Scientific",
+     "detectionModes": [
+      "Absorbance"
+     ],
+     "allotropyParserCandidates": [
+      "thermo_fisher_visionlite",
+      "thermo_fisher_genesys_on_board"
+     ],
+     "exportFormat": "fixed tab-separated UTF-16",
+     "wavelengthsNm": [
+      260
+     ],
+     "sampleCount": 3
+    }
+   },
+   "asm": {
+    "sampleCount": 3,
+    "wavelengthsNm": [
+     260
+    ],
+    "experimentType": "Fixed",
+    "softwareName": "VISIONlite"
+   }
+  },
+  {
+   "name": "genesys_on_board_fixed.csv",
+   "file": "spectro/genesys_on_board_fixed.csv",
+   "key": "genesys_on_board_fixed.csv",
+   "source": "tests/parsers/thermo_fisher_genesys_on_board/testdata/Genesys150_ExampleFile_Fixed_10_2_2024_1_57_42_PM.csv",
+   "expected": {
+    "format": "Thermo Fisher Scientific VISIONlite or Genesys On-Board",
+    "summary": "VISIONlite or Genesys On-Board fixed export 28 samples (the layout does not say which program wrote it)",
+    "fields": {
+     "instrumentCandidates": [
+      "Thermo Fisher Scientific VISIONlite",
+      "Thermo Fisher Scientific Genesys On-Board"
+     ],
+     "instrumentCategory": "Spectrophotometry",
+     "vendor": "Thermo Fisher Scientific",
+     "detectionModes": [
+      "Absorbance"
+     ],
+     "allotropyParserCandidates": [
+      "thermo_fisher_visionlite",
+      "thermo_fisher_genesys_on_board"
+     ],
+     "exportFormat": "fixed tab-separated UTF-16",
+     "sampleCount": 28
+    }
+   },
+   "asm": {
+    "sampleCount": 28,
+    "experimentType": "Fixed",
+    "softwareName": "Genesys On-Board"
+   }
+  },
+  {
+   "name": "nanodrop_8000_protein.txt",
+   "file": "spectro/nanodrop_8000_protein.txt",
+   "key": "nanodrop_8000_protein.txt",
+   "source": "tests/parsers/thermo_fisher_nanodrop_8000/testdata/Thermo_NanoDrop_8000_example01.txt",
+   "expected": {
+    "format": "Thermo Fisher Scientific NanoDrop 8000",
+    "summary": "NanoDrop 8000 Protein A280 report 7 samples",
+    "fields": {
+     "instrumentSoftware": "Thermo Fisher Scientific NanoDrop 8000",
+     "instrumentCategory": "Spectrophotometry",
+     "vendor": "Thermo Fisher Scientific",
+     "detectionModes": [
+      "Absorbance"
+     ],
+     "allotropyParser": "thermo_fisher_nanodrop_8000",
+     "exportFormat": "report txt",
+     "application": "Protein A280",
+     "wavelengthsNm": [
+      280
+     ],
+     "runDate": "5/26/2020 3:36 PM",
+     "sampleCount": 7
+    }
+   },
+   "asm": {
+    "sampleCount": 7,
+    "wavelengthsNm": [
+     280
+    ],
+    "softwareName": null
+   }
+  },
+  {
+   "name": "nanodrop_8000_dna.txt",
+   "file": "spectro/nanodrop_8000_dna.txt",
+   "key": "nanodrop_8000_dna.txt",
+   "source": "tests/parsers/thermo_fisher_nanodrop_8000/testdata/Thermo_NanoDrop_8000_example03.txt",
+   "expected": {
+    "format": "Thermo Fisher Scientific NanoDrop 8000",
+    "summary": "NanoDrop 8000 DNA-50 report 6 samples",
+    "fields": {
+     "instrumentSoftware": "Thermo Fisher Scientific NanoDrop 8000",
+     "instrumentCategory": "Spectrophotometry",
+     "vendor": "Thermo Fisher Scientific",
+     "detectionModes": [
+      "Absorbance"
+     ],
+     "allotropyParser": "thermo_fisher_nanodrop_8000",
+     "exportFormat": "report txt",
+     "application": "DNA-50",
+     "wavelengthsNm": [
+      260,
+      280
+     ],
+     "runDate": "4/14/2022 3:48 PM",
+     "sampleCount": 6
+    }
+   },
+   "asm": {
+    "sampleCount": 6,
+    "wavelengthsNm": [
+     260,
+     280
+    ],
+    "experimentType": "DNA-50",
+    "softwareName": null
+   }
+  },
+  {
+   "name": "nanodrop_8000_mrna.txt",
+   "file": "spectro/nanodrop_8000_mrna.txt",
+   "key": "nanodrop_8000_mrna.txt",
+   "source": "tests/parsers/thermo_fisher_nanodrop_8000/testdata/Thermo_NanoDrop_mRNA.txt",
+   "expected": {
+    "format": "Thermo Fisher Scientific NanoDrop 8000",
+    "summary": "NanoDrop 8000 report 4 samples",
+    "fields": {
+     "instrumentSoftware": "Thermo Fisher Scientific NanoDrop 8000",
+     "instrumentCategory": "Spectrophotometry",
+     "vendor": "Thermo Fisher Scientific",
+     "detectionModes": [
+      "Absorbance"
+     ],
+     "allotropyParser": "thermo_fisher_nanodrop_8000",
+     "exportFormat": "report txt",
+     "wavelengthsNm": [
+      260,
+      280
+     ],
+     "runDate": "1/13/2023 1:45 PM",
+     "sampleCount": 4
+    }
+   },
+   "asm": {
+    "sampleCount": 4,
+    "wavelengthsNm": [
+     260,
+     280
+    ],
+    "softwareName": null
+   }
+  },
+  {
+   "name": "nanodrop_eight_dsdna.txt",
+   "file": "spectro/nanodrop_eight_dsdna.txt",
+   "key": "nanodrop_eight_dsdna.txt",
+   "source": "tests/parsers/thermo_fisher_nanodrop_eight/testdata/thermo_nanodrop_eight_example01.txt",
+   "expected": {
+    "format": "Thermo Fisher Scientific NanoDrop Eight",
+    "summary": "NanoDrop Eight dsDNA export 5 samples",
+    "fields": {
+     "instrumentSoftware": "Thermo Fisher Scientific NanoDrop Eight",
+     "instrumentCategory": "Spectrophotometry",
+     "vendor": "Thermo Fisher Scientific",
+     "detectionModes": [
+      "Absorbance"
+     ],
+     "allotropyParser": "thermo_fisher_nanodrop_eight",
+     "exportFormat": "tsv",
+     "application": "dsDNA",
+     "serialNumber": "NDE8675309",
+     "wavelengthsNm": [
+      260,
+      280
+     ],
+     "spectrumRangeNm": [
+      220,
+      350
+     ],
+     "runDate": "06/16/2022 04:38:28 PM(-07:00)",
+     "sampleCount": 5
+    }
+   },
+   "asm": {
+    "sampleCount": 5,
+    "wavelengthsNm": [
+     260,
+     280
+    ],
+    "serialNumber": "NDE8675309",
+    "experimentType": "dsDNA",
+    "dataCubePoints": 261,
+    "dataCubeRangeNm": [
+     220.0,
+     350.0
+    ],
+    "softwareName": null
+   }
+  },
+  {
+   "name": "nanodrop_eight_rna.txt",
+   "file": "spectro/nanodrop_eight_rna.txt",
+   "key": "nanodrop_eight_rna.txt",
+   "source": "tests/parsers/thermo_fisher_nanodrop_eight/testdata/thermo_nanodrop_eight_RNA.txt",
+   "expected": {
+    "format": "Thermo Fisher Scientific NanoDrop Eight",
+    "summary": "NanoDrop Eight RNA export 3 samples",
+    "fields": {
+     "instrumentSoftware": "Thermo Fisher Scientific NanoDrop Eight",
+     "instrumentCategory": "Spectrophotometry",
+     "vendor": "Thermo Fisher Scientific",
+     "detectionModes": [
+      "Absorbance"
+     ],
+     "allotropyParser": "thermo_fisher_nanodrop_eight",
+     "exportFormat": "tsv",
+     "application": "RNA",
+     "serialNumber": "1234",
+     "wavelengthsNm": [
+      260,
+      280
+     ],
+     "runDate": "11/09/2023 14:19",
+     "sampleCount": 3
+    }
+   },
+   "asm": {
+    "sampleCount": 3,
+    "wavelengthsNm": [
+     260,
+     280
+    ],
+    "serialNumber": "1234",
+    "experimentType": "RNA",
+    "softwareName": null
+   }
+  },
+  {
+   "name": "nanodrop_eight_tab_aligned.txt",
+   "file": "spectro/nanodrop_eight_tab_aligned.txt",
+   "key": "nanodrop_eight_tab_aligned.txt",
+   "source": "tests/parsers/thermo_fisher_nanodrop_eight/testdata/thermo_nanodrop_eight_tab_aligned_header.txt",
+   "expected": {
+    "format": "Thermo Fisher Scientific NanoDrop Eight",
+    "summary": "NanoDrop Eight dsDNA export 5 samples",
+    "fields": {
+     "instrumentSoftware": "Thermo Fisher Scientific NanoDrop Eight",
+     "instrumentCategory": "Spectrophotometry",
+     "vendor": "Thermo Fisher Scientific",
+     "detectionModes": [
+      "Absorbance"
+     ],
+     "allotropyParser": "thermo_fisher_nanodrop_eight",
+     "exportFormat": "tsv",
+     "application": "dsDNA",
+     "serialNumber": "NDE8675309",
+     "wavelengthsNm": [
+      260,
+      280
+     ],
+     "spectrumRangeNm": [
+      220,
+      350
+     ],
+     "runDate": "06/16/2022 04:38:28 PM(-07:00)",
+     "sampleCount": 5
+    }
+   },
+   "asm": {
+    "sampleCount": 5,
+    "wavelengthsNm": [
+     260,
+     280
+    ],
+    "serialNumber": "NDE8675309",
+    "experimentType": "dsDNA",
+    "dataCubePoints": 261,
+    "dataCubeRangeNm": [
+     220.0,
+     350.0
+    ],
+    "softwareName": null
+   }
+  },
+  {
+   "name": "nanodrop_one_dsdna.csv",
+   "file": "spectro/nanodrop_one_dsdna.csv",
+   "key": "nanodrop_one_dsdna.csv",
+   "source": "tests/parsers/thermo_fisher_nanodrop_one/testdata/dsDNA 7_19_2023 3_27_29 PM.csv",
+   "expected": {
+    "format": "Thermo Fisher Scientific NanoDrop One",
+    "summary": "NanoDrop One Nucleic Acid csv export 6 samples",
+    "fields": {
+     "instrumentSoftware": "Thermo Fisher Scientific NanoDrop One",
+     "instrumentCategory": "Spectrophotometry",
+     "vendor": "Thermo Fisher Scientific",
+     "detectionModes": [
+      "Absorbance"
+     ],
+     "allotropyParser": "thermo_fisher_nanodrop_one",
+     "exportFormat": "csv",
+     "application": "Nucleic Acid",
+     "wavelengthsNm": [
+      260,
+      280
+     ],
+     "sampleCount": 6,
+     "runDate": "7/19/2023 3:27:29 PM"
+    }
+   },
+   "asm": {
+    "sampleCount": 6,
+    "wavelengthsNm": [
+     260,
+     280
+    ],
+    "experimentType": "dsDNA",
+    "softwareName": "NanoDrop One software"
+   }
+  },
+  {
+   "name": "nanodrop_one_dsdna.xlsx",
+   "file": "spectro/nanodrop_one_dsdna.xlsx",
+   "key": "nanodrop_one_dsdna.xlsx",
+   "source": "tests/parsers/thermo_fisher_nanodrop_one/testdata/example1.xlsx",
+   "expected": {
+    "format": "Thermo Fisher Scientific NanoDrop One",
+    "summary": "NanoDrop One dsDNA xlsx export 6 samples",
+    "fields": {
+     "instrumentSoftware": "Thermo Fisher Scientific NanoDrop One",
+     "instrumentCategory": "Spectrophotometry",
+     "vendor": "Thermo Fisher Scientific",
+     "detectionModes": [
+      "Absorbance"
+     ],
+     "allotropyParser": "thermo_fisher_nanodrop_one",
+     "exportFormat": "xlsx",
+     "application": "dsDNA",
+     "wavelengthsNm": [
+      260,
+      280
+     ],
+     "sampleCount": 6,
+     "runDate": "7/19/2023 3:27:29 PM"
+    }
+   },
+   "asm": {
+    "sampleCount": 6,
+    "wavelengthsNm": [
+     260,
+     280
+    ],
+    "experimentType": "dsDNA",
+    "softwareName": "NanoDrop One software"
+   }
+  },
+  {
+   "name": "qubit4.csv",
+   "file": "spectro/qubit4.csv",
+   "key": "qubit4.csv",
+   "source": "tests/parsers/thermo_fisher_qubit4/testdata/thermo_fisher_qubit4_example_1.csv",
+   "expected": {
+    "format": "Thermo Fisher Scientific Qubit 4",
+    "summary": "Qubit 4 1x dsDNA High Sensitivity csv export 2 samples",
+    "fields": {
+     "instrumentSoftware": "Thermo Fisher Scientific Qubit 4",
+     "instrumentCategory": "Spectrophotometry",
+     "vendor": "Thermo Fisher Scientific",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "thermo_fisher_qubit4",
+     "exportFormat": "csv",
+     "sampleCount": 2,
+     "application": "1x dsDNA High Sensitivity",
+     "excitation": "Blue",
+     "emission": "Green",
+     "runDate": "2023-12-12"
+    }
+   },
+   "asm": {
+    "sampleCount": 2,
+    "excitation": "Blue",
+    "emission": "Green",
+    "experimentType": "1x dsDNA High Sensitivity",
+    "softwareName": "Qubit 4 software"
+   }
+  },
+  {
+   "name": "qubit4.xlsx",
+   "file": "spectro/qubit4.xlsx",
+   "key": "qubit4.xlsx",
+   "source": "tests/parsers/thermo_fisher_qubit4/testdata/thermo_fisher_qubit4_example_2.xlsx",
+   "expected": {
+    "format": "Thermo Fisher Scientific Qubit 4",
+    "summary": "Qubit 4 1x dsDNA High Sensitivity xlsx export 2 samples",
+    "fields": {
+     "instrumentSoftware": "Thermo Fisher Scientific Qubit 4",
+     "instrumentCategory": "Spectrophotometry",
+     "vendor": "Thermo Fisher Scientific",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "thermo_fisher_qubit4",
+     "exportFormat": "xlsx",
+     "sampleCount": 2,
+     "application": "1x dsDNA High Sensitivity",
+     "excitation": "Blue",
+     "emission": "Green",
+     "runDate": "2023-12-12"
+    }
+   },
+   "asm": {
+    "sampleCount": 2,
+    "excitation": "Blue",
+    "emission": "Green",
+    "experimentType": "1x dsDNA High Sensitivity",
+    "softwareName": "Qubit 4 software"
+   }
+  },
+  {
+   "name": "qubit_flex.csv",
+   "file": "spectro/qubit_flex.csv",
+   "key": "qubit_flex.csv",
+   "source": "tests/parsers/thermo_fisher_qubit_flex/testdata/thermo_fisher_qubit_flex_example_01.csv",
+   "expected": {
+    "format": "Thermo Fisher Scientific Qubit Flex",
+    "summary": "Qubit Flex RNA BR csv export 6 samples",
+    "fields": {
+     "instrumentSoftware": "Thermo Fisher Scientific Qubit Flex",
+     "instrumentCategory": "Spectrophotometry",
+     "vendor": "Thermo Fisher Scientific",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "thermo_fisher_qubit_flex",
+     "exportFormat": "csv",
+     "sampleCount": 6,
+     "application": "RNA BR",
+     "excitation": "RED",
+     "softwareVersion": "1.5.0",
+     "runDate": "13/12/2022 04:41:09 PM"
+    }
+   },
+   "asm": {
+    "sampleCount": 6,
+    "softwareVersion": "1.5.0",
+    "excitation": "RED",
+    "experimentType": "RNA BR",
+    "softwareName": "Qubit Flex software"
+   }
+  },
+  {
+   "name": "qubit_flex_sep_header.csv",
+   "file": "spectro/qubit_flex_sep_header.csv",
+   "key": "qubit_flex_sep_header.csv",
+   "source": "tests/parsers/thermo_fisher_qubit_flex/testdata/thermo_fisher_qubit_flex_example_sep_header.csv",
+   "expected": {
+    "format": "Thermo Fisher Scientific Qubit Flex",
+    "summary": "Qubit Flex RNA BR csv export 6 samples",
+    "fields": {
+     "instrumentSoftware": "Thermo Fisher Scientific Qubit Flex",
+     "instrumentCategory": "Spectrophotometry",
+     "vendor": "Thermo Fisher Scientific",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "thermo_fisher_qubit_flex",
+     "exportFormat": "csv",
+     "sampleCount": 6,
+     "application": "RNA BR",
+     "excitation": "RED",
+     "softwareVersion": "1.5.0",
+     "runDate": "13/12/2022 04:41:09 PM"
+    }
+   },
+   "asm": {
+    "sampleCount": 6,
+    "softwareVersion": "1.5.0",
+    "excitation": "RED",
+    "experimentType": "RNA BR",
+    "softwareName": "Qubit Flex software"
+   }
+  },
+  {
+   "name": "qubit_flex.xlsx",
+   "file": "spectro/qubit_flex.xlsx",
+   "key": "qubit_flex.xlsx",
+   "source": "tests/parsers/thermo_fisher_qubit_flex/testdata/thermo_fisher_qubit_flex_example_03.xlsx",
+   "expected": {
+    "format": "Thermo Fisher Scientific Qubit Flex",
+    "summary": "Qubit Flex dsDNA HS xlsx export 11 samples",
+    "fields": {
+     "instrumentSoftware": "Thermo Fisher Scientific Qubit Flex",
+     "instrumentCategory": "Spectrophotometry",
+     "vendor": "Thermo Fisher Scientific",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "thermo_fisher_qubit_flex",
+     "exportFormat": "xlsx",
+     "sampleCount": 11,
+     "application": "dsDNA HS",
+     "excitation": "BLUE"
+    }
+   },
+   "asm": {
+    "sampleCount": 11,
+    "excitation": "BLUE",
+    "experimentType": "dsDNA HS",
+    "softwareName": "Qubit Flex software"
+   }
+  },
+  {
+   "name": "genesys30_scan.tsv",
+   "file": "spectro/genesys30_scan.tsv",
+   "key": "genesys30_scan.tsv",
+   "source": "tests/parsers/thermo_fisher_genesys30/testdata/thermo_fisher_genesys30_example_01.tsv",
+   "expected": {
+    "format": "Thermo Fisher Scientific Genesys30",
+    "summary": "Genesys30 ABS scan 325-480 nm",
+    "fields": {
+     "instrumentSoftware": "Thermo Fisher Scientific Genesys30",
+     "instrumentCategory": "Spectrophotometry",
+     "vendor": "Thermo Fisher Scientific",
+     "detectionModes": [
+      "Absorbance"
+     ],
+     "allotropyParser": "thermo_fisher_genesys30",
+     "exportFormat": "scan tsv",
+     "measurementMode": "ABS",
+     "sampleCount": 1,
+     "wavelengthRangeNm": [
+      325,
+      480
+     ],
+     "measurementCount": 156
+    }
+   },
+   "asm": {
+    "sampleCount": 1,
+    "experimentType": "Scan",
+    "dataCubePoints": 156,
+    "dataCubeRangeNm": [
+     325.0,
+     480.0
+    ],
+    "softwareName": "Genesys 30 instrument software"
+   }
+  },
+  {
+   "name": "genesys30_scan.csv",
+   "file": "spectro/genesys30_scan.csv",
+   "key": "genesys30_scan.csv",
+   "source": "tests/parsers/thermo_fisher_genesys30/testdata/thermo_fisher_genesys30_example_02.csv",
+   "expected": {
+    "format": "Thermo Fisher Scientific Genesys30",
+    "summary": "Genesys30 ABS scan 325-480 nm",
+    "fields": {
+     "instrumentSoftware": "Thermo Fisher Scientific Genesys30",
+     "instrumentCategory": "Spectrophotometry",
+     "vendor": "Thermo Fisher Scientific",
+     "detectionModes": [
+      "Absorbance"
+     ],
+     "allotropyParser": "thermo_fisher_genesys30",
+     "exportFormat": "scan csv",
+     "measurementMode": "ABS",
+     "sampleCount": 1,
+     "wavelengthRangeNm": [
+      325,
+      480
+     ],
+     "measurementCount": 156
+    }
+   },
+   "asm": {
+    "sampleCount": 1,
+    "experimentType": "Scan",
+    "dataCubePoints": 156,
+    "dataCubeRangeNm": [
+     325.0,
+     480.0
+    ],
+    "softwareName": "Genesys 30 instrument software"
+   }
+  }
+ ]
+}

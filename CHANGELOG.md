@@ -1,5 +1,66 @@
 # Changelog
 
+## 0.12.0
+
+- Lab instrument exports: the text, CSV, XML, JSON and spreadsheet files of
+  the 53 instrument software products that allotropy converts to Allotrope
+  ASM, in seven family modules under `scigantic_headers.instruments`. Each
+  product registers a content sniffer per extension with the new
+  `register_instrument_sniffer`; sniffers run before the extension's ordinary
+  decoder, which still gets the file when every sniffer declines. Records use
+  shared keys (`instrumentSoftware`, `vendor`, `softwareVersion`,
+  `instrumentModel`, `serialNumber`, `plateFormat`, `sampleCount`,
+  `wavelengthsNm`, `runDate` and others) and `allotropyParser` names the
+  allotropy module that converts the file. Golden fixtures are allotropy's
+  own test exports, checked against the ASM allotropy writes for each.
+- Plate reader exports, family A: Agilent Gen5 and Gen5 Image, Molecular
+  Devices SoftMax Pro and BMG Labtech MARS text exports, and BMG Labtech
+  SMART Control, Tecan Magellan and Thermo Fisher Scientific SkanIt `.xlsx`
+  workbooks. Software version, instrument, plate format, wavelengths, read
+  modes and run date where the file states them.
+- Plate reader exports, family B: PerkinElmer Envision, Revvity Kaleido, MSD
+  Methodical Mind, MSD Discovery Workbench, CTL ImmunoSpot, Mabtech Apex and
+  Unchained Labs Lunatic & Stunner, with software version, instrument
+  identity, plate format, counts, wavelengths and run date.
+- qPCR and dPCR exports: QuantStudio Real-Time PCR Software (`.txt`,
+  `.xlsx`), QuantStudio Design & Analysis (`.xlsx`), Thermo Fisher Diomni
+  (`.xlsx`), AbsoluteQ (CSV, `.zip`), Qiacuity (CSV) and CFX Maestro (CSV).
+  Instrument model and serial, software version, block type and plate format,
+  chemistry, experiment, run end time, targets, reporter dyes and well counts.
+- Cell counters and solution analyzers: Vi-CELL XR and BLU, NucleoView, NC
+  View, Revvity Matrix, Cedex HiRes, Cedex Bio HT, PharmSpec and NovaBio Flex2,
+  with software version, serial number, sample count and identifiers, run
+  date and analytes. Checked against 26 exports from allotropy's test data.
+- Spectrophotometer exports from Thermo Fisher Scientific: VISIONlite,
+  NanoDrop 8000, NanoDrop Eight, NanoDrop One, Qubit 4, Qubit Flex, Genesys30
+  and Genesys On-Board. Application, wavelengths, sample count, serial number
+  and software version where the file states them. The UTF-16 fixed layout
+  that VISIONlite and Genesys On-Board both write lists both as candidates.
+- Chromatography, electrophoresis and SPR exports: Agilent OpenLab CDS result
+  sets, Cytiva Unicorn result zips, the Benchling Waters Empower and Thermo
+  Fisher Scientific Chromeleon adapter JSON, Agilent TapeStation Analysis XML,
+  Cytiva Biacore T200 Control `.blr` and T200 Evaluation `.bme` files, and
+  Cytiva Biacore Insight `.xlsx` exports.
+- Flow cytometry, multi-analyte profiling and liquid handler exports: FlowJo
+  workspaces, BD FACSDiva experiment XML, Luminex xPONENT batch CSV, Luminex
+  INTELLIFLEX results CSV and `.xlsx`, Bio-Rad Bio-Plex Manager XML, Beckman
+  Coulter Biomek transfer logs, and Beckman Echo Plate Reformat and Cherry
+  Pick transfer reports.
+- `.csv`, `.txt`, `.log`, `.xlsx`, `.xlsm`, `.xls`, `.zip`, `.rslt`, `.wsp`,
+  `.blr` and `.bme` now have decoders, so `has_decoder_for` returns True for
+  them and the batch and walk paths read those files instead of skipping
+  them. Each one costs a bounded read and is declined unless it is a known
+  export. `.json`, `.tsv` and `.xml` also have sniffers in front of their
+  existing decoders, so `read_for` returns a seeking read for all fourteen
+  extensions and the BIDS and XML decoders get the same bytes as before.
+- A minimal `.xlsx` reader on the standard library
+  (`instruments/_xlsx.py`): sheet names, shared strings and the first rows of
+  one sheet, read through the zip directory so only the parts a sniffer opens
+  are fetched. No runtime dependency is added.
+- Tests that used `.txt` and `.csv` as examples of undecodable extensions now
+  use `.md` and `.rtf`, and the BIDS registration test accepts the seeking
+  read `.json` now gets.
+
 ## 0.11.0
 
 - NWB on Zarr: an NWB file written by `hdmf-zarr` into a Zarr store decodes as

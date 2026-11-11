@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpm:BioPlexManager xmlns:bpm="http://www.Bio-Rad.com/XMLschema/2010/Bio-Plex_5" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" XmlExportDateTime="2024-01-09T13:20:40Z" XmlExportUser="waldo" BioPlexManagerVersion="6.2.0.175">
+    <AuthorName>foobar</AuthorName>
+    <NativeDocumentName>test file</NativeDocumentName>
+    <NativeDocumentLocation>C:\Users\waldo\Downloads\test file.srbx</NativeDocumentLocation>
+    <AssayLotID></AssayLotID>
+    <Description></Description>
+    <PlateDimensions Columns="12" Rows="8" TotalWells="96" />
+    <Wells>
+        <Well RowNo="1" ColNo="1" WellNo="1">
+            <PlateID>555</PlateID>
+            <User>baz</User>
+            <AcquisitionTime>2023-05-09T18:55:02Z</AcquisitionTime>
+            <RunProtocolDocumentName>qux_15PLEX_ASSAY</RunProtocolDocumentName>
+                <RunProtocolDocumentLocation>Z:\corge\quux_qux Luminex\Protocols\qux_15PLEX_ASSAY.spbx</RunProtocolDocumentLocation>
+                <RunConditions>
+                    <PlatformTemp Unit="°C">23.56</PlatformTemp>
+                    <FlowRate Unit="µl/min">60</FlowRate>
+                    <AirPressure Unit="lb/in²">7.14</AirPressure>
+                    <SheathPressure Unit="lb/in²">6.83</SheathPressure>
+                    <BoardTemp Unit="°C">38.72</BoardTemp>
+                    <DDTemp Unit="°C">23.52</DDTemp>
+                    <CL1Temp Unit="°C">23.52</CL1Temp>
+                    <CL2Temp Unit="°C">23.96</CL2Temp>
+                    <DDVoltageAPD Unit="V">84.25</DDVoltageAPD>
+                    <CL1VoltageAPD Unit="V">111.90</CL1VoltageAPD>
+                    <CL2VoltageAPD Unit="V">112.77</CL2VoltageAPD>
+                    <HighVoltage Unit="V">10.02</HighVoltage>
+                    <DDGain>1353</DDGain>
+                    <CL1Gain>1797</CL1Gain>
+                    <CL2Gain>1811</CL2Gain>
+                    <RP1Gain>2198</RP1Gain>
+                </RunConditions>
+                <RunSettings>
+                    <SampleVolume Unit="µl">50</SampleVolume>
+                    <StopReadingCriteria BeadCount="25" BeadCountIn="0">Each selected region</StopReadingCriteria>
+                    <RP1VoltagePMT Unit="V">658.85</RP1VoltagePMT>
+                    <BeadMap Code="0">100 region</BeadMap>
+                    <RegionsOfInterest>
+                        <Region RegionNumber="12" />
+                        <Region RegionNumber="15" />
+                        <Region RegionNumber="18" />
+                        <Region RegionNumber="21" />
+                        <Region RegionNumber="25" />
+                        <Region RegionNumber="28" />
+                        <Region RegionNumber="33" />
+                        <Region RegionNumber="36" />
+                        <Region RegionNumber="42" />
+                        <Region RegionNumber="47" />
+                        <Region RegionNumber="53" />
+                        <Region RegionNumber="57" />
+                        <Region RegionNumber="62" />
+                        <Region RegionNumber="67" />
+                        <Region RegionNumber="75" />
+                    </RegionsOfInterest>
+                    <OriginalDDGates Low="5000" High="25000" />
+                    <RP1Gates Low="0" High="32767" />
+                    <PlatformTargetTemp Unit="°C" TempControlSet="false">35</PlatformTargetTemp>
+                    <SampleTimeout Unit="s">0</SampleTimeout>
+                    <RP1PMTTarget>3698</RP1PMTTarget>
+                    <WellRerun>false</WellRerun>
+                </RunSettings>
+                <MachineInfo>
+                    <MicroControllerVersion>2.6.1</MicroControllerVersion>
+                    <DSPVersion>3.17.0</DSPVersion>
+                    <XYPlatformVersion>2.1.15</XYPlatformVersion>
+                    <SerialNumber>LX12345678912</SerialNumber>
+                    <XYPlatformSerialNumber>LXY07068104</XYPlatformSerialNumber>
+                </MachineInfo>
+                <ExternalSWInfo>
+                    <SoftwareVersion>6.2.0.175</SoftwareVersion>
+                    <LxrLibVersion>2.2.20.0</LxrLibVersion>
+                </ExternalSWInfo>
+                <TotalEvents>717</TotalEvents>
+                <TotalGatedEvents>637</TotalGatedEvents>
+                <TotalRegionEventCount>609</TotalRegionEventCount>
+                <BeadRegions>
+                    <BeadRegion RegionNumber="21">
+                        <RegionCount>60</RegionCount>
+                        <Median>3245.00</Median>
+                        <Mean>3.30873339843750000E+003</Mean>
+                        <CV>1.25613391399383540E-001</CV>
+                        <StdDev>4.15621246337890620E+002</StdDev>
+                        <StdErr>5.36564712524414060E+001</StdErr>
+                        <TrimmedMean>3.31505566406250000E+003</TrimmedMean>
+                        <TrimmedCV>1.00079603493213650E-001</TrimmedCV>
+                        <TrimmedStdDev>3.31769439697265620E+002</TrimmedStdDev>
+                    </BeadRegion>
+                    <BeadRegion RegionNumber="36">
+                        <RegionCount>36</RegionCount>
+                        <Median>7510.50</Median>
+                        <Mean>7.59347216796875000E+003</Mean>
+                        <CV>9.38366279006004330E-002</CV>
+                        <StdDev>7.12545837402343750E+002</StdDev>
+                        <StdErr>1.18757637023925780E+002</StdErr>
+                        <TrimmedMean>7.53928125000000000E+003</TrimmedMean>
+                        <TrimmedCV>5.35660646855831150E-002</TrimmedCV>
+                        <TrimmedStdDev>4.03849639892578120E+002</TrimmedStdDev>
+                    </BeadRegion>
+                    <BeadRegion RegionNumber="25">
+                        <RegionCount>43</RegionCount>
+                        <Median>4098.00</Median>
+                        <Mean>3.91939526367187500E+003</Mean>
+                        <CV>2.13014632463455200E-001</CV>
+                        <StdDev>8.34888549804687500E+002</StdDev>
+                        <StdErr>1.27319305419921870E+002</StdErr>
+                        <TrimmedMean>3.92376928710937500E+003</TrimmedMean>
+                        <TrimmedCV>1.72454535961151120E-001</TrimmedCV>
+                        <TrimmedStdDev>6.76671813964843750E+002</TrimmedStdDev>
+                    </BeadRegion>
+                    <BeadRegion RegionNumber="28">
+                        <RegionCount>52</RegionCount>
+                        <Median>1623.50</Median>
+                        <Mean>1.63236535644531250E+003</Mean>
+                        <CV>7.09250792860984800E-002</CV>
+                        <StdDev>1.15775650024414060E+002</StdDev>
+                        <StdErr>1.60551948547363280E+001</StdErr>
+                        <TrimmedMean>1.63021740722656250E+003</TrimmedMean>
+                        <TrimmedCV>5.69669939577579500E-002</TrimmedCV>
+                        <TrimmedStdDev>9.28685836791992190E+001</TrimmedStdDev>
+                    </BeadRegion>
+                    <BeadRegion RegionNumber="12">
+                        <RegionCount>32</RegionCount>
+                        <Median>1015.00</Median>
+                        <Mean>1.00062500000000000E+003</Mean>
+                        <CV>2.23905086517333980E-001</CV>
+                        <StdDev>2.24045028686523440E+002</StdDev>
+                        <StdErr>3.96059417724609380E+001</StdErr>
+                        <TrimmedMean>1.02392858886718750E+003</TrimmedMean>
+                        <TrimmedCV>1.06665052473545070E-001</TrimmedCV>
+                        <TrimmedStdDev>1.09217391967773440E+002</TrimmedStdDev>
+                    </BeadRegion>
+                    <BeadRegion RegionNumber="62">
+                        <RegionCount>33</RegionCount>
+                        <Median>2194.00</Median>
+                        <Mean>2.13142431640625000E+003</Mean>
+                        <CV>2.60658502578735350E-001</CV>
+                        <StdDev>5.55573852539062500E+002</StdDev>
+                        <StdErr>9.67129974365234380E+001</StdErr>
+                        <TrimmedMean>2.14662060546875000E+00

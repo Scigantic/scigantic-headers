@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <Workspace version="20.0"  modDate="Fri Sep 12 11:12:00 EDT 2025"  clientTimestamp="1757689920380"  flowJoVersion="10.9.0"  drawRowBorders="1"  drawColumnBorders="1"  hideCompNodes="1"  curGroup="All Samples"  groupPaneHeight="-1"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xmlns:gating="http://www.isac-net.org/std/Gating-ML/v2.0/gating"  xmlns:transforms="http://www.isac-net.org/std/Gating-ML/v2.0/transformations"  xmlns:data-type="http://www.isac-net.org/std/Gating-ML/v2.0/datatypes"  xsi:schemaLocation="http://www.isac-net.org/std/Gating-ML/v2.0/gating http://www.isac-net.org/std/Gating-ML/v2.0/gating/Gating-ML.v2.0.xsd http://www.isac-net.org/std/Gating-ML/v2.0/transformations http://www.isac-net.org/std/Gating-ML/v2.0/gating/Transformations.v2.0.xsd http://www.isac-net.org/std/Gating-ML/v2.0/datatypes http://www.isac-net.org/std/Gating-ML/v2.0/gating/DataTypes.v2.0.xsd "  nonAutoSaveFileName="file:/V:/FLow%20data/SONYID7000/2025/20250819%20Dayxx%202xx%20MKxxxx/20250819%202L%20MKABCD.wsp" >
+   <WindowPosition x="39"  y="164"  width="1035"  height="1003"  displayed="1"  panelState="" />
+   <TextTraits font="SansSerif"  size="11"  name=""  style="plain"  color="#000000"  background="#00ffffff"  just="left" />
+   <Columns>
+     <TColumn width="511" >
+       <Property key="fj.appnode.prop.name" />
+     </TColumn>
+     <TColumn width="253" >
+       <Property key="fj.appnode.prop.statistic" />
+     </TColumn>
+     <TColumn width="251" >
+       <Property key="fj.appnode.prop.ncells" />
+     </TColumn>
+   </Columns>
+   <Matrices/>
+   <Cytometers>
+     <Cytometer name="GENERIC"  cyt="ID7000"  useFCS3="1"  extraNegs="0"  widthBasis="-10"  linMin="0"  logMin="1"  linMax="10000"  logMax="10000"  linearRescale="1"  logRescale="1"  linFromKW="1"  logFromKW="1"  useGain="0"  useTransform="0"  transformType="LOG"  manufacturer=""  serialnumber=""  homepage="workspaces-and-samples/flowjo-and-your-cytometer/ws-instrumentation/"  icon="generic.png" >
+       <LinParams>
+         <Param>time</Param>
+       </LinParams>
+       <LogParams/>
+       <FilterParams/>
+       <TransformStore/>
+     </Cytometer>
+   </Cytometers>
+   <Groups>
+     <GroupNode name="All Samples"  annotation=""  owningGroup="All Samples"  expanded="1"  sortPriority="10"  count="-1" >
+       <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
+         <Axis dimension="x"  name=""  label=""  auto="auto" />
+         <Axis dimension="y"  name=""  label=""  auto="auto" />
+         <GraphSettings level="5%"  smoothingHighResolution="1"  contourHighResolution="1"  histogramSmoothingCount="0"  graphResolution="256"  showOutliers="0"  drawLargeDots="0"  dotsToDraw="8000"  tint="le.chartfill.tinted.40"  lineWeight="le.lineweight.normal"  lineStyle="le.linestyle.solid" />
+         <GraphEnvironment showGrid="0"  showAxes="tnlTNL"  showGates="1"  showFreqOnPlots="1"  showGateNameOnPlots="1"  showMedians="0"  showUncomped="0"  addEventParam="0"  lastYAxisName="" >
+           <TextTraits font="SansSerif"  size="11"  name="Labels"  style="plain"  color="#000000"  background="#00ffffff"  just="left" />
+           <TextTraits font="SansSerif"  size="11"  name="LayoutGates"  style="plain"  color="#000000"  background="#00ffffff"  just="left" />
+           <TextTraits font="SansSerif"  size="9"  name="Numbers"  style="plain"  color="#000000"  background="#00ffffff"  just="left" />
+           <TextTraits font="SansSerif"  size="9"  name="Legend"  style="plain"  color="#000000"  background="#00ffffff"  just="left" />
+         </GraphEnvironment>
+       </Graph>
+       <Subpopulations>
+         <Population name="singlet"  annotation=""  owningGroup="All Samples"  expanded="1"  sortPriority="10"  count="44942" >
+           <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  heatMapStatParameter="Zombie-Violet-A"  type="Pseudocolor"  fast="1" >
+             <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
+             <Axis dimension="y"  name="Zombie-Violet-A"  label=""  aut
