@@ -1,0 +1,49 @@
+Run ID,1741720420
+Run Date/Time,3/11/2025 15:14
+Application Name,Labcyte Echo Plate Reformat
+Application Version,1.7.2
+Protocol Name,SeV_r2_exc1.epr
+Order ID,1
+Reference ID,1
+User Name,LabAutomation
+
+[EXCEPTIONS]
+Date Time Point,Source Plate Name,Source Plate Barcode,Source Plate Type,Source Well,Destination Plate Name,Destination Plate Barcode,Destination Plate Type,Destination Well,Transfer Volume,Actual Volume,Sample ID,Sample Name,Survey Fluid Volume,Current Fluid Volume,Fluid Composition,Fluid Units,Fluid Type,Transfer Status
+15:54.8,Source[1],EchoSource001,384PP_AQ_BP,C21,Destination[1],EchoDestination001,Eppendorf_PCR_384,J15,1000,0,,,13.251,9.251,100,,AQ,MM0202001: Current fluid height below minimum transfer level
+15:55.0,Source[1],EchoSource001,384PP_AQ_BP,B21,Destination[1],EchoDestination001,Eppendorf_PCR_384,K15,1000,0,,,13.182,9.182,100,,AQ,MM0202001: Current fluid height below minimum transfer level
+15:55.1,Source[1],EchoSource001,384PP_AQ_BP,B23,Destination[1],EchoDestination001,Eppendorf_PCR_384,L15,1000,0,,,13.01,9.01,100,,AQ,MM0202001: Current fluid height below minimum transfer level
+15:55.3,Source[1],EchoSource001,384PP_AQ_BP,D22,Destination[1],EchoDestination001,Eppendorf_PCR_384,L16,1000,0,,,13.872,8.872,100,,AQ,MM0202001: Current fluid height below minimum transfer level
+15:55.5,Source[1],EchoSource001,384PP_AQ_BP,A21,Destination[1],EchoDestination001,Eppendorf_PCR_384,K16,1000,0,,,12.837,8.837,100,,AQ,MM0202001: Current fluid height below minimum transfer level
+15:55.7,Source[1],EchoSource001,384PP_AQ_BP,C23,Destination[1],EchoDestination001,Eppendorf_PCR_384,J16,1000,0,,,11.75,8.75,100,,AQ,MM0202001: Current fluid height below minimum transfer level
+15:56.0,Source[1],EchoSource001,384PP_AQ_BP,D24,Destination[1],EchoDestination001,Eppendorf_PCR_384,I16,1000,0,,,11.733,8.733,100,,AQ,MM0202001: Current fluid height below minimum transfer level
+15:56.2,Source[1],EchoSource001,384PP_AQ_BP,D21,Destination[1],EchoDestination001,Eppendorf_PCR_384,H16,1000,0,,,14.683,8.683,100,,AQ,MM0202001: Current fluid height below minimum transfer level
+15:56.4,Source[1],EchoSource001,384PP_AQ_BP,A24,Destination[1],EchoDestination001,Eppendorf_PCR_384,G16,1000,0,,,17.677,8.677,100,,AQ,MM0202001: Current fluid height below minimum transfer level
+15:56.6,Source[1],EchoSource001,384PP_AQ_BP,B24,Destination[1],EchoDestination001,Eppendorf_PCR_384,F16,1000,0,,,11.629,8.629,100,,AQ,MM0202001: Current fluid height below minimum transfer level
+15:56.8,Source[1],EchoSource001,384PP_AQ_BP,C24,Destination[1],EchoDestination001,Eppendorf_PCR_384,E16,1000,0,,,13.579,8.579,100,,AQ,MM0202001: Current fluid height below minimum transfer level
+15:57.0,Source[1],EchoSource001,384PP_AQ_BP,A22,Destination[1],EchoDestination001,Eppendorf_PCR_384,D16,1000,0,,,17.573,8.573,100,,AQ,MM0202001: Current fluid height below minimum transfer level
+15:57.1,Source[1],EchoSource001,384PP_AQ_BP,D23,Destination[1],EchoDestination001,Eppendorf_PCR_384,D17,1000,0,,,13.562,8.562,100,,AQ,MM0202001: Current fluid height below minimum transfer level
+15:57.4,Source[1],EchoSource001,384PP_AQ_BP,A23,Destination[1],EchoDestination001,Eppendorf_PCR_384,E17,1000,0,,,17.553,8.553,100,,AQ,MM0202001: Current fluid height below minimum transfer level
+15:57.7,Source[1],EchoSource001,384PP_AQ_BP,C22,Destination[1],EchoDestination001,Eppendorf_PCR_384,F17,1000,0,,,14.304,8.304,100,,AQ,MM0202001: Current fluid height below minimum transfer level
+15:57.8,Source[1],EchoSource001,384PP_AQ_BP,B22,Destination[1],EchoDestination001,Eppendorf_PCR_384,G17,1000,0,,,12.302,8.302,100,,AQ,MM0202001: Current fluid height below minimum transfer level
+15:58.0,Source[1],EchoSource001,384PP_AQ_BP,C21,Destination[1],EchoDestination001,Eppendorf_PCR_384,H17,1000,0,,,13.251,9.251,100,,AQ,MM0202001: Current fluid height below minimum transfer level
+15:58.2,Source[1],EchoSource001,384PP_AQ_BP,B21,Destination[1],EchoDestination001,Eppendorf_PCR_384,I17,1000,0,,,13.182,9.182,100,,AQ,MM0202001: Current fluid height below minimum transfer level
+15:58.3,Source[1],EchoSource001,384PP_AQ_BP,B23,Destination[1],EchoDestination001,Eppendorf_PCR_384,J17,1000,0,,,13.01,9.01,100,,AQ,MM0202001: Current fluid height below minimum transfer level
+15:58.5,Source[1],EchoSource001,384PP_AQ_BP,D22,Destination[1],EchoDestination001,Eppendorf_PCR_384,K17,1000,0,,,13.872,8.872,100,,AQ,MM0202001: Current fluid height below minimum transfer level
+15:58.7,Source[1],EchoSource001,384PP_AQ_BP,A21,Destination[1],EchoDestination001,Eppendorf_PCR_384,L17,1000,0,,,12.837,8.837,100,,AQ,MM0202001: Current fluid height below minimum transfer level
+15:59.0,Source[1],EchoSource001,384PP_AQ_BP,C23,Destination[1],EchoDestination001,Eppendorf_PCR_384,L18,1000,0,,,11.75,8.75,100,,AQ,MM0202001: Current fluid height below minimum transfer level
+15:59.2,Source[1],EchoSource001,384PP_AQ_BP,D24,Destination[1],EchoDestination001,Eppendorf_PCR_384,K18,1000,0,,,11.733,8.733,100,,AQ,MM0202001: Current fluid height below minimum transfer level
+15:59.4,Source[1],EchoSource001,384PP_AQ_BP,D21,Destination[1],EchoDestination001,Eppendorf_PCR_384,J18,1000,0,,,14.683,8.683,100,,AQ,MM0202001: Current fluid height below minimum transfer level
+15:59.6,Source[1],EchoSource001,384PP_AQ_BP,A24,Destination[1],EchoDestination001,Eppendorf_PCR_384,I18,1000,0,,,17.677,8.677,100,,AQ,MM0202001: Current fluid height below minimum transfer level
+15:59.8,Source[1],EchoSource001,384PP_AQ_BP,B24,Destination[1],EchoDestination001,Eppendorf_PCR_384,H18,1000,0,,,11.629,8.629,100,,AQ,MM0202001: Current fluid height below minimum transfer level
+16:00.0,Source[1],EchoSource001,384PP_AQ_BP,C24,Destination[1],EchoDestination001,Eppendorf_PCR_384,G18,1000,0,,,13.579,8.579,100,,AQ,MM0202001: Current fluid height below minimum transfer level
+16:00.2,Source[1],EchoSource001,384PP_AQ_BP,A22,Destination[1],EchoDestination001,Eppendorf_PCR_384,F18,1000,0,,,17.573,8.573,100,,AQ,MM0202001: Current fluid height below minimum transfer level
+16:00.4,Source[1],EchoSource001,384PP_AQ_BP,D23,Destination[1],EchoDestination001,Eppendorf_PCR_384,E18,1000,0,,,13.562,8.562,100,,AQ,MM0202001: Current fluid height below minimum transfer level
+16:00.7,Source[1],EchoSource001,384PP_AQ_BP,A23,Destination[1],EchoDestination001,Eppendorf_PCR_384,D18,1000,0,,,17.553,8.553,100,,AQ,MM0202001: Current fluid height below minimum transfer level
+
+[DETAILS]
+Date Time Point,Source Plate Name,Source Plate Barcode,Source Plate Type,Source Well,Destination Plate Name,Destination Plate Barcode,Destination Plate Type,Destination Well,Transfer Volume,Actual Volume,Sample ID,Sample Name,Survey Fluid Volume,Current Fluid Volume,Fluid Composition,Fluid Units,Fluid Type,Transfer Status
+
+Instrument Name,E5XX-19119
+Instrument Model,Echo 525
+Instrument Serial Number,E5XX-19119
+Instrument Software Version,2.6.3
