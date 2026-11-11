@@ -28,7 +28,7 @@ def test_extension_of(key, ext):
 
 @pytest.mark.parametrize("key,expected", [
     ("x/foo.mrc", True), ("x/foo.rec", True), ("x/foo.map", True),
-    ("x/foo.csv", False), ("x/foo.txt", False), ("x/plain", False),
+    ("x/foo.docx", False), ("x/foo.txt", False), ("x/plain", False),
 ])
 def test_has_decoder_for(key, expected):
     assert has_decoder_for(key) is expected
