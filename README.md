@@ -15,7 +15,8 @@ Read the metadata of a scientific file and return its fields (dimensions, data
 type, pixel size, columns, row count) as a dict, without reading the rest of the
 file. Decodes formats across cryo-EM, light microscopy and light-sheet imaging,
 arrays, tabular data, flow cytometry, mass spec, sequencing, genome annotation,
-structural biology, and electrophysiology (the full list is below). The decode functions have no
+structural biology, electrophysiology, and lab instrument exports (the full list
+is below). The decode functions have no
 dependencies; separate reader functions fetch the bytes from a file or a URL:
 the leading bytes for most formats, the trailing bytes for Parquet (whose schema
 is in a footer), and a bounded handful of reads wherever the pointers lead for
@@ -259,6 +260,114 @@ pointers, see "Pointer-based formats" below):
   Illumina RunInfo.xml / RunParameters.xml keep their file-name dispatch, which
   wins over the extension.
 
+Lab instrument exports (added in 0.12.0). The text, CSV, XML, JSON and
+spreadsheet files written by the 53 instrument software products that
+Benchling's allotropy converts to Allotrope ASM: plate readers, qPCR and dPCR,
+cell counters, spectrophotometers, chromatography, SPR, flow cytometry,
+multi-analyte profiling and liquid handlers. Their extensions are generic, so
+each product registers a content sniffer with `register_instrument_sniffer`.
+The sniffers for an extension run in registration order before that
+extension's ordinary decoder; each declines anything that is not unmistakably
+its export, and the ordinary decoder (BIDS for `.json` and `.tsv`, the XML
+dispatcher for `.xml`) still gets the file when every sniffer declines. A text
+export is judged from its leading 256 KiB, an `.xlsx` through a small
+standard-library reader that opens the zip directory and one or two sheets.
+
+Every record uses the shared keys where the file states them:
+`instrumentSoftware`, `instrumentCategory`, `vendor`, `detectionModes`,
+`softwareVersion`, `instrumentModel`, `serialNumber`, `plateFormat` (wells per
+plate), `plateCount`, `sampleCount`, `measurementCount`, `wavelengthsNm`,
+`runDate` and `exportFormat`, plus keys of its own. `allotropyParser` names
+the allotropy module that converts the file (`allotropyAlternateParser` where
+two do). Counts appear only when the whole table they describe fit in the
+read. `runDate` is ISO 8601 when the date is unambiguous (written year first,
+or an Excel date); numeric day and month dates stay as written, since the same
+software writes both orders. Sample identifiers stay strings, so `007` stays
+`007`. The golden fixtures are allotropy's own test exports, and their expected
+fields were checked against the ASM allotropy writes for each one. Formats
+marked (Python) are not decoded by scigantic-edge, which reads the text, CSV,
+XML, JSON and HTML exports only.
+
+- **Plate readers A** (`plate_a`): Agilent Gen5 and Gen5 Image (`.txt`),
+  Molecular Devices SoftMax Pro (`.txt`, UTF-16 or UTF-8), BMG Labtech MARS
+  (`.csv`), and the `.xlsx` workbooks of BMG Labtech SMART Control, Tecan
+  Magellan and Thermo Fisher Scientific SkanIt (Python). Software version,
+  reader model and serial, plate type and wells, run date, read modes and read
+  type (endpoint, kinetic, spectrum), detection and excitation wavelengths,
+  experiment, protocol and method file names. Gen5 Image is told apart from Gen5 by its
+  read steps (the header is identical) and adds objectives and imaging
+  channels. Checked against 33 Gen5, 7 Gen5 Image, 26 SoftMax Pro and 7 MARS
+  inputs and every SMART Control, Magellan and SkanIt input.
+- **Plate readers B** (`plate_b`): PerkinElmer Envision (`.csv`), Revvity
+  Kaleido 2, 3 and 3.5 (`.csv`), MSD Methodical Mind (`.txt`), MSD Discovery
+  Workbench (`.csv`; `.xlsx` Python), CTL ImmunoSpot (`.txt`), Mabtech Apex
+  (`.xlsx`, Python), Unchained Labs Lunatic & Stunner (`.csv`; `.xlsx`
+  Python). Software version, instrument model and serial, wells per plate and
+  spots per well, plate and sample counts, protocol, run date, filter or
+  absorbance wavelengths, and for Lunatic & Stunner whether the file holds
+  absorbance or DLS results. Discovery Workbench files name no software or
+  instrument; they report row, sample and assay counts. Checked against
+  allotropy's ASM for 3 Envision, 3 Methodical Mind, 4 ImmunoSpot, 2 Apex, 6
+  Lunatic & Stunner and the Kaleido absorbance, fluorescence, luminescence and
+  imaging exports.
+- **qPCR and dPCR** (`pcr`): AppBio QuantStudio Real-Time PCR Software
+  (`.txt`; `.xlsx` Python), QuantStudio Design & Analysis (`.xlsx`, Python),
+  Thermo Fisher Diomni (`.xlsx`, Python), AppBio AbsoluteQ (CSV; a `.zip`
+  holding the summary CSV, Python), Qiacuity dPCR (CSV) and Bio-Rad CFX
+  Maestro (Cq results CSV). Instrument type, name and serial, block type and
+  plate format, chemistry, experiment, run end time as written, software
+  version where the file states it, targets or SNP assays, reporter dyes,
+  wells and sample names. The Real-Time PCR layout, which Design & Analysis
+  1.x also writes, is converted by both QuantStudio parsers and carries
+  `allotropyAlternateParser`. Checked against allotropy's output for 20
+  Real-Time PCR, 23 Design & Analysis, 6 Diomni, 11 AbsoluteQ, 4 Qiacuity and
+  1 CFX Maestro file.
+- **Cell counters and solution analyzers** (`cells`): Beckman Coulter Vi-CELL
+  XR (`.txt`; `.xlsx` and binary `.xls` Python) and Vi-CELL BLU (`.csv`),
+  ChemoMetec NucleoView and NC View (`.csv`), Revvity Matrix (`.csv`; `.xlsx`
+  Python), Roche Cedex HiRes (`.csv`; `.xlsx` Python) and Cedex Bio HT
+  (`.txt`), Beckman Coulter PharmSpec (`.xlsx` and binary `.xls` Python; the
+  HIAC report saved as HTML under an `.xls` name in both), NovaBio Flex2
+  (`.csv`). Software version as written, serial number, model, protocol, run
+  date, sample count and up to 20 `sampleIds`, and the analytes of Cedex Bio
+  HT and Flex2. Checked against 26 exports from allotropy's test data.
+- **Spectrophotometers and fluorometers** (`spectro`): Thermo Fisher
+  Scientific VISIONlite (`.csv`), NanoDrop 8000 and NanoDrop Eight (`.txt`,
+  `.tsv`), NanoDrop One (`.csv`; `.xlsx` Python), Qubit 4 and Qubit Flex
+  (`.csv`; `.xlsx` Python), Genesys30 (`.csv`, `.tsv`) and Genesys On-Board
+  (`.csv`). Application or assay, wavelengths, Qubit excitation and emission
+  channels, serial number and software version where written, scan range and
+  point count, run date as written, sample count. The NanoDrop and Qubit
+  products are told apart by layout and column order; none names its model.
+  A VISIONlite rate export is recognized with `allotropySupported: false`,
+  since allotropy does not convert it. Checked against allotropy's test
+  exports and ASM (sample count, wavelengths, serial, version, assay,
+  channels, scan range).
+- **Chromatography, electrophoresis and SPR** (`chrom`): Agilent OpenLab CDS
+  result sets (`.rslt`, `.zip`, Python), Cytiva Unicorn result zips (Python),
+  the Benchling Waters Empower and Thermo Fisher Scientific Chromeleon adapter
+  JSON (`.json`), Agilent TapeStation Analysis (`.xml`), Cytiva Biacore T200
+  Control `.blr` and T200 Evaluation `.bme` (OLE2 compound files, Python), and
+  Cytiva Biacore Insight (`.xlsx`, `.xlsm`, Python). Instrument and module
+  identity (part number, serial, firmware), software version, sequence or
+  sample set, methods, sample, injection, channel, cycle and flow cell counts,
+  run date, signals with their detector wavelengths, sensor chip type and lot.
+  Checked against allotropy's expected ASM for 5 OpenLab, 4 Unicorn, 3
+  Empower, 3 Chromeleon, the TapeStation files, 6 T200 Control, 1 T200
+  Evaluation and 5 Insight exports.
+- **Flow cytometry, multi-analyte profiling and liquid handlers**
+  (`flow_map_lh`): FlowJo workspaces (`.wsp`, `.xml`), BD Biosciences FACSDiva
+  experiment XML, Luminex xPONENT batch CSV, Luminex INTELLIFLEX (`.csv`;
+  `.xlsx` Python), Bio-Rad Bio-Plex Manager XML, Beckman Coulter Biomek
+  transfer logs (`.log`, `.csv`), and Beckman Echo Plate Reformat and Cherry
+  Pick transfer reports (`.csv`). Software and firmware versions, cytometer or
+  reader model and serial, experiment, batch and protocol, plate format and
+  count, analyte and bead region counts, wells and sample names, the Biomek
+  method and pod head serials, the Echo transfer and exception counts. The FCS
+  files a FlowJo workspace points to decode through the FCS decoder. Checked
+  against allotropy's ASM for 3 FlowJo, 2 FACSDiva, 3 xPONENT, 5 INTELLIFLEX,
+  4 Biomek and 5 Echo exports and the Bio-Plex Manager export.
+
 `.gz` is transparent. The reader decompresses just the leading block, so a
 gzipped `.nii.gz` or `.mrc.gz` decodes without inflating the whole file, and
 dispatch sees the inner format.
@@ -487,9 +596,37 @@ re-decoding.
   the HDF5 flavour reads out of its object headers. A store written without
   consolidated metadata is named and versioned but not described, since
   walking it would mean one read per node.
+- **Lab instrument exports** are described from what the read reaches:
+  - The UTF-16 tab-separated fixed export that both Thermo Fisher Scientific
+    VISIONlite and Genesys On-Board write is the same bytes either way, and
+    allotropy's two sniffers accept both. Such a record names both in
+    `instrumentCandidates` and `allotropyParserCandidates` and carries no
+    `instrumentSoftware` or `allotropyParser`.
+  - Large Biacore T200 Evaluation files (tens to hundreds of MB) spread their
+    OLE2 directory over the whole file, so the read reaches only the
+    file-type streams. They are recognized and report the application stream,
+    but not versions, run, chip or counts.
+  - Legacy binary `.xls` is mostly unsupported. A Vi-CELL XR `.xls` reports
+    its software version only, a binary PharmSpec `.xls` is recognized with no
+    fields, and other `.xls` exports (plate readers, the QuantStudio
+    auto-export) are not recognized.
+  - Metadata past the leading 256 KiB of a text or XML export is not read. In
+    a real FACSDiva export the first tube, which carries the instrument name
+    and serial number, usually sits past it; in a FlowJo workspace sample
+    names, statistics and gates do. An Echo report larger than the read loses
+    the footer with the model and serial number.
+  - The `.xlsx` readers stop at 5000 rows (Vi-CELL XR multi-sample, Revvity
+    Matrix, Cedex HiRes), after which counts are left out. SkanIt
+    fluorescence wavelengths and Qubit Flex `.xlsx` test dates (Excel dates
+    that disagree with the file's own Run IDs) are not reported.
+  - An export saved under an extension its software does not normally use
+    (a Gen5 or SoftMax Pro file saved as `.csv`) is not sniffed. Values that
+    live only in the file name, such as the NovaBio Flex2 analyzer ID, are not
+    seen. Unicorn 5 `.res` files are not read.
 - **Output is not a standard.** The fields are an ad-hoc dict, not an
   interchange format such as Allotrope ASM. Map the dict to a standard if you
-  need one.
+  need one. For a lab instrument export, `allotropyParser` names the allotropy
+  module that converts the file itself to ASM.
 
 ## License
 
