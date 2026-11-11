@@ -56,6 +56,7 @@ from .pdb import decode_pdb
 from .sam import decode_sam
 from .spikeglx import decode_spikeglx_meta
 from .vcf import decode_vcf
+from . import instruments  # noqa: F401  (registers instrument export sniffers)
 from .decoders import (
     HEADER_BYTES,
     SEEK_MAX_READS,

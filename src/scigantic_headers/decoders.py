@@ -199,6 +199,60 @@ def register_decoder(extensions, decoder: Decoder, *, read: Read = Read()) -> No
         _DECODERS_BY_EXT[ext.lower().lstrip(".")] = (decoder, read)
 
 
+# Lab instrument exports (plate readers, qPCR, cell counters, chromatography,
+# spectrophotometers) mostly arrive as .txt, .csv, .xml, .json or .xlsx, which
+# other formats already claim. They are told apart by content, not extension: a
+# sniffer recognizes one instrument's export from its bytes and declines
+# anything else. Sniffers for an extension run in registration order before the
+# extension's ordinary decoder, which still gets the file when every sniffer
+# declines. A sniffer is a seeking decoder: it receives a Source, so a text
+# export reads its leading bytes (see `instruments.head`) and an .xlsx export
+# reads the zip directory from the tail.
+INSTRUMENT_SEEK_BYTES = 16 * 1024 * 1024
+_INSTRUMENT_SNIFFERS: Dict[str, list] = {}
+
+
+def register_instrument_sniffer(extensions, sniffer: "SeekingDecoder") -> None:
+    """Register a content sniffer for one or more lower-case extensions. Tried
+    before the extension's decoder; returns None to decline."""
+    if isinstance(extensions, str):
+        extensions = [extensions]
+    for ext in extensions:
+        _INSTRUMENT_SNIFFERS.setdefault(ext.lower().lstrip("."), []).append(sniffer)
+
+
+def _sniffers_for(key: str) -> list:
+    if _basename(key) in _DECODERS_BY_NAME:
+        return []
+    return _INSTRUMENT_SNIFFERS.get(extension_of(key), [])
+
+
+def _run_entry(entry: Tuple[Decoder, Read], src: Source) -> Optional[DecodedHeader]:
+    decoder, spec = entry
+    if spec.seek is not None:
+        return decoder(src)
+    if spec.footer is not None:
+        return decoder(src.read_tail(spec.footer))
+    return decoder(src.read_at(0, spec.leading))
+
+
+def _decode_with_sniffers(key: str, src: Source, sniffers: list) -> Optional[DecodedHeader]:
+    for sniff in sniffers:
+        try:
+            hdr = sniff(src)
+        except Exception:
+            hdr = None
+        if hdr is not None:
+            return hdr
+    entry = _entry_for(key)
+    if entry is None:
+        return None
+    try:
+        return _run_entry(entry, src)
+    except Exception:
+        return None
+
+
 def register_decoder_for_name(names, decoder: Decoder, *, read: Read = Read()) -> None:
     """Register `decoder` for one or more exact (case-insensitive) file names,
     e.g. 'RunInfo.xml', used when the extension alone is too generic to identify
@@ -227,13 +281,16 @@ def _entry_for(key: str) -> Optional[Tuple[Decoder, Read]]:
 def has_decoder_for(key: str) -> bool:
     """True if a decoder is registered for this key (by file name or extension).
     Cheap: no I/O, so callers filter on this before opening a file."""
-    return _basename(key) in _DECODERS_BY_NAME or extension_of(key) in _DECODERS_BY_EXT
+    return (_basename(key) in _DECODERS_BY_NAME or extension_of(key) in _DECODERS_BY_EXT
+            or extension_of(key) in _INSTRUMENT_SNIFFERS)
 
 
 def read_for(key: str) -> Read:
     """How the readers should fetch bytes for `key`: the `Read` its decoder
     registered, or a default 1 KiB leading read when nothing is registered
     (harmless — callers filter on `has_decoder_for` first)."""
+    if _sniffers_for(key):
+        return Read(seek=INSTRUMENT_SEEK_BYTES)
     entry = _entry_for(key)
     return entry[1] if entry else Read()
 
@@ -254,6 +311,11 @@ def decode_bytes(key: str, data: bytes) -> Optional[DecodedHeader]:
     A seeking decoder (registered with `Read(seek=...)`) is given `data` as an
     in-memory Source, so a whole small file, or a recorded sparse fixture via
     `decode_source`, decodes the same way the readers decode a real one."""
+    sniffers = _sniffers_for(key)
+    if sniffers:
+        src = BytesSource(data, budget=INSTRUMENT_SEEK_BYTES)
+        src.key = key
+        return _decode_with_sniffers(key, src, sniffers)
     entry = _entry_for(key)
     if entry is None:
         return None
@@ -271,12 +333,15 @@ def decode_source(key: str, src: Source) -> Optional[DecodedHeader]:
     """Decode `key` from a Source. For a seeking decoder this is the native
     path; for a leading/footer decoder the registered read is taken from the
     Source so one call shape serves every format. None on no decoder or failure."""
+    if src.key is None:
+        src.key = key
+    sniffers = _sniffers_for(key)
+    if sniffers:
+        return _decode_with_sniffers(key, src, sniffers)
     entry = _entry_for(key)
     if entry is None:
         return None
     decoder, spec = entry
-    if src.key is None:
-        src.key = key
     try:
         if spec.seek is not None:
             return decoder(src)
