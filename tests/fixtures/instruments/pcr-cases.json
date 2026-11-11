@@ -1,0 +1,1048 @@
+{
+ "note": "Inputs are allotropy test files (see pcr/NOTICE.md). `expected` is the decode; `allotropyAsm` holds what allotropy's own ASM output for the same file states, which the tests check the decode against.",
+ "cases": [
+  {
+   "name": "rtpcr-txt-viia7-384",
+   "file": "pcr/appbio_quantstudio_example01.txt",
+   "key": "appbio_quantstudio_example01.txt",
+   "go": true,
+   "original": "tests/parsers/appbio_quantstudio/testdata/appbio_quantstudio_example01.txt",
+   "allotropyAsm": {
+    "softwareVersion": "1.0",
+    "instrumentModel": "ViiA 7",
+    "serialNumber": "INST_1",
+    "deviceIdentifier": "INST_1",
+    "targets": [
+     "TARGET_1"
+    ],
+    "reporterDyes": [
+     "SYBR"
+    ],
+    "wells": 14
+   },
+   "expected": {
+    "format": "AppBio QuantStudio RT-PCR",
+    "summary": "AppBio QuantStudio RT-PCR, txt, ViiA 7, 384-well, 1 target, 14 wells",
+    "fields": {
+     "instrumentSoftware": "AppBio QuantStudio RT-PCR",
+     "instrumentCategory": "qPCR",
+     "vendor": "Applied Biosystems",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "appbio_quantstudio",
+     "instrumentModel": "ViiA 7",
+     "instrumentName": "INST_1",
+     "serialNumber": "INST_1",
+     "blockType": "384-Well Block",
+     "plateFormat": 384,
+     "chemistry": "SYBR_GREEN",
+     "experimentType": "Comparative Cт (ΔΔCт)",
+     "experimentName": "trial 1",
+     "passiveReference": "ROX",
+     "quantificationCycleMethod": "Ct",
+     "runDate": "2001-12-31 09:09:19 PM EST",
+     "targets": [
+      "TARGET_1"
+     ],
+     "reporterDyes": [
+      "SYBR"
+     ],
+     "sampleCount": 14,
+     "measurementCount": 14,
+     "sampleNameCount": 14,
+     "sections": [
+      "Sample Setup",
+      "Raw Data",
+      "Amplification Data",
+      "Multicomponent Data",
+      "Results",
+      "Melt Curve Raw Data"
+     ],
+     "exportFormat": "txt"
+    }
+   }
+  },
+  {
+   "name": "rtpcr-txt-qs7flex-comparative-ct",
+   "file": "pcr/appbio_quantstudio_example05.txt",
+   "key": "appbio_quantstudio_example05.txt",
+   "go": true,
+   "original": "tests/parsers/appbio_quantstudio/testdata/appbio_quantstudio_example05.txt",
+   "allotropyAsm": {
+    "softwareVersion": "1.0",
+    "instrumentModel": "QuantStudio(TM) 7 Flex System",
+    "targets": [
+     "GAPDH",
+     "TGF-B"
+    ],
+    "reporterDyes": [
+     "FAM",
+     "VIC"
+    ],
+    "wells": 3
+   },
+   "expected": {
+    "format": "AppBio QuantStudio RT-PCR",
+    "summary": "AppBio QuantStudio RT-PCR, txt, QuantStudio(TM) 7 Flex System, 96-well, 2 targets, 3 wells",
+    "fields": {
+     "instrumentSoftware": "AppBio QuantStudio RT-PCR",
+     "instrumentCategory": "qPCR",
+     "vendor": "Applied Biosystems",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "appbio_quantstudio",
+     "instrumentModel": "QuantStudio(TM) 7 Flex System",
+     "blockType": "96-Well Block (0.2mL)",
+     "plateFormat": 96,
+     "chemistry": "TAQMAN",
+     "experimentType": "Comparative Cт (ΔΔCт)",
+     "experimentName": "QuantStudio96-Well Comparative Ct Example",
+     "passiveReference": "ROX",
+     "quantificationCycleMethod": "Ct",
+     "runDate": "2010-10-20 02:23:34 AM EDT",
+     "targets": [
+      "TGF-B",
+      "GAPDH"
+     ],
+     "reporterDyes": [
+      "FAM",
+      "VIC"
+     ],
+     "sampleCount": 3,
+     "measurementCount": 3,
+     "sections": [
+      "Sample Setup",
+      "Amplification Data",
+      "Multicomponent Data",
+      "Results"
+     ],
+     "exportFormat": "txt"
+    }
+   }
+  },
+  {
+   "name": "rtpcr-txt-genotyping",
+   "file": "pcr/appbio_quantstudio_minimal_test03.txt",
+   "key": "appbio_quantstudio_minimal_test03.txt",
+   "go": true,
+   "original": "tests/parsers/appbio_quantstudio/testdata/appbio_quantstudio_minimal_test03.txt",
+   "allotropyAsm": {
+    "softwareVersion": "1.0",
+    "instrumentModel": "QuantStudio(TM) 7 Flex System",
+    "serialNumber": "123456789",
+    "deviceIdentifier": "Sponge_Bob_32",
+    "targets": [
+     "CYP19_2-Allele 1",
+     "CYP19_2-Allele 2"
+    ],
+    "reporterDyes": [
+     "FAM",
+     "VIC"
+    ],
+    "wells": 1
+   },
+   "expected": {
+    "format": "AppBio QuantStudio RT-PCR",
+    "summary": "AppBio QuantStudio RT-PCR, txt, QuantStudio(TM) 7 Flex System, 96-well, 1 wells",
+    "fields": {
+     "instrumentSoftware": "AppBio QuantStudio RT-PCR",
+     "instrumentCategory": "qPCR",
+     "vendor": "Applied Biosystems",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "appbio_quantstudio",
+     "instrumentModel": "QuantStudio(TM) 7 Flex System",
+     "instrumentName": "Sponge_Bob_32",
+     "serialNumber": "123456789",
+     "blockType": "96-Well Block (0.2mL)",
+     "plateFormat": 96,
+     "chemistry": "TAQMAN",
+     "experimentType": "Genotyping",
+     "experimentName": "QuantStudio 96-Well SNP Genotyping Example",
+     "passiveReference": "ROX",
+     "quantificationCycleMethod": "Ct",
+     "runDate": "2010-09-16 07:35:29 AM EDT",
+     "snpAssays": [
+      "CYP19_2"
+     ],
+     "reporterDyes": [
+      "VIC",
+      "FAM"
+     ],
+     "sampleCount": 1,
+     "sampleNameCount": 1,
+     "sections": [
+      "Sample Setup",
+      "Amplification Data",
+      "Results"
+     ],
+     "exportFormat": "txt"
+    }
+   }
+  },
+  {
+   "name": "rtpcr-txt-results-only",
+   "file": "pcr/example_quantsudio_results_only.txt",
+   "key": "example_quantsudio_results_only.txt",
+   "go": true,
+   "original": "tests/parsers/appbio_quantstudio/testdata/example_quantsudio_results_only.txt",
+   "allotropyAsm": {
+    "softwareVersion": "1.0",
+    "instrumentModel": "QuantStudio(TM) 7 Flex System",
+    "serialNumber": "278875421",
+    "deviceIdentifier": "278875421",
+    "targets": [
+     "3'UTR"
+    ],
+    "reporterDyes": [
+     "VIC"
+    ],
+    "wells": 24
+   },
+   "expected": {
+    "format": "AppBio QuantStudio RT-PCR",
+    "summary": "AppBio QuantStudio RT-PCR, txt, QuantStudio(TM) 7 Flex System, 1 target, 24 wells",
+    "fields": {
+     "instrumentSoftware": "AppBio QuantStudio RT-PCR",
+     "instrumentCategory": "qPCR",
+     "vendor": "Applied Biosystems",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "appbio_quantstudio",
+     "instrumentModel": "QuantStudio(TM) 7 Flex System",
+     "instrumentName": "278875421",
+     "serialNumber": "278875421",
+     "chemistry": "TAQMAN",
+     "experimentType": "Standard Curve",
+     "experimentName": "01OCT2024",
+     "passiveReference": "ROX",
+     "quantificationCycleMethod": "Ct",
+     "runDate": "2024-10-01 15:02:50 PM EST",
+     "targets": [
+      "3'UTR"
+     ],
+     "reporterDyes": [
+      "VIC"
+     ],
+     "sampleCount": 24,
+     "measurementCount": 24,
+     "sampleNameCount": 8,
+     "sections": [
+      "Results"
+     ],
+     "exportFormat": "txt"
+    }
+   }
+  },
+  {
+   "name": "rtpcr-xlsx-12k-flex",
+   "file": "pcr/appbio_quantstudio_example10.xlsx",
+   "key": "appbio_quantstudio_example10.xlsx",
+   "go": false,
+   "original": "tests/parsers/appbio_quantstudio/testdata/appbio_quantstudio_example10.xlsx",
+   "allotropyAsm": {
+    "softwareVersion": "1.0",
+    "instrumentModel": "QuantStudio(TM) 12K Flex System",
+    "serialNumber": "100000",
+    "deviceIdentifier": "100000",
+    "targets": [
+     "GeneA",
+     "RefGene"
+    ],
+    "reporterDyes": [
+     "FAM"
+    ],
+    "wells": 8
+   },
+   "expected": {
+    "format": "AppBio QuantStudio RT-PCR",
+    "summary": "AppBio QuantStudio RT-PCR, xlsx, QuantStudio(TM) 12K Flex System, 384-well, 2 targets, 8 wells",
+    "fields": {
+     "instrumentSoftware": "AppBio QuantStudio RT-PCR",
+     "instrumentCategory": "qPCR",
+     "vendor": "Applied Biosystems",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "appbio_quantstudio",
+     "instrumentModel": "QuantStudio(TM) 12K Flex System",
+     "instrumentName": "100000",
+     "serialNumber": "100000",
+     "blockType": "384-Well Block",
+     "plateFormat": 384,
+     "chemistry": "TAQMAN",
+     "experimentType": "Comparative Cт (ΔΔCт)",
+     "experimentName": "test_experiment",
+     "passiveReference": "ROX",
+     "quantificationCycleMethod": "Ct",
+     "runDate": "03-10-2024 10:45:00 AM EST",
+     "targets": [
+      "GeneA",
+      "RefGene"
+     ],
+     "reporterDyes": [
+      "FAM"
+     ],
+     "sampleCount": 8,
+     "measurementCount": 8,
+     "sampleNameCount": 2,
+     "sheets": [
+      "Sample Setup",
+      "Amplification Data",
+      "Results"
+     ],
+     "exportFormat": "xlsx",
+     "allotropyAlternateParser": "appbio_quantstudio_designandanalysis"
+    }
+   }
+  },
+  {
+   "name": "rtpcr-layout-xlsx-from-da-tests",
+   "file": "pcr/appbio_quantstudio_designandanalysis_QS7_Standard_Curve_example07.xlsx",
+   "key": "appbio_quantstudio_designandanalysis_QS7_Standard_Curve_example07.xlsx",
+   "go": false,
+   "original": "tests/parsers/appbio_quantstudio_designandanalysis/testdata/appbio_quantstudio_designandanalysis_QS7_Standard_Curve_example07.xlsx",
+   "allotropyAsm": {
+    "instrumentModel": "QuantStudio(TM) 7 Flex System",
+    "deviceIdentifier": "QS7-Eng1",
+    "reporterDyes": [
+     "SYBR"
+    ],
+    "wells": 309
+   },
+   "expected": {
+    "format": "AppBio QuantStudio RT-PCR",
+    "summary": "AppBio QuantStudio RT-PCR, xlsx, QuantStudio(TM) 7 Flex System, 384-well, 1 target, 309 wells",
+    "fields": {
+     "instrumentSoftware": "AppBio QuantStudio RT-PCR",
+     "instrumentCategory": "qPCR",
+     "vendor": "Applied Biosystems",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "appbio_quantstudio",
+     "instrumentModel": "QuantStudio(TM) 7 Flex System",
+     "instrumentName": "QS7-Eng1",
+     "blockType": "384-Well Block",
+     "plateFormat": 384,
+     "chemistry": "SYBR_GREEN",
+     "experimentType": "Standard Curve",
+     "experimentName": "QS7_Standard_Curve",
+     "passiveReference": "ROX",
+     "quantificationCycleMethod": "Ct",
+     "runDate": "2025-11-19 14:35:32 PM EST",
+     "targets": [
+      "Illumina Adapter"
+     ],
+     "reporterDyes": [
+      "SYBR"
+     ],
+     "sampleCount": 309,
+     "measurementCount": 309,
+     "sampleNameCount": 15,
+     "sheets": [
+      "Results"
+     ],
+     "exportFormat": "xlsx",
+     "allotropyAlternateParser": "appbio_quantstudio_designandanalysis"
+    }
+   }
+  },
+  {
+   "name": "da-xlsx-primary-analysis",
+   "file": "pcr/appbio_quantstudio_designandanalysis_QS7Pro_Primary_Analysis_example18.xlsx",
+   "key": "appbio_quantstudio_designandanalysis_QS7Pro_Primary_Analysis_example18.xlsx",
+   "go": false,
+   "original": "tests/parsers/appbio_quantstudio_designandanalysis/testdata/appbio_quantstudio_designandanalysis_QS7Pro_Primary_Analysis_example18.xlsx",
+   "allotropyAsm": {
+    "softwareVersion": "2.6.0",
+    "instrumentModel": "QuantStudio™ 7 Pro System",
+    "serialNumber": "1",
+    "deviceIdentifier": "QS7Pro-3",
+    "reporterDyes": [
+     "FAM"
+    ],
+    "wells": 96
+   },
+   "expected": {
+    "format": "AppBio QuantStudio Design & Analysis",
+    "summary": "AppBio QuantStudio Design & Analysis, xlsx, QuantStudio™ 7 Pro System, 96-well, 96 wells",
+    "fields": {
+     "instrumentSoftware": "AppBio QuantStudio Design & Analysis",
+     "instrumentCategory": "qPCR",
+     "vendor": "Applied Biosystems",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "appbio_quantstudio_designandanalysis",
+     "instrumentModel": "QuantStudio™ 7 Pro System",
+     "instrumentName": "QS7Pro-3",
+     "serialNumber": "1",
+     "blockType": "96-Well 0.2-mL Block",
+     "plateFormat": 96,
+     "passiveReference": "ROX",
+     "quantificationCycleMethod": "CT",
+     "runDate": "2024-02-12 05:36:23 PM EST",
+     "softwareVersion": "2.6.0",
+     "reporterDyes": [
+      "FAM"
+     ],
+     "sampleCount": 96,
+     "measurementCount": 96,
+     "sheets": [
+      "Results"
+     ],
+     "analysisPlugins": "Primary Analysis v1.7.0",
+     "exportFormat": "xlsx"
+    }
+   }
+  },
+  {
+   "name": "da-xlsx-standard-curve",
+   "file": "pcr/appbio_quantstudio_design_quantity_test.xlsx",
+   "key": "appbio_quantstudio_design_quantity_test.xlsx",
+   "go": false,
+   "original": "tests/parsers/appbio_quantstudio_designandanalysis/testdata/appbio_quantstudio_design_quantity_test.xlsx",
+   "allotropyAsm": {
+    "softwareVersion": "2.6.0",
+    "instrumentModel": "QuantStudio™ 7 Pro System",
+    "serialNumber": "123456789",
+    "deviceIdentifier": "QS7Pro-12",
+    "targets": [
+     "ABC",
+     "DEF"
+    ],
+    "reporterDyes": [
+     "CY5",
+     "FAM"
+    ],
+    "wells": 12
+   },
+   "expected": {
+    "format": "AppBio QuantStudio Design & Analysis",
+    "summary": "AppBio QuantStudio Design & Analysis, xlsx, QuantStudio™ 7 Pro System, 384-well, 2 targets, 12 wells",
+    "fields": {
+     "instrumentSoftware": "AppBio QuantStudio Design & Analysis",
+     "instrumentCategory": "qPCR",
+     "vendor": "Applied Biosystems",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "appbio_quantstudio_designandanalysis",
+     "instrumentModel": "QuantStudio™ 7 Pro System",
+     "instrumentName": "QS7Pro-12",
+     "serialNumber": "123456789",
+     "blockType": "384-Well Block",
+     "plateFormat": 384,
+     "passiveReference": "ROX",
+     "quantificationCycleMethod": "CT",
+     "runDate": "2024-05-13 11:47:00 AM EDT",
+     "softwareVersion": "2.6.0",
+     "targets": [
+      "ABC",
+      "DEF"
+     ],
+     "reporterDyes": [
+      "FAM",
+      "CY5"
+     ],
+     "sampleCount": 12,
+     "measurementCount": 24,
+     "sampleNameCount": 3,
+     "sheets": [
+      "Results",
+      "Amplification Data",
+      "Multicomponent",
+      "Raw Data",
+      "Replicate Group Result",
+      "Standard Curve Result"
+     ],
+     "analysisPlugins": "Primary Analysis v1.7.0, Standard Curve v1.6.0",
+     "exportFormat": "xlsx"
+    }
+   }
+  },
+  {
+   "name": "diomni-xlsx-primary-result",
+   "file": "pcr/appbio_quantstudio_designandanalysis_Diomni_v4.3_Presence_Absence.xlsx",
+   "key": "appbio_quantstudio_designandanalysis_Diomni_v4.3_Presence_Absence.xlsx",
+   "go": false,
+   "original": "tests/parsers/appbio_quantstudio_designandanalysis/testdata/appbio_quantstudio_designandanalysis_Diomni_v4.3_Presence_Absence.xlsx",
+   "allotropyAsm": {
+    "softwareVersion": "4.3.0",
+    "instrumentModel": "QuantStudio™ 7 Pro System",
+    "serialNumber": "000000000001",
+    "deviceIdentifier": "B-PCR-1",
+    "targets": [
+     "Globin",
+     "T4"
+    ],
+    "reporterDyes": [
+     "ABY",
+     "FAM"
+    ],
+    "wells": 4
+   },
+   "expected": {
+    "format": "Thermo Fisher Diomni",
+    "summary": "Thermo Fisher Diomni, xlsx, QuantStudio™ 7 Pro System, 384-well, 2 targets, 4 wells",
+    "fields": {
+     "instrumentSoftware": "Thermo Fisher Diomni",
+     "instrumentCategory": "qPCR",
+     "vendor": "Thermo Fisher Scientific",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "thermo_fisher_diomni",
+     "instrumentModel": "QuantStudio™ 7 Pro System",
+     "instrumentName": "B-PCR-1",
+     "serialNumber": "000000000001",
+     "blockType": "384-Well Block",
+     "plateFormat": 384,
+     "passiveReference": "ROX",
+     "quantificationCycleMethod": "CT",
+     "runDate": "2026-02-13 02:39:53 PM EST",
+     "softwareVersion": "4.3.0",
+     "targets": [
+      "Globin",
+      "T4"
+     ],
+     "reporterDyes": [
+      "FAM",
+      "ABY"
+     ],
+     "sampleCount": 4,
+     "measurementCount": 8,
+     "sampleNameCount": 4,
+     "sheets": [
+      "Primary_result",
+      "Amplification Data",
+      "Multicomponent",
+      "Raw Data",
+      "Target Call"
+     ],
+     "assayName": "HPV PCR 384_test_KG_Globin",
+     "assayVersion": "1.0.1",
+     "exportFormat": "xlsx"
+    }
+   }
+  },
+  {
+   "name": "diomni-xlsx-target-call-v4.2",
+   "file": "pcr/thermo_fisher_diomni_example.xlsx",
+   "key": "thermo_fisher_diomni_example.xlsx",
+   "go": false,
+   "original": "tests/parsers/thermo_fisher_diomni/testdata/example.xlsx",
+   "allotropyAsm": {
+    "softwareVersion": "4.2.0",
+    "instrumentModel": "QuantStudio™ 7 Pro System",
+    "serialNumber": "9728236350517",
+    "deviceIdentifier": "TEST-QPCR-01",
+    "targets": [
+     "Target_A",
+     "Target_B"
+    ],
+    "reporterDyes": [
+     "ABY",
+     "FAM"
+    ],
+    "wells": 384
+   },
+   "expected": {
+    "format": "Thermo Fisher Diomni",
+    "summary": "Thermo Fisher Diomni, xlsx target call, QuantStudio™ 7 Pro System, 384-well, 2 targets, 384 wells",
+    "fields": {
+     "instrumentSoftware": "Thermo Fisher Diomni",
+     "instrumentCategory": "qPCR",
+     "vendor": "Thermo Fisher Scientific",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "thermo_fisher_diomni",
+     "instrumentModel": "QuantStudio™ 7 Pro System",
+     "instrumentName": "TEST-QPCR-01",
+     "serialNumber": "9728236350517",
+     "blockType": "384-Well Block",
+     "plateFormat": 384,
+     "passiveReference": "ROX",
+     "quantificationCycleMethod": "CT",
+     "runDate": "2026-05-15 02:59:19 PM EDT",
+     "softwareVersion": "4.2.0",
+     "targets": [
+      "Target_A",
+      "Target_B"
+     ],
+     "reporterDyes": [
+      "ABY",
+      "FAM"
+     ],
+     "sampleCount": 384,
+     "measurementCount": 768,
+     "sampleNameCount": 354,
+     "sheets": [
+      "Target_Call"
+     ],
+     "assayName": "Test_Assay",
+     "assayVersion": "1.0.4",
+     "exportFormat": "xlsx target call"
+    }
+   }
+  },
+  {
+   "name": "diomni-xlsx-target-call-v4.3",
+   "file": "pcr/thermo_fisher_diomni_example4.xlsx",
+   "key": "thermo_fisher_diomni_example4.xlsx",
+   "go": false,
+   "original": "tests/parsers/thermo_fisher_diomni/testdata/example4.xlsx",
+   "allotropyAsm": {
+    "softwareVersion": "4.3.0",
+    "instrumentModel": "QuantStudio™ 7 Pro System",
+    "serialNumber": "2580863193008",
+    "deviceIdentifier": "TEST-QPCR-01",
+    "targets": [
+     "Target_A",
+     "Target_B"
+    ],
+    "reporterDyes": [
+     "ABY",
+     "FAM"
+    ],
+    "wells": 384
+   },
+   "expected": {
+    "format": "Thermo Fisher Diomni",
+    "summary": "Thermo Fisher Diomni, xlsx target call, QuantStudio™ 7 Pro System, 384-well, 2 targets, 384 wells",
+    "fields": {
+     "instrumentSoftware": "Thermo Fisher Diomni",
+     "instrumentCategory": "qPCR",
+     "vendor": "Thermo Fisher Scientific",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "thermo_fisher_diomni",
+     "instrumentModel": "QuantStudio™ 7 Pro System",
+     "instrumentName": "TEST-QPCR-01",
+     "serialNumber": "2580863193008",
+     "blockType": "384-Well Block",
+     "plateFormat": 384,
+     "passiveReference": "ROX",
+     "quantificationCycleMethod": "CT",
+     "runDate": "2026-05-28 03:24:21 PM EDT",
+     "softwareVersion": "4.3.0",
+     "targets": [
+      "Target_A",
+      "Target_B"
+     ],
+     "reporterDyes": [
+      "ABY",
+      "FAM"
+     ],
+     "sampleCount": 384,
+     "measurementCount": 768,
+     "sampleNameCount": 384,
+     "sheets": [
+      "Target Call"
+     ],
+     "assayName": "Test_Assay",
+     "assayVersion": "1.0.0",
+     "exportFormat": "xlsx target call"
+    }
+   }
+  },
+  {
+   "name": "absoluteq-group-results",
+   "file": "pcr/Appbio_AbsoluteQ_example05.csv",
+   "key": "Appbio_AbsoluteQ_example05.csv",
+   "go": true,
+   "original": "tests/parsers/appbio_absolute_q/testdata/Appbio_AbsoluteQ_example05.csv",
+   "allotropyAsm": {
+    "deviceIdentifier": "Absolute Q 0140",
+    "targets": [
+     "Gene A",
+     "Gene B"
+    ],
+    "reporterDyes": [
+     "FAM",
+     "VIC"
+    ],
+    "wells": 16
+   },
+   "expected": {
+    "format": "AppBio AbsoluteQ",
+    "summary": "AppBio AbsoluteQ, group results csv, 2 targets, 16 wells",
+    "fields": {
+     "instrumentSoftware": "AppBio AbsoluteQ",
+     "instrumentCategory": "dPCR",
+     "vendor": "Applied Biosystems",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "appbio_absolute_q",
+     "runName": "AbsoluteQ_example05",
+     "runDate": "5/19/2023",
+     "instrumentName": "Absolute Q 0140",
+     "plateId": "M01KM220700391",
+     "reporterDyes": [
+      "VIC",
+      "FAM"
+     ],
+     "targets": [
+      "Gene A",
+      "Gene B"
+     ],
+     "sampleCount": 16,
+     "sampleNameCount": 2,
+     "exportFormat": "group results csv"
+    }
+   }
+  },
+  {
+   "name": "absoluteq-fluorescence",
+   "file": "pcr/Appbio_AbsoluteQ_fluorescence_columns.csv",
+   "key": "Appbio_AbsoluteQ_fluorescence_columns.csv",
+   "go": true,
+   "original": "tests/parsers/appbio_absolute_q/testdata/Appbio_AbsoluteQ_fluorescence_columns.csv",
+   "allotropyAsm": {
+    "deviceIdentifier": "2262720120102",
+    "targets": [
+     "TARGET 1",
+     "TARGET 2",
+     "TARGET 3",
+     "TARGET 4"
+    ],
+    "reporterDyes": [
+     "ABY",
+     "FAM",
+     "JUN",
+     "VIC"
+    ],
+    "wells": 16
+   },
+   "expected": {
+    "format": "AppBio AbsoluteQ",
+    "summary": "AppBio AbsoluteQ, fluorescence csv, 4 targets, 16 wells",
+    "fields": {
+     "instrumentSoftware": "AppBio AbsoluteQ",
+     "instrumentCategory": "dPCR",
+     "vendor": "Applied Biosystems",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "appbio_absolute_q",
+     "runName": "SIP2_StarterProtocol-M01KM220600090",
+     "runDate": "2023-05-24 19:45:43.758605+00:00",
+     "instrumentName": "2262720120102",
+     "plateId": "M01KM220600090",
+     "reporterDyes": [
+      "FAM",
+      "VIC",
+      "ABY",
+      "JUN"
+     ],
+     "targets": [
+      "TARGET 1",
+      "TARGET 2",
+      "TARGET 3",
+      "TARGET 4"
+     ],
+     "sampleCount": 16,
+     "sampleNameCount": 16,
+     "exportFormat": "fluorescence csv"
+    }
+   }
+  },
+  {
+   "name": "absoluteq-multichannel",
+   "file": "pcr/Appbio_AbsoluteQ_multichannel.csv",
+   "key": "Appbio_AbsoluteQ_multichannel.csv",
+   "go": true,
+   "original": "tests/parsers/appbio_absolute_q/testdata/Appbio_AbsoluteQ_multichannel.csv",
+   "allotropyAsm": {
+    "deviceIdentifier": "2262720120102",
+    "reporterDyes": [
+     "ABY",
+     "ABY JUN",
+     "FAM",
+     "FAM ABY",
+     "FAM ABY JUN",
+     "FAM JUN",
+     "FAM VIC",
+     "FAM VIC ABY",
+     "FAM VIC ABY JUN",
+     "FAM VIC JUN",
+     "JUN",
+     "VIC",
+     "VIC ABY",
+     "VIC ABY JUN",
+     "VIC JUN"
+    ],
+    "wells": 5
+   },
+   "expected": {
+    "format": "AppBio AbsoluteQ",
+    "summary": "AppBio AbsoluteQ, multichannel csv",
+    "fields": {
+     "instrumentSoftware": "AppBio AbsoluteQ",
+     "instrumentCategory": "dPCR",
+     "vendor": "Applied Biosystems",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "appbio_absolute_q",
+     "runName": "SIP2_StarterProtocol-M01KM220600090",
+     "runDate": "2023-05-24 19:45:43.758605+00:00",
+     "instrumentName": "2262720120102",
+     "plateId": "M01KM220600090",
+     "reporterDyes": [
+      "JUN",
+      "ABY",
+      "VIC",
+      "FAM"
+     ],
+     "sampleNameCount": 5,
+     "exportFormat": "multichannel csv"
+    }
+   }
+  },
+  {
+   "name": "absoluteq-summary",
+   "file": "pcr/Appbio_AbsoluteQ_summary.csv",
+   "key": "Appbio_AbsoluteQ_summary.csv",
+   "go": true,
+   "original": "tests/parsers/appbio_absolute_q/testdata/Appbio_AbsoluteQ_summary.csv",
+   "allotropyAsm": {
+    "targets": [
+     "TARGET 1",
+     "TARGET 2"
+    ],
+    "reporterDyes": [
+     "FAM",
+     "VIC"
+    ],
+    "wells": 8
+   },
+   "expected": {
+    "format": "AppBio AbsoluteQ",
+    "summary": "AppBio AbsoluteQ, summary csv, 2 targets, 8 wells",
+    "fields": {
+     "instrumentSoftware": "AppBio AbsoluteQ",
+     "instrumentCategory": "dPCR",
+     "vendor": "Applied Biosystems",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "appbio_absolute_q",
+     "reporterDyes": [
+      "FAM",
+      "VIC"
+     ],
+     "targets": [
+      "TARGET 1",
+      "TARGET 2"
+     ],
+     "runName": "SIP2_StarterProtocol-M01KM220600090",
+     "sampleCount": 8,
+     "sampleNameCount": 8,
+     "exportFormat": "summary csv"
+    }
+   }
+  },
+  {
+   "name": "absoluteq-summary-zip",
+   "file": "pcr/Appbio_AbsoluteQ_zip_test.zip",
+   "key": "Appbio_AbsoluteQ_zip_test.zip",
+   "go": false,
+   "original": "tests/parsers/appbio_absolute_q/testdata/Appbio_AbsoluteQ_zip_test.zip",
+   "allotropyAsm": {
+    "targets": [
+     "TARGET 1",
+     "TARGET 2"
+    ],
+    "reporterDyes": [
+     "FAM",
+     "VIC"
+    ],
+    "wells": 8
+   },
+   "expected": {
+    "format": "AppBio AbsoluteQ",
+    "summary": "AppBio AbsoluteQ, summary zip, 2 targets, 8 wells",
+    "fields": {
+     "instrumentSoftware": "AppBio AbsoluteQ",
+     "instrumentCategory": "dPCR",
+     "vendor": "Applied Biosystems",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "appbio_absolute_q",
+     "reporterDyes": [
+      "FAM",
+      "VIC"
+     ],
+     "targets": [
+      "TARGET 1",
+      "TARGET 2"
+     ],
+     "runName": "SIP2_StarterProtocol-M01KM220600090",
+     "sampleCount": 8,
+     "sampleNameCount": 8,
+     "exportFormat": "summary zip"
+    }
+   }
+  },
+  {
+   "name": "qiacuity-v1",
+   "file": "pcr/qiacuity_dpcr_example01.csv",
+   "key": "qiacuity_dpcr_example01.csv",
+   "go": true,
+   "original": "tests/parsers/qiacuity_dpcr/testdata/qiacuity_dpcr_example01.csv",
+   "allotropyAsm": {
+    "deviceIdentifier": "Qiacuity dPCR",
+    "targets": [
+     "5p"
+    ],
+    "wells": 6
+   },
+   "expected": {
+    "format": "Qiacuity dPCR",
+    "summary": "Qiacuity dPCR, csv, 1 target, 6 wells",
+    "fields": {
+     "instrumentSoftware": "Qiacuity dPCR",
+     "instrumentCategory": "dPCR",
+     "vendor": "QIAGEN",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "qiacuity_dpcr",
+     "targets": [
+      "5p"
+     ],
+     "reactionMixes": [
+      "5p"
+     ],
+     "sampleCount": 6,
+     "measurementCount": 6,
+     "sampleNameCount": 6,
+     "exportFormat": "csv"
+    }
+   }
+  },
+  {
+   "name": "qiacuity-mean-conc-cp1252",
+   "file": "pcr/qiacuity_dpcr_example03.csv",
+   "key": "qiacuity_dpcr_example03.csv",
+   "go": true,
+   "original": "tests/parsers/qiacuity_dpcr/testdata/qiacuity_dpcr_example03.csv",
+   "allotropyAsm": {
+    "deviceIdentifier": "Qiacuity dPCR",
+    "targets": [
+     "CD3"
+    ],
+    "wells": 24
+   },
+   "expected": {
+    "format": "Qiacuity dPCR",
+    "summary": "Qiacuity dPCR, csv, 1 target, 24 wells",
+    "fields": {
+     "instrumentSoftware": "Qiacuity dPCR",
+     "instrumentCategory": "dPCR",
+     "vendor": "QIAGEN",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "qiacuity_dpcr",
+     "targets": [
+      "CD3"
+     ],
+     "reactionMixes": [
+      "CD3"
+     ],
+     "sampleCount": 24,
+     "measurementCount": 24,
+     "sampleNameCount": 1,
+     "exportFormat": "csv"
+    }
+   }
+  },
+  {
+   "name": "qiacuity-plate-columns-bom",
+   "file": "pcr/qiacuity_dpcr_example04.csv",
+   "key": "qiacuity_dpcr_example04.csv",
+   "go": true,
+   "original": "tests/parsers/qiacuity_dpcr/testdata/qiacuity_dpcr_example04.csv",
+   "allotropyAsm": {
+    "deviceIdentifier": "Qiacuity dPCR",
+    "targets": [
+     "eGFP"
+    ],
+    "wells": 32
+   },
+   "expected": {
+    "format": "Qiacuity dPCR",
+    "summary": "Qiacuity dPCR, csv, 96-well, 1 target, 32 wells",
+    "fields": {
+     "instrumentSoftware": "Qiacuity dPCR",
+     "instrumentCategory": "dPCR",
+     "vendor": "QIAGEN",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "qiacuity_dpcr",
+     "plateName": "250227 AAV MA 6",
+     "plateId": "2186f026-541d-438c-8195-2a1da8a81e56",
+     "plateType": "Nanoplate 8.5K 96-well",
+     "plateFormat": 96,
+     "targets": [
+      "eGFP"
+     ],
+     "reactionMixes": [
+      "eGFP"
+     ],
+     "sampleCount": 32,
+     "measurementCount": 32,
+     "sampleNameCount": 14,
+     "exportFormat": "csv"
+    }
+   }
+  },
+  {
+   "name": "cfx-maestro-cq-results",
+   "file": "pcr/cfxmaestro_example01.csv",
+   "key": "cfxmaestro_example01.csv",
+   "go": true,
+   "original": "tests/parsers/cfxmaestro/testdata/example01.csv",
+   "allotropyAsm": {
+    "reporterDyes": [
+     "FAM",
+     "VIC"
+    ],
+    "wells": 24
+   },
+   "expected": {
+    "format": "Bio-Rad CFX Maestro",
+    "summary": "Bio-Rad CFX Maestro, Cq results csv, 24 wells",
+    "fields": {
+     "instrumentSoftware": "Bio-Rad CFX Maestro",
+     "instrumentCategory": "qPCR",
+     "vendor": "Bio-Rad",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "cfxmaestro",
+     "reporterDyes": [
+      "FAM",
+      "VIC"
+     ],
+     "sampleCount": 24,
+     "measurementCount": 48,
+     "sampleNameCount": 12,
+     "exportFormat": "quantification cq results csv"
+    }
+   }
+  }
+ ]
+}
