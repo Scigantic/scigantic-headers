@@ -274,7 +274,8 @@ def test_only_the_owning_sniffer_claims(case):
 def _other_family_fixtures():
     out = []
     for path in sorted(glob.glob(os.path.join(FX, "*", "**", "*"), recursive=True)):
-        if os.sep + "spectro" + os.sep in path or path.endswith(".md") or not os.path.isfile(path):
+        if os.sep + "spectro" + os.sep in path or path.endswith(".md") or not os.path.isfile(path) \
+                or os.sep + "other" + os.sep in path:  # other families' copies of foreign exports
             continue
         out.append(path)
     for path in sorted(glob.glob(os.path.join(HERE, "fixtures", "*"))):
