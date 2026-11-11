@@ -1,0 +1,623 @@
+{
+ "note": "Golden cases for instruments/chrom.py, decoded from the files in chrom/ (see chrom/NOTICE.md). Cases with \"go\": true are mirrored in scigantic-edge header/testdata/instruments/chrom-cases.json.",
+ "cases": [
+  {
+   "name": "chromeleon-example.head.json",
+   "file": "chrom/chromeleon-example.head.json",
+   "key": "x.json",
+   "go": true,
+   "expected": {
+    "format": "Benchling Thermo Fisher Scientific Chromeleon",
+    "summary": "Benchling Thermo Fisher Scientific Chromeleon export, sequence Content Uniformity Stage 1 (10 units) 2011-08-17 15-34-22",
+    "fields": {
+     "instrumentSoftware": "Benchling Thermo Fisher Scientific Chromeleon",
+     "instrumentCategory": "Liquid Chromatography",
+     "vendor": "Thermo Fisher Scientific",
+     "detectionModes": [
+      "Absorbance",
+      "Fluorescence",
+      "Conductivity"
+     ],
+     "allotropyParser": "benchling_chromeleon",
+     "sequenceName": "Content Uniformity Stage 1 (10 units) 2011-08-17 15-34-22",
+     "runDate": "2024-10-21T12:15:44.51+02:00",
+     "modules": [
+      {
+       "type": "pump",
+       "model": "HPG-3200RS"
+      },
+      {
+       "type": "uv",
+       "model": "DAD-3000RS"
+      }
+     ],
+     "signals": [
+      "UV_VIS_1"
+     ],
+     "wavelengthsNm": [
+      230
+     ],
+     "exportFormat": "json"
+    }
+   }
+  },
+  {
+   "name": "chromeleon-multi-signal.json",
+   "file": "chrom/chromeleon-multi-signal.json",
+   "key": "x.json",
+   "go": true,
+   "expected": {
+    "format": "Benchling Thermo Fisher Scientific Chromeleon",
+    "summary": "Benchling Thermo Fisher Scientific Chromeleon export, sequence Test_MultiSignal, 1 injection",
+    "fields": {
+     "instrumentSoftware": "Benchling Thermo Fisher Scientific Chromeleon",
+     "instrumentCategory": "Liquid Chromatography",
+     "vendor": "Thermo Fisher Scientific",
+     "detectionModes": [
+      "Absorbance",
+      "Fluorescence",
+      "Conductivity"
+     ],
+     "allotropyParser": "benchling_chromeleon",
+     "sequenceName": "Test_MultiSignal",
+     "runDate": "2026-02-13T10:00:00+01:00",
+     "modules": [
+      {
+       "type": "pump",
+       "model": "VF-P10-A"
+      },
+      {
+       "type": "uv",
+       "model": "VF-D40-A"
+      },
+      {
+       "type": "sampler",
+       "model": "VF-A10-A"
+      }
+     ],
+     "injectionCount": 1,
+     "signals": [
+      "UV_VIS_1",
+      "UV_VIS_2"
+     ],
+     "wavelengthsNm": [
+      220,
+      280
+     ],
+     "exportFormat": "json"
+    }
+   }
+  },
+  {
+   "name": "chromeleon-null-device-info.json",
+   "file": "chrom/chromeleon-null-device-info.json",
+   "key": "x.json",
+   "go": true,
+   "expected": {
+    "format": "Benchling Thermo Fisher Scientific Chromeleon",
+    "summary": "Benchling Thermo Fisher Scientific Chromeleon export, sequence Test_Null_DeviceInfo, 2 injections",
+    "fields": {
+     "instrumentSoftware": "Benchling Thermo Fisher Scientific Chromeleon",
+     "instrumentCategory": "Liquid Chromatography",
+     "vendor": "Thermo Fisher Scientific",
+     "detectionModes": [
+      "Absorbance",
+      "Fluorescence",
+      "Conductivity"
+     ],
+     "allotropyParser": "benchling_chromeleon",
+     "sequenceName": "Test_Null_DeviceInfo",
+     "runDate": "2024-09-23T08:00:00-07:00",
+     "injectionCount": 2,
+     "signals": [
+      "FLD1_Signal_A"
+     ],
+     "wavelengthsNm": [
+      280
+     ],
+     "exportFormat": "json"
+    }
+   }
+  },
+  {
+   "name": "empower-blanks-and-stds.json",
+   "file": "chrom/empower-blanks-and-stds.json",
+   "key": "x.json",
+   "go": true,
+   "expected": {
+    "format": "Benchling Waters Empower Adapter",
+    "summary": "Benchling Waters Empower Adapter export, sample set example_set_2, 7 injections",
+    "fields": {
+     "instrumentSoftware": "Benchling Waters Empower Adapter",
+     "instrumentCategory": "Liquid Chromatography",
+     "vendor": "Waters",
+     "detectionModes": [
+      "Absorbance"
+     ],
+     "allotropyParser": "benchling_empower",
+     "systemName": "237",
+     "sampleSetName": "example_set_2",
+     "sampleSetMethod": "example_set_2",
+     "runDate": "2017-01-04T08:12:47",
+     "softwareVersion": "Empower 3 Software Build 3471 SPs Installed: SR2 Hotfix 1 DB ID: 1609064383",
+     "channelCount": 7,
+     "channels": [
+      "VWD: Signal A, 220 nm"
+     ],
+     "wavelengthsNm": [
+      220
+     ],
+     "injectionCount": 7,
+     "instrumentMethods": [
+      "InstrumentMethod1"
+     ],
+     "exportFormat": "json"
+    }
+   }
+  },
+  {
+   "name": "empower-example-01.head.json",
+   "file": "chrom/empower-example-01.head.json",
+   "key": "x.json",
+   "go": true,
+   "expected": {
+    "format": "Benchling Waters Empower Adapter",
+    "summary": "Benchling Waters Empower Adapter export, sample set PQ Sample Set",
+    "fields": {
+     "instrumentSoftware": "Benchling Waters Empower Adapter",
+     "instrumentCategory": "Liquid Chromatography",
+     "vendor": "Waters",
+     "detectionModes": [
+      "Absorbance"
+     ],
+     "allotropyParser": "benchling_empower",
+     "systemName": "Alliance",
+     "sampleSetName": "PQ Sample Set",
+     "sampleSetMethod": "!QuickSet",
+     "runDate": "1997-09-17T16:55:54",
+     "exportFormat": "json"
+    }
+   }
+  },
+  {
+   "name": "insight-transposed-flowcells.xlsx",
+   "file": "chrom/insight-transposed-flowcells.xlsx",
+   "key": "x.xlsx",
+   "go": false,
+   "expected": {
+    "format": "Cytiva Biacore Insight",
+    "summary": "Cytiva Biacore Insight export, Biacore 8K+, 3 cycles",
+    "fields": {
+     "instrumentSoftware": "Cytiva Biacore Insight",
+     "instrumentCategory": "Binding Affinity Analyzer",
+     "vendor": "Cytiva",
+     "detectionModes": [
+      "Surface Plasmon Resonance"
+     ],
+     "allotropyParser": "cytiva_biacore_insight",
+     "softwareName": "Biacore Insight Evaluation",
+     "softwareVersion": "3.0.12.15655",
+     "evaluationName": "Test Evaluation (unsaved)",
+     "runCount": 1,
+     "instrumentModel": "Biacore 8K+",
+     "serialNumber": "1234567",
+     "methodName": "Test_Method    SCK",
+     "runningBuffer": "HBS-EP+",
+     "cycleCount": 3,
+     "dataCollectionRateHz": 10,
+     "chipType": "CM5",
+     "chipLotNumber": "10000001",
+     "evaluationSheets": [
+      "Evaluation-Kinetics"
+     ],
+     "exportFormat": "xlsx"
+    }
+   }
+  },
+  {
+   "name": "openlab-sirius-single-injection.rslt",
+   "file": "chrom/openlab-sirius-single-injection.rslt",
+   "key": "x.rslt",
+   "go": false,
+   "expected": {
+    "format": "Agilent OpenLab CDS",
+    "summary": "Agilent OpenLab CDS result set, Sirius, 1 injection",
+    "fields": {
+     "instrumentSoftware": "Agilent OpenLab CDS",
+     "instrumentCategory": "Liquid Chromatography",
+     "vendor": "Agilent",
+     "detectionModes": [
+      "Absorbance",
+      "Fluorescence"
+     ],
+     "allotropyParser": "agilent_openlab_cds",
+     "instrumentName": "Sirius",
+     "technique": "LiquidChromatography",
+     "modules": [
+      {
+       "type": "Pump",
+       "name": "Quat. Pump",
+       "model": "G7111B",
+       "serialNumber": "DEAEW08816",
+       "firmwareVersion": "D.07.33 [0003]"
+      },
+      {
+       "type": "Sampler",
+       "name": "Multisampler",
+       "model": "G7167A",
+       "serialNumber": "DEAGY02258",
+       "firmwareVersion": "D.07.27 [0006]"
+      },
+      {
+       "type": "ColumnCompartment",
+       "name": "Column Comp.",
+       "model": "G7116A",
+       "serialNumber": "DEAED27199",
+       "firmwareVersion": "D.07.34 [0006]"
+      },
+      {
+       "type": "Detector",
+       "name": "DAD",
+       "model": "G7117C",
+       "serialNumber": "DEAEK09115",
+       "firmwareVersion": "D.07.34 [0006]"
+      },
+      {
+       "type": "Detector",
+       "name": "FLD",
+       "model": "G7121A",
+       "serialNumber": "DEAE304332",
+       "firmwareVersion": "D.07.34 [0006]"
+      }
+     ],
+     "sequenceName": "Luxo HPLC-2023-09-01 07-52-44-04-00",
+     "methodNames": [
+      "Andrographolide 38% ACN"
+     ],
+     "sampleCount": 1,
+     "injectionCount": 1,
+     "softwareVersion": "2.5 - Build  2.5.0-REL_2.5.0.842",
+     "runDate": "2023-09-01T11:53:43.524Z",
+     "signals": [
+      "DAD1B,Sig=210,4  Ref=360,100",
+      "DAD1D,Sig=228,4  Ref=360,100"
+     ],
+     "detectors": [
+      "DAD"
+     ],
+     "wavelengthsNm": [
+      210,
+      228
+     ],
+     "exportFormat": "rslt result set"
+    }
+   }
+  },
+  {
+   "name": "openlab-sirius.rslt",
+   "file": "chrom/openlab-sirius.rslt",
+   "key": "x.rslt",
+   "go": false,
+   "expected": {
+    "format": "Agilent OpenLab CDS",
+    "summary": "Agilent OpenLab CDS result set, Sirius, 2 injections",
+    "fields": {
+     "instrumentSoftware": "Agilent OpenLab CDS",
+     "instrumentCategory": "Liquid Chromatography",
+     "vendor": "Agilent",
+     "detectionModes": [
+      "Absorbance",
+      "Fluorescence"
+     ],
+     "allotropyParser": "agilent_openlab_cds",
+     "instrumentName": "Sirius",
+     "technique": "LiquidChromatography",
+     "modules": [
+      {
+       "type": "Pump",
+       "name": "Quat. Pump",
+       "model": "G7111B",
+       "serialNumber": "DEAEW08816",
+       "firmwareVersion": "D.07.33 [0003]"
+      },
+      {
+       "type": "Sampler",
+       "name": "Multisampler",
+       "model": "G7167A",
+       "serialNumber": "DEAGY02258",
+       "firmwareVersion": "D.07.27 [0006]"
+      },
+      {
+       "type": "ColumnCompartment",
+       "name": "Column Comp.",
+       "model": "G7116A",
+       "serialNumber": "DEAED27199",
+       "firmwareVersion": "D.07.34 [0006]"
+      },
+      {
+       "type": "Detector",
+       "name": "DAD",
+       "model": "G7117C",
+       "serialNumber": "DEAEK09115",
+       "firmwareVersion": "D.07.34 [0006]"
+      },
+      {
+       "type": "Detector",
+       "name": "FLD",
+       "model": "G7121A",
+       "serialNumber": "DEAE304332",
+       "firmwareVersion": "D.07.34 [0006]"
+      }
+     ],
+     "sequenceName": "Luxo HPLC-2023-09-01 07-52-44-04-00",
+     "methodNames": [
+      "Andrographolide 38% ACN"
+     ],
+     "sampleCount": 2,
+     "injectionCount": 2,
+     "softwareVersion": "2.5 - Build  2.5.0-REL_2.5.0.842",
+     "runDate": "2023-09-01T11:53:43.524Z",
+     "signals": [
+      "DAD1B,Sig=210,4  Ref=360,100",
+      "DAD1D,Sig=228,4  Ref=360,100"
+     ],
+     "detectors": [
+      "DAD"
+     ],
+     "wavelengthsNm": [
+      210,
+      228
+     ],
+     "exportFormat": "rslt result set"
+    }
+   }
+  },
+  {
+   "name": "t200-control-immobilization.blr.sparse.json",
+   "file": "chrom/t200-control-immobilization.blr.sparse.json",
+   "key": "x.blr",
+   "go": false,
+   "expected": {
+    "format": "Cytiva Biacore T200 Control",
+    "summary": "Cytiva Biacore T200 Control result, Immobilization, 4 cycles",
+    "fields": {
+     "instrumentSoftware": "Cytiva Biacore T200 Control",
+     "instrumentCategory": "Binding Affinity Analyzer",
+     "vendor": "Cytiva",
+     "detectionModes": [
+      "Surface Plasmon Resonance"
+     ],
+     "allotropyParser": "cytiva_biacore_t200_control",
+     "softwareVersion": "2.0.1",
+     "instrumentModel": "BiacoreT200",
+     "instrumentId": "1950172",
+     "runType": "Immobilization",
+     "methodFile": "20200116 immobilization Her2-Her3 fc24.bwImmob",
+     "runDate": "2020-01-16T16:59:38",
+     "chipType": "CM3",
+     "flowCellCount": 4,
+     "cycleCount": 4,
+     "exportFormat": "blr result file"
+    }
+   }
+  },
+  {
+   "name": "tapestation-example-01.xml",
+   "file": "chrom/tapestation-example-01.xml",
+   "key": "x.xml",
+   "go": true,
+   "expected": {
+    "format": "Agilent TapeStation Analysis",
+    "summary": "Agilent TapeStation Analysis export, RNA assay, 4 samples",
+    "fields": {
+     "instrumentSoftware": "Agilent TapeStation Analysis",
+     "instrumentCategory": "Electrophoresis",
+     "vendor": "Agilent",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "agilent_tapestation_analysis",
+     "assay": "RNA",
+     "runDate": "2015-07-21T09:18:19-05:00",
+     "rineVersion": "5.1.0.47235",
+     "softwareVersion": "2.1.17.8091",
+     "instrumentType": "32768",
+     "serialNumber": "DEDAA00054",
+     "screenTapeCount": 5,
+     "sampleCount": 4,
+     "exportFormat": "xml"
+    }
+   }
+  },
+  {
+   "name": "tapestation-example-02.head.xml",
+   "file": "chrom/tapestation-example-02.head.xml",
+   "key": "x.xml",
+   "go": true,
+   "expected": {
+    "format": "Agilent TapeStation Analysis",
+    "summary": "Agilent TapeStation Analysis export, Genomic DNA assay",
+    "fields": {
+     "instrumentSoftware": "Agilent TapeStation Analysis",
+     "instrumentCategory": "Electrophoresis",
+     "vendor": "Agilent",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "agilent_tapestation_analysis",
+     "assay": "Genomic DNA",
+     "runDate": "2020-09-20T04:15:12-05:00",
+     "dinVersion": "5.1.0.47235",
+     "softwareVersion": "3.2.0.37131",
+     "instrumentType": "65536",
+     "serialNumber": "DEDAB00201",
+     "screenTapeCount": 1,
+     "exportFormat": "xml"
+    }
+   }
+  },
+  {
+   "name": "tapestation-example-03.xml",
+   "file": "chrom/tapestation-example-03.xml",
+   "key": "x.xml",
+   "go": true,
+   "expected": {
+    "format": "Agilent TapeStation Analysis",
+    "summary": "Agilent TapeStation Analysis export, cfDNA assay, 3 samples",
+    "fields": {
+     "instrumentSoftware": "Agilent TapeStation Analysis",
+     "instrumentCategory": "Electrophoresis",
+     "vendor": "Agilent",
+     "detectionModes": [
+      "Fluorescence"
+     ],
+     "allotropyParser": "agilent_tapestation_analysis",
+     "assay": "cfDNA",
+     "runDate": "2019-06-28T04:02:56-04:00",
+     "softwareVersion": "3.2.0.22472",
+     "instrumentType": "65536",
+     "serialNumber": "DEDAB00201",
+     "screenTapeCount": 1,
+     "sampleCount": 3,
+     "exportFormat": "xml"
+    }
+   }
+  },
+  {
+   "name": "unicorn-1-trimmed.zip",
+   "file": "chrom/unicorn-1-trimmed.zip",
+   "key": "x.zip",
+   "go": false,
+   "expected": {
+    "format": "Cytiva Unicorn",
+    "summary": "Cytiva Unicorn result, Capto Adhere Polishing 100ppm Sample, AKTA avant",
+    "fields": {
+     "instrumentSoftware": "Cytiva Unicorn",
+     "instrumentCategory": "Liquid Chromatography",
+     "vendor": "Cytiva",
+     "detectionModes": [
+      "Absorbance"
+     ],
+     "allotropyParser": "cytiva_unicorn",
+     "softwareVersion": "100.100.100.100",
+     "systemName": "Avant1",
+     "systemType": "NEXTAKTAchromatography",
+     "runName": "Capto Adhere Polishing 100ppm Sample",
+     "runType": "Method",
+     "resultState": "Evaluated",
+     "runDate": "2024-01-01T10:00:00",
+     "instrumentModel": "AKTA avant",
+     "firmwareVersion": "100.100.100.100",
+     "chromatogramCount": 1,
+     "curves": [
+      "UV 1_280",
+      "UV 2_260",
+      "UV 3_0",
+      "Cond",
+      "% Cond",
+      "Conc B",
+      "pH",
+      "System flow",
+      "System linear flow",
+      "System pressure",
+      "Cond temp",
+      "Sample flow",
+      "Sample linear flow",
+      "UV 1_280_CUT_TEMP@100,BASEM",
+      "Sample pressure",
+      "PreC pressure",
+      "DeltaC pressure",
+      "PostC pressure",
+      "Conc Q1",
+      "Conc Q2",
+      "Conc Q3",
+      "Conc Q4",
+      "Frac temp",
+      "UV cell path length",
+      "Sample flow (CV/h)",
+      "System flow (CV/h)"
+     ],
+     "wavelengthsNm": [
+      280,
+      260
+     ],
+     "exportFormat": "result zip"
+    }
+   }
+  },
+  {
+   "name": "unicorn-multiple-chromatograms.zip",
+   "file": "chrom/unicorn-multiple-chromatograms.zip",
+   "key": "x.zip",
+   "go": false,
+   "expected": {
+    "format": "Cytiva Unicorn",
+    "summary": "Cytiva Unicorn result, TestRun_001, AKTA pure 25",
+    "fields": {
+     "instrumentSoftware": "Cytiva Unicorn",
+     "instrumentCategory": "Liquid Chromatography",
+     "vendor": "Cytiva",
+     "detectionModes": [
+      "Absorbance"
+     ],
+     "allotropyParser": "cytiva_unicorn",
+     "softwareVersion": "7.7.0.4016",
+     "systemName": "TestSystem 1000000",
+     "systemType": "NEXTAKTAchromatography",
+     "runName": "TestRun_001",
+     "runType": "Method",
+     "resultState": "Normal",
+     "runDate": "2025-01-15T10:00:00.000",
+     "instrumentModel": "AKTA pure 25",
+     "firmwareVersion": "4.24.2.0",
+     "chromatogramCount": 2,
+     "curves": [
+      "UV",
+      "Cond",
+      "pH",
+      "System pressure",
+      "Cond temp"
+     ],
+     "exportFormat": "result zip"
+    }
+   }
+  },
+  {
+   "name": "unicorn-single-uv.zip",
+   "file": "chrom/unicorn-single-uv.zip",
+   "key": "x.zip",
+   "go": false,
+   "expected": {
+    "format": "Cytiva Unicorn",
+    "summary": "Cytiva Unicorn result, TestRun_001, AKTA pure 25",
+    "fields": {
+     "instrumentSoftware": "Cytiva Unicorn",
+     "instrumentCategory": "Liquid Chromatography",
+     "vendor": "Cytiva",
+     "detectionModes": [
+      "Absorbance"
+     ],
+     "allotropyParser": "cytiva_unicorn",
+     "softwareVersion": "7.7.0.4016",
+     "systemName": "TestSystem 1000000",
+     "systemType": "NEXTAKTAchromatography",
+     "runName": "TestRun_001",
+     "runType": "Method",
+     "resultState": "Normal",
+     "runDate": "2025-01-15T10:00:00.000",
+     "instrumentModel": "AKTA pure 25",
+     "firmwareVersion": "4.24.2.0",
+     "chromatogramCount": 1,
+     "curves": [
+      "UV",
+      "Cond",
+      "pH",
+      "System pressure",
+      "Cond temp"
+     ],
+     "exportFormat": "result zip"
+    }
+   }
+  }
+ ]
+}

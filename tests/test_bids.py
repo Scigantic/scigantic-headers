@@ -13,7 +13,7 @@ import os
 
 from scigantic_headers import decode_bids_json, decode_bids_tsv, decode_bytes, has_decoder_for
 from scigantic_headers.bids import BIDS_READ_BYTES
-from scigantic_headers.decoders import read_for
+from scigantic_headers.decoders import INSTRUMENT_SEEK_BYTES, _entry_for, read_for
 
 FIX = os.path.join(os.path.dirname(__file__), "fixtures", "bids-cases.json")
 
@@ -28,7 +28,11 @@ def _case(name):
 def test_extensions_registered():
     assert has_decoder_for("sub-01/func/sub-01_bold.json")
     assert has_decoder_for("participants.tsv")
-    assert read_for("x.json").leading == BIDS_READ_BYTES
+    # The BIDS decoder's own read; instrument sniffers registered for .json
+    # make the readers fetch a seekable Source instead, which serves it too.
+    assert _entry_for("x.json")[1].leading == BIDS_READ_BYTES
+    spec = read_for("x.json")
+    assert spec.leading == BIDS_READ_BYTES or spec.seek == INSTRUMENT_SEEK_BYTES
     # A name-dispatched decoder still wins over the .json extension.
     assert decode_bytes("zarr.json", b'{"zarr_format": 3, "node_type": "group"}') is not None
 
