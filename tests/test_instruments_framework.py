@@ -62,7 +62,8 @@ def _xlsx(rows, sheet="Results"):
                 cells.append('<c r="%s" t="s"><v>%d</v></c>' % (ref, len(shared) - 1))
             else:
                 cells.append('<c r="%s"><v>%s</v></c>' % (ref, v))
-        xml_rows.append('<row r="%d">%s</row>' % (r, "".join(cells)))
+        if cells:  # Excel omits empty rows
+            xml_rows.append('<row r="%d">%s</row>' % (r, "".join(cells)))
     ns = 'xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"'
     rns = 'xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"'
     buf = io.BytesIO()

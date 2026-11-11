@@ -103,6 +103,16 @@ def read_rows(zf, sheet: Optional[str], max_rows: int) -> Optional[List[List[str
     shared = None
     rows: List[List[str]] = []
     for row in root.iter(_NS + "row"):
+        # Rows with no cells are left out of the sheet XML; pad from the `r`
+        # attribute so rows[i] is sheet row i + 1.
+        try:
+            rnum = int(row.get("r", ""))
+        except ValueError:
+            rnum = len(rows) + 1
+        if rnum > max_rows:
+            break
+        while len(rows) < rnum - 1:
+            rows.append([])
         vals: List[str] = []
         for c in row.iter(_NS + "c"):
             idx = _col_index(c.get("r", ""))
