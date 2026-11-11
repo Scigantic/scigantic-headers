@@ -48,10 +48,10 @@ def test_decode_file_missing_returns_none():
 
 def test_iter_decodable_files_filters(tmp_path, mrc):
     _write(str(tmp_path / "s1" / "a.mrc"), mrc(64, 64, 1, 2))
-    _write(str(tmp_path / "s1" / "notes.txt"), b"x")
+    _write(str(tmp_path / "s1" / "notes.md"), b"x")
     _write(str(tmp_path / "s2" / "b.mrcs"), mrc(64, 64, 2, 2))
     found = sorted(os.path.basename(p) for p in iter_decodable_files(str(tmp_path)))
-    assert found == ["a.mrc", "b.mrcs"]  # notes.txt excluded
+    assert found == ["a.mrc", "b.mrcs"]  # notes.md excluded
 
 
 def test_decode_paths_parallel_matches_serial(tmp_path, mrc):
@@ -80,9 +80,9 @@ def test_decode_paths_empty_and_all_skipped(tmp_path):
 
 
 def test_batch_prefilters_before_pool(tmp_path, mrc):
-    # Only registered extensions reach the pool; the .txt never causes a read.
+    # Only registered extensions reach the pool; the .md never causes a read.
     _write(str(tmp_path / "a.mrc"), mrc(64, 64, 1, 2, mx=64, cella_x=64))
-    pairs = _batch([str(tmp_path / "a.mrc"), str(tmp_path / "b.txt")], decode_file, workers=4)
+    pairs = _batch([str(tmp_path / "a.mrc"), str(tmp_path / "b.md")], decode_file, workers=4)
     assert [os.path.basename(k) for k, _ in pairs] == ["a.mrc"]
 
 
@@ -96,7 +96,7 @@ from scigantic_headers.sources import _gunzip_leading, _inner_key
 
 @pytest.mark.parametrize("key,expected", [
     ("s/brain.nii.gz", True), ("s/frame.mrc.gz", True),
-    ("s/notes.txt.gz", False), ("s/archive.gz", False), ("s/x.nii", True),
+    ("s/notes.md.gz", False), ("s/archive.gz", False), ("s/x.nii", True),
 ])
 def test_is_decodable_sees_through_gz(key, expected):
     assert is_decodable(key) is expected
@@ -128,7 +128,7 @@ def test_decode_file_gzipped_undecodable_is_none(tmp_path):
 def test_iter_includes_gz(tmp_path, mrc):
     with gzip.open(str(tmp_path / "a.mrc.gz"), "wb") as fh:
         fh.write(mrc(64, 64, 1, 2))
-    _write(str(tmp_path / "b.txt"), b"x")
+    _write(str(tmp_path / "b.md"), b"x")
     found = sorted(os.path.basename(p) for p in iter_decodable_files(str(tmp_path)))
     assert found == ["a.mrc.gz"]
 
