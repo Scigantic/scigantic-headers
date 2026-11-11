@@ -273,8 +273,8 @@ def test_only_the_owning_sniffer_claims(case):
 
 def _other_family_fixtures():
     out = []
-    for path in sorted(glob.glob(os.path.join(FX, "*", "*"))):
-        if os.sep + "spectro" + os.sep in path or path.endswith(".md"):
+    for path in sorted(glob.glob(os.path.join(FX, "*", "**", "*"), recursive=True)):
+        if os.sep + "spectro" + os.sep in path or path.endswith(".md") or not os.path.isfile(path):
             continue
         out.append(path)
     for path in sorted(glob.glob(os.path.join(HERE, "fixtures", "*"))):
