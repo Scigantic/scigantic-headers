@@ -1,0 +1,682 @@
+{
+ "cases": [
+  {
+   "name": "apex-plate-info-xlsx",
+   "file": "plate_b/apex-plate-info.xlsx",
+   "key": "apex-plate-info.xlsx",
+   "expected": {
+    "format": "Mabtech Apex",
+    "summary": "Mabtech Apex export, model IRIS",
+    "fields": {
+     "instrumentSoftware": "Mabtech Apex",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "Mabtech",
+     "detectionModes": [
+      "Optical Imaging"
+     ],
+     "allotropyParser": "mabtech_apex",
+     "machineId": "IRIS 1234",
+     "runDate": "2020-10-01T11:11:11",
+     "exportFormat": "xlsx",
+     "instrumentModel": "IRIS"
+    }
+   }
+  },
+  {
+   "name": "apex-single-xlsx",
+   "file": "plate_b/apex-single.xlsx",
+   "key": "apex-single.xlsx",
+   "expected": {
+    "format": "Mabtech Apex",
+    "summary": "Mabtech Apex export, software 1.1.58.127, model Iris",
+    "fields": {
+     "instrumentSoftware": "Mabtech Apex",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "Mabtech",
+     "detectionModes": [
+      "Optical Imaging"
+     ],
+     "allotropyParser": "mabtech_apex",
+     "softwareVersion": "1.1.58.127",
+     "machineId": "Iris 0",
+     "runDate": "2024-01-29T09:06:56",
+     "exportFormat": "xlsx",
+     "instrumentModel": "Iris"
+    }
+   }
+  },
+  {
+   "name": "ctl-7.0.30",
+   "file": "plate_b/ctl-7.0.30.txt",
+   "key": "ctl-7.0.30.txt",
+   "expected": {
+    "format": "CTL ImmunoSpot",
+    "summary": "CTL ImmunoSpot export, software 7.0.30.5, 96-well plate",
+    "fields": {
+     "instrumentSoftware": "CTL ImmunoSpot",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "CTL",
+     "detectionModes": [
+      "Optical Imaging"
+     ],
+     "allotropyParser": "ctl_immunospot",
+     "softwareVersion": "7.0.30.5",
+     "exportFormat": "counts txt",
+     "runDate": "2023-10-03T14:44:50",
+     "serialNumber": "S6UNIV-01-1234",
+     "plateFormat": 96
+    }
+   }
+  },
+  {
+   "name": "ctl-7.0.38-qc",
+   "file": "plate_b/ctl-7.0.38-qc.txt",
+   "key": "ctl-7.0.38-qc.txt",
+   "expected": {
+    "format": "CTL ImmunoSpot",
+    "summary": "CTL ImmunoSpot export, software 7.0.38.8, 96-well plate",
+    "fields": {
+     "instrumentSoftware": "CTL ImmunoSpot",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "CTL",
+     "detectionModes": [
+      "Optical Imaging"
+     ],
+     "allotropyParser": "ctl_immunospot",
+     "softwareVersion": "7.0.38.8",
+     "exportFormat": "QC review txt",
+     "qcReviewDate": "2024-03-05T12:20:51",
+     "serialNumber": "ABCDE1-23-4567",
+     "plateFormat": 96
+    }
+   }
+  },
+  {
+   "name": "ctl-7.0.38",
+   "file": "plate_b/ctl-7.0.38.txt",
+   "key": "ctl-7.0.38.txt",
+   "expected": {
+    "format": "CTL ImmunoSpot",
+    "summary": "CTL ImmunoSpot export, software 7.0.38.8, 96-well plate",
+    "fields": {
+     "instrumentSoftware": "CTL ImmunoSpot",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "CTL",
+     "detectionModes": [
+      "Optical Imaging"
+     ],
+     "allotropyParser": "ctl_immunospot",
+     "softwareVersion": "7.0.38.8",
+     "exportFormat": "counts txt",
+     "runDate": "2024-02-15T16:39:42",
+     "serialNumber": "ABCDE1-00-1234",
+     "plateFormat": 96
+    }
+   }
+  },
+  {
+   "name": "envision-absorbance-a450",
+   "file": "plate_b/envision-absorbance-a450.csv",
+   "key": "envision-absorbance-a450.csv",
+   "expected": {
+    "format": "PerkinElmer Envision",
+    "summary": "PerkinElmer Envision export, software 1.14.3049.1642, 96-well plate, 2 plates, 450 nm",
+    "fields": {
+     "instrumentSoftware": "PerkinElmer Envision",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "PerkinElmer",
+     "detectionModes": [
+      "Absorbance",
+      "Fluorescence",
+      "Luminescence"
+     ],
+     "allotropyParser": "perkin_elmer_envision",
+     "runDate": "1/15/2024 10:28:00 AM",
+     "protocolName": "Absorbance Test Protocol",
+     "plateFormat": 96,
+     "exportFormat": "Plate2",
+     "serialNumber": "1050242",
+     "softwareVersion": "1.14.3049.1642",
+     "wavelengthsNm": [
+      450
+     ],
+     "plateCount": 2
+    }
+   }
+  },
+  {
+   "name": "envision-fluorescence01",
+   "file": "plate_b/envision-fluorescence01.csv",
+   "key": "envision-fluorescence01.csv",
+   "expected": {
+    "format": "PerkinElmer Envision",
+    "summary": "PerkinElmer Envision export, software 1.14.3049.1193, 96-well plate, 1 plate, 320/665/620 nm",
+    "fields": {
+     "instrumentSoftware": "PerkinElmer Envision",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "PerkinElmer",
+     "detectionModes": [
+      "Absorbance",
+      "Fluorescence",
+      "Luminescence"
+     ],
+     "allotropyParser": "perkin_elmer_envision",
+     "runDate": "10/13/2022 3:06:23 PM",
+     "protocolName": "HTRF LASER Eu 665/620",
+     "plateFormat": 96,
+     "exportFormat": "Plate2",
+     "serialNumber": "1050209",
+     "softwareVersion": "1.14.3049.1193",
+     "wavelengthsNm": [
+      320,
+      665,
+      620
+     ],
+     "plateCount": 1
+    }
+   }
+  },
+  {
+   "name": "envision-luminescence01",
+   "file": "plate_b/envision-luminescence01.csv",
+   "key": "envision-luminescence01.csv",
+   "expected": {
+    "format": "PerkinElmer Envision",
+    "summary": "PerkinElmer Envision export, software 1.14.3049.1193, 384-well plate, 2 plates",
+    "fields": {
+     "instrumentSoftware": "PerkinElmer Envision",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "PerkinElmer",
+     "detectionModes": [
+      "Absorbance",
+      "Fluorescence",
+      "Luminescence"
+     ],
+     "allotropyParser": "perkin_elmer_envision",
+     "runDate": "8/22/2023 12:15:09 PM",
+     "protocolName": "DL LUM test",
+     "plateFormat": 384,
+     "exportFormat": "Plate2",
+     "serialNumber": "1051017",
+     "softwareVersion": "1.14.3049.1193",
+     "plateCount": 2
+    }
+   }
+  },
+  {
+   "name": "kaleido-v2-absorbance",
+   "file": "plate_b/kaleido-v2-absorbance.csv",
+   "key": "kaleido-v2-absorbance.csv",
+   "expected": {
+    "format": "Revvity Kaleido",
+    "summary": "Revvity Kaleido export, software 2.0.3058.126, 96-well plate, 450 nm",
+    "fields": {
+     "instrumentSoftware": "Revvity Kaleido",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "Revvity",
+     "detectionModes": [
+      "Absorbance",
+      "Fluorescence",
+      "Luminescence",
+      "Optical Imaging"
+     ],
+     "allotropyParser": "revvity_kaleido",
+     "softwareVersion": "2.0.3058.126",
+     "runDate": "2020-10-26T16:16:18.2284559-04:00",
+     "serialNumber": "1234567",
+     "protocolName": "bar",
+     "plateFormat": 96,
+     "wavelengthsNm": [
+      450
+     ],
+     "readModes": [
+      "ABS mono"
+     ]
+    }
+   }
+  },
+  {
+   "name": "kaleido-v2-imaging",
+   "file": "plate_b/kaleido-v2-imaging.csv",
+   "key": "kaleido-v2-imaging.csv",
+   "expected": {
+    "format": "Revvity Kaleido",
+    "summary": "Revvity Kaleido export, software 2.0.3058.126, 384-well plate, 465/735 nm",
+    "fields": {
+     "instrumentSoftware": "Revvity Kaleido",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "Revvity",
+     "detectionModes": [
+      "Absorbance",
+      "Fluorescence",
+      "Luminescence",
+      "Optical Imaging"
+     ],
+     "allotropyParser": "revvity_kaleido",
+     "softwareVersion": "2.0.3058.126",
+     "runDate": "2022-08-26T14:41:07.2510192-04:00",
+     "serialNumber": "1234567",
+     "protocolName": "bar",
+     "plateFormat": 384,
+     "wavelengthsNm": [
+      465,
+      735
+     ],
+     "readModes": [
+      "IMG"
+     ]
+    }
+   }
+  },
+  {
+   "name": "kaleido-v3-fluorescence",
+   "file": "plate_b/kaleido-v3-fluorescence.csv",
+   "key": "kaleido-v3-fluorescence.csv",
+   "expected": {
+    "format": "Revvity Kaleido",
+    "summary": "Revvity Kaleido export, software 3.0.3067.117, model EnSight, 384-well plate, 485/535 nm",
+    "fields": {
+     "instrumentSoftware": "Revvity Kaleido",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "Revvity",
+     "detectionModes": [
+      "Absorbance",
+      "Fluorescence",
+      "Luminescence",
+      "Optical Imaging"
+     ],
+     "allotropyParser": "revvity_kaleido",
+     "softwareVersion": "3.0.3067.117",
+     "instrumentModel": "EnSight",
+     "protocolName": "foo",
+     "runDate": "2022-11-10T12:11:46",
+     "serialNumber": "2108181",
+     "exportFormat": "CSV_PLATE",
+     "plateFormat": 384,
+     "wavelengthsNm": [
+      485,
+      535
+     ],
+     "readModes": [
+      "Fluorescence intensity"
+     ]
+    }
+   }
+  },
+  {
+   "name": "kaleido-v35-luminescence",
+   "file": "plate_b/kaleido-v35-luminescence.csv",
+   "key": "kaleido-v35-luminescence.csv",
+   "expected": {
+    "format": "Revvity Kaleido",
+    "summary": "Revvity Kaleido export, software 3.5.3082.227, model EnSight, 96-well plate",
+    "fields": {
+     "instrumentSoftware": "Revvity Kaleido",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "Revvity",
+     "detectionModes": [
+      "Absorbance",
+      "Fluorescence",
+      "Luminescence",
+      "Optical Imaging"
+     ],
+     "allotropyParser": "revvity_kaleido",
+     "softwareVersion": "3.5.3082.227",
+     "instrumentModel": "EnSight",
+     "protocolName": "EXAMPLE PROTOCOL 1",
+     "runDate": "10/16/2024 13:39",
+     "serialNumber": "1712111",
+     "exportFormat": "CSV_PLATE",
+     "plateFormat": 96,
+     "readModes": [
+      "Luminescence"
+     ]
+    }
+   }
+  },
+  {
+   "name": "lunatic-report",
+   "file": "plate_b/lunatic-report.csv",
+   "key": "lunatic-report.csv",
+   "expected": {
+    "format": "Unchained Labs Lunatic & Stunner",
+    "summary": "Unchained Labs Lunatic & Stunner export, software 8.2.0.259, 1 plate, 1 sample, 260 nm",
+    "fields": {
+     "instrumentSoftware": "Unchained Labs Lunatic & Stunner",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "Unchained Labs",
+     "detectionModes": [
+      "Absorbance",
+      "Dynamic Light Scattering"
+     ],
+     "allotropyParser": "unchained_labs_lunatic_stunner",
+     "exportFormat": "csv report",
+     "softwareVersion": "8.2.0.259",
+     "clientVersion": "8.3.0.305",
+     "instrumentId": "123456",
+     "application": "dsDNA (Turbidity) (8.2.0.2)",
+     "plateType": "Lunatic Plate",
+     "plateCount": 1,
+     "runDate": "01/08/2024 10:15:59",
+     "sampleCount": 1,
+     "wavelengthsNm": [
+      260
+     ],
+     "readModes": [
+      "Absorbance"
+     ]
+    }
+   }
+  },
+  {
+   "name": "lunatic-report-xlsx",
+   "file": "plate_b/lunatic-report.xlsx",
+   "key": "lunatic-report.xlsx",
+   "expected": {
+    "format": "Unchained Labs Lunatic & Stunner",
+    "summary": "Unchained Labs Lunatic & Stunner export, software 8.2.0.259, 1 plate, 2 samples, 260 nm",
+    "fields": {
+     "instrumentSoftware": "Unchained Labs Lunatic & Stunner",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "Unchained Labs",
+     "detectionModes": [
+      "Absorbance",
+      "Dynamic Light Scattering"
+     ],
+     "allotropyParser": "unchained_labs_lunatic_stunner",
+     "exportFormat": "xlsx report",
+     "softwareVersion": "8.2.0.259",
+     "clientVersion": "8.3.0.305",
+     "instrumentId": "123456",
+     "application": "dsDNA (Turbidity) (8.2.0.2)",
+     "plateType": "Lunatic Plate",
+     "plateCount": 1,
+     "runDate": "2024-01-08T10:15:59",
+     "sampleCount": 2,
+     "wavelengthsNm": [
+      260
+     ],
+     "readModes": [
+      "Absorbance"
+     ]
+    }
+   }
+  },
+  {
+   "name": "lunatic-spectrum",
+   "file": "plate_b/lunatic-spectrum.csv",
+   "key": "lunatic-spectrum.csv",
+   "expected": {
+    "format": "Unchained Labs Lunatic & Stunner",
+    "summary": "Unchained Labs Lunatic & Stunner export, 3 samples",
+    "fields": {
+     "instrumentSoftware": "Unchained Labs Lunatic & Stunner",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "Unchained Labs",
+     "detectionModes": [
+      "Absorbance",
+      "Dynamic Light Scattering"
+     ],
+     "allotropyParser": "unchained_labs_lunatic_stunner",
+     "exportFormat": "csv table",
+     "instrumentId": "401277",
+     "application": "dsDNA (Single point)",
+     "plateType": "Lunatic Plate",
+     "runDate": "3/9/2024 14:37:50",
+     "sampleCount": 3,
+     "wavelengthRangeNm": [
+      230,
+      350
+     ],
+     "wavelengthCount": 121,
+     "readModes": [
+      "Absorbance"
+     ]
+    }
+   }
+  },
+  {
+   "name": "lunatic-table",
+   "file": "plate_b/lunatic-table.csv",
+   "key": "lunatic-table.csv",
+   "expected": {
+    "format": "Unchained Labs Lunatic & Stunner",
+    "summary": "Unchained Labs Lunatic & Stunner export, 32 samples, 260 nm",
+    "fields": {
+     "instrumentSoftware": "Unchained Labs Lunatic & Stunner",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "Unchained Labs",
+     "detectionModes": [
+      "Absorbance",
+      "Dynamic Light Scattering"
+     ],
+     "allotropyParser": "unchained_labs_lunatic_stunner",
+     "exportFormat": "csv table",
+     "instrumentId": "15",
+     "application": "A260 dsDNA",
+     "plateType": "Lunatic Plate",
+     "runDate": "17/10/2016 07:19:18",
+     "sampleCount": 32,
+     "wavelengthsNm": [
+      260
+     ],
+     "readModes": [
+      "Absorbance"
+     ]
+    }
+   }
+  },
+  {
+   "name": "lunatic-table-xlsx",
+   "file": "plate_b/lunatic-table.xlsx",
+   "key": "lunatic-table.xlsx",
+   "expected": {
+    "format": "Unchained Labs Lunatic & Stunner",
+    "summary": "Unchained Labs Lunatic & Stunner export, 2 samples, 260 nm",
+    "fields": {
+     "instrumentSoftware": "Unchained Labs Lunatic & Stunner",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "Unchained Labs",
+     "detectionModes": [
+      "Absorbance",
+      "Dynamic Light Scattering"
+     ],
+     "allotropyParser": "unchained_labs_lunatic_stunner",
+     "exportFormat": "xlsx table",
+     "instrumentId": "123456",
+     "application": "dsDNA (Turbidity)",
+     "runDate": "2024-01-08T10:15:59",
+     "sampleCount": 2,
+     "wavelengthsNm": [
+      260
+     ],
+     "readModes": [
+      "Absorbance"
+     ]
+    }
+   }
+  },
+  {
+   "name": "mm-384",
+   "file": "plate_b/mm-384.txt",
+   "key": "mm-384.txt",
+   "expected": {
+    "format": "MSD Methodical Mind",
+    "summary": "MSD Methodical Mind export, software MMPR 1.0.38, model HTS, 384-well plate, 1 plate",
+    "fields": {
+     "instrumentSoftware": "MSD Methodical Mind",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "Meso Scale Discovery",
+     "detectionModes": [
+      "Luminescence"
+     ],
+     "allotropyParser": "methodical_mind",
+     "softwareVersion": "MMPR 1.0.38",
+     "instrumentModel": "HTS",
+     "serialNumber": "1234567891011",
+     "plateFormat": 384,
+     "runDate": "01/01/2025 12:34:56 EDT",
+     "plateCount": 1
+    }
+   }
+  },
+  {
+   "name": "mm-quickplex-multispot",
+   "file": "plate_b/mm-quickplex-multispot.txt",
+   "key": "mm-quickplex-multispot.txt",
+   "expected": {
+    "format": "MSD Methodical Mind",
+    "summary": "MSD Methodical Mind export, software MMPR 1.0.38, model QuickPlex, 96-well plate, 1 plate",
+    "fields": {
+     "instrumentSoftware": "MSD Methodical Mind",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "Meso Scale Discovery",
+     "detectionModes": [
+      "Luminescence"
+     ],
+     "allotropyParser": "methodical_mind",
+     "softwareVersion": "MMPR 1.0.38",
+     "instrumentModel": "QuickPlex",
+     "serialNumber": "9999999999",
+     "plateFormat": 96,
+     "runDate": "10/17/2024 15:06:11 EDT",
+     "spotsPerWell": 10,
+     "plateCount": 1
+    }
+   }
+  },
+  {
+   "name": "mm-two-plates",
+   "file": "plate_b/mm-two-plates.txt",
+   "key": "mm-two-plates.txt",
+   "expected": {
+    "format": "MSD Methodical Mind",
+    "summary": "MSD Methodical Mind export, software MMPR 1.0.38, model HTS, 96-well plate, 2 plates",
+    "fields": {
+     "instrumentSoftware": "MSD Methodical Mind",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "Meso Scale Discovery",
+     "detectionModes": [
+      "Luminescence"
+     ],
+     "allotropyParser": "methodical_mind",
+     "softwareVersion": "MMPR 1.0.38",
+     "instrumentModel": "HTS",
+     "serialNumber": "1298873245",
+     "plateFormat": 96,
+     "runDate": "09/08/2023 13:39:33 EDT",
+     "spotsPerWell": 1,
+     "plateCount": 2
+    }
+   }
+  },
+  {
+   "name": "stunner-dls-xlsx",
+   "file": "plate_b/stunner-dls.xlsx",
+   "key": "stunner-dls.xlsx",
+   "expected": {
+    "format": "Unchained Labs Lunatic & Stunner",
+    "summary": "Unchained Labs Lunatic & Stunner export, software 9.1.0.100, 1 plate, 4 samples, 280 nm",
+    "fields": {
+     "instrumentSoftware": "Unchained Labs Lunatic & Stunner",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "Unchained Labs",
+     "detectionModes": [
+      "Absorbance",
+      "Dynamic Light Scattering"
+     ],
+     "allotropyParser": "unchained_labs_lunatic_stunner",
+     "exportFormat": "xlsx report",
+     "softwareVersion": "9.1.0.100",
+     "clientVersion": "9.1.1.200",
+     "instrumentId": "5678",
+     "application": "B22 & kD (9.1.0.1)",
+     "plateType": "Stunner Plate",
+     "plateCount": 1,
+     "runDate": "15/01/2026 09:30:00",
+     "sampleCount": 4,
+     "wavelengthsNm": [
+      280
+     ],
+     "readModes": [
+      "Absorbance",
+      "Dynamic Light Scattering"
+     ]
+    }
+   }
+  },
+  {
+   "name": "workbench-1",
+   "file": "plate_b/workbench-1.csv",
+   "key": "workbench-1.csv",
+   "expected": {
+    "format": "MSD Discovery Workbench",
+    "summary": "MSD Discovery Workbench export, 1 sample",
+    "fields": {
+     "instrumentSoftware": "MSD Discovery Workbench",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "Meso Scale Discovery",
+     "detectionModes": [
+      "Luminescence"
+     ],
+     "allotropyParser": "msd_workbench",
+     "exportFormat": "csv",
+     "measurementCount": 4,
+     "sampleCount": 1,
+     "assays": [
+      "Spike (FL.1.5.1)",
+      "Spike (Wuhan)"
+     ]
+    }
+   }
+  },
+  {
+   "name": "workbench-2",
+   "file": "plate_b/workbench-2.csv",
+   "key": "workbench-2.csv",
+   "expected": {
+    "format": "MSD Discovery Workbench",
+    "summary": "MSD Discovery Workbench export, 24 samples",
+    "fields": {
+     "instrumentSoftware": "MSD Discovery Workbench",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "Meso Scale Discovery",
+     "detectionModes": [
+      "Luminescence"
+     ],
+     "allotropyParser": "msd_workbench",
+     "exportFormat": "csv",
+     "measurementCount": 48,
+     "sampleCount": 24,
+     "assays": [
+      "Test Assay 1.0"
+     ]
+    }
+   }
+  },
+  {
+   "name": "workbench-xlsx",
+   "file": "plate_b/workbench.xlsx",
+   "key": "workbench.xlsx",
+   "expected": {
+    "format": "MSD Discovery Workbench",
+    "summary": "MSD Discovery Workbench export, 24 samples",
+    "fields": {
+     "instrumentSoftware": "MSD Discovery Workbench",
+     "instrumentCategory": "Plate Reader",
+     "vendor": "Meso Scale Discovery",
+     "detectionModes": [
+      "Luminescence"
+     ],
+     "allotropyParser": "msd_workbench",
+     "exportFormat": "xlsx",
+     "measurementCount": 24,
+     "sampleCount": 24,
+     "assays": [
+      "TEST_ASSAY"
+     ]
+    }
+   }
+  }
+ ]
+}
