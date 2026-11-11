@@ -8,7 +8,8 @@ import os
 
 import pytest
 
-from scigantic_headers import decode_bytes
+from scigantic_headers import decode_bytes, decode_source
+from scigantic_headers.decoders import INSTRUMENT_SEEK_BYTES, BytesSource
 
 FX = os.path.join(os.path.dirname(__file__), "fixtures", "instruments")
 
@@ -29,6 +30,13 @@ def _cases():
 
 @pytest.mark.parametrize("key,path,fmt", _cases())
 def test_case_decodes_to_its_own_instrument(key, path, fmt):
-    with open(path, "rb") as fh:
-        hdr = decode_bytes(key, fh.read())
+    if path.endswith(".sparse.json"):
+        with open(path) as fh:
+            rec = json.load(fh)
+        src = BytesSource(size=rec["size"], budget=INSTRUMENT_SEEK_BYTES,
+                          ranges={int(o): bytes.fromhex(h) for o, h in rec["ranges"].items()})
+        hdr = decode_source(key, src)
+    else:
+        with open(path, "rb") as fh:
+            hdr = decode_bytes(key, fh.read())
     assert hdr is not None and hdr.format == fmt

@@ -450,7 +450,9 @@ def _fixture_files():
         d = os.path.join(INST_DIR, fam)
         if os.path.isdir(d):
             for n in sorted(os.listdir(d)):
-                if n != "NOTICE.md":
+                # Skip notices and subfolders (plate_b/other holds copies of
+                # exports that belong to other families).
+                if n != "NOTICE.md" and os.path.isfile(os.path.join(d, n)):
                     out.append((fam, os.path.join(d, n)))
     for n in ("instrument.ome.xml", "bdv-drosophila.xml", "bids-cases.json"):
         out.append(("repo", os.path.join(FIXTURES_DIR, n)))
