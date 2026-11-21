@@ -7,7 +7,7 @@ name = "scigantic-headers"
 version = "0.12.0"
 description = "Decode scientific file headers (cryo-EM, light microscopy and light-sheet imaging incl. TIFF/OME-TIFF, CZI, HDF5/Imaris/BigDataViewer, LIF, ND2, Zarr/N5; tabular, flow cytometry, mass spec, sequencing, structural biology) into typed fields. Pure, zero-dependency, with bounded readers that follow internal pointers without downloading the file."
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [{ name = "Scigantic", email = "support@scigantic.com" }]
 keywords = ["cryo-em", "mrc", "header", "schema-card", "instrument", "context", "edge", "light-sheet", "microscopy", "ome-tiff", "czi", "hdf5", "imaris", "bigdataviewer", "ome-zarr", "n5", "nd2", "lif", "nifti", "dicom", "fcs", "nrrd", "mzml", "zarr"]
@@ -16,7 +16,6 @@ classifiers = [
   "Intended Audience :: Science/Research",
   "License :: OSI Approved :: MIT License",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
