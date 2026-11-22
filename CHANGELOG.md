@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.13.0
+
+- Python 3.9 is no longer supported; the package now requires Python 3.10 or
+  newer. 3.9 reached end of life in October 2025 and the CI runner image no
+  longer provides it. Nothing else changed: on 3.9, pip keeps installing 0.12.0.
+- PyPI metadata: more keywords, an Image Processing topic classifier, and
+  a Documentation link.
+
 ## 0.12.0
 
 - Lab instrument exports: the text, CSV, XML, JSON and spreadsheet files of
