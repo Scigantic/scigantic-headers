@@ -29,6 +29,7 @@ dependencies = []
 
 [project.urls]
 Homepage = "https://scigantic.com"
+"Datasets to try it on" = "https://scigantic.com/explore?utm_source=pypi&utm_medium=project-urls&utm_campaign=scigantic-headers"
 Repository = "https://github.com/Scigantic/scigantic-headers"
 Issues = "https://github.com/Scigantic/scigantic-headers/issues"
 Documentation = "https://github.com/Scigantic/scigantic-headers#readme"
