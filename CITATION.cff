@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata from this file."
+type: software
+title: scigantic-headers
+abstract: "Decode scientific file headers (cryo-EM, light microscopy, tabular, flow cytometry, mass spectrometry, sequencing, structural biology) into typed fields. Pure Python with no dependencies, with bounded readers that follow internal pointers without downloading the file."
+authors:
+  - name: Scigantic
+    website: https://scigantic.com
+repository-code: https://github.com/Scigantic/scigantic-headers
+url: https://pypi.org/project/scigantic-headers/
+license: MIT
+keywords:
+  - "cryo-em"
+  - "mrc"
+  - "header"
+  - "schema-card"
+  - "instrument"
+  - "context"
+  - "edge"
+  - "light-sheet"
+version: "0.13.0"
+date-released: '2026-11-22'
