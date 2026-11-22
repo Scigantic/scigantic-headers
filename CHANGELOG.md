@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.13.1
+
+- README opens with what the package reads, adds a runnable example near the top and links the matching dataset pages. Project URLs and classifiers updated. No code changes.
+
 ## 0.13.0
 
 - Python 3.9 is no longer supported; the package now requires Python 3.10 or
