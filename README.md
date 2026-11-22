@@ -11,12 +11,13 @@
         <img alt="License" src="https://img.shields.io/github/license/Scigantic/scigantic-headers" /></a>
 </p>
 
-Read the metadata of a scientific file and return its fields (dimensions, data
+Read the header of a scientific data file and get its fields (dimensions, data
 type, pixel size, columns, row count) as a dict, without reading the rest of the
-file. Decodes formats across cryo-EM, light microscopy and light-sheet imaging,
-arrays, tabular data, flow cytometry, mass spec, sequencing, genome annotation,
-structural biology, electrophysiology, and lab instrument exports (the full list
-is below). The decode functions have no
+file, from a local path or from a URL by HTTP Range request. It decodes MRC
+(cryo-EM), TIFF and OME-TIFF, HDF5, NIfTI, NRRD, DICOM, Zarr, CZI, ND2, FCS
+(flow cytometry), mzML (mass spectrometry), FASTQ, VCF, PDB and mmCIF, and
+formats across light-sheet imaging, tabular data, genome annotation,
+electrophysiology and lab instrument exports (the full list is below). The decode functions have no
 dependencies; separate reader functions fetch the bytes from a file or a URL:
 the leading bytes for most formats, the trailing bytes for Parquet (whose schema
 is in a footer), and a bounded handful of reads wherever the pointers lead for
@@ -29,6 +30,26 @@ hdr.summary            # "MRC stack 4096x4096x16, float32"
 hdr.fields["dtype"]    # "float32"
 hdr.fields["nz"]       # 16   (frames)
 ```
+
+The same on a remote file. This reads the header of an EMDB cryo-EM map at EBI
+and nothing after it:
+
+```python
+from scigantic_headers import decode_url
+hdr = decode_url("https://ftp.ebi.ac.uk/pub/databases/emdb/structures/EMD-22962/map/emd_22962.map.gz")
+hdr.summary                # "MRC stack 240x240x240, float32, 0.83 A/px"
+hdr.fields["pixelSizeA"]   # 0.83
+```
+
+## Try it on hosted data
+
+To try the decoders on real files without downloading any, open a public
+dataset in a hosted Jupyter notebook on Scigantic, where the data is mounted
+read-only: [EMPIAR](https://scigantic.com/archive/e3d9a7c0-1f2b-4a6d-9c8e-2b7f4a1c6e05?utm_source=github&utm_medium=readme&utm_campaign=scigantic-headers)
+for MRC movies and micrographs, or pick a dataset by format from the
+[HDF5](https://scigantic.com/topics/hdf5?utm_source=github&utm_medium=readme&utm_campaign=scigantic-headers),
+[NIfTI](https://scigantic.com/topics/nifti?utm_source=github&utm_medium=readme&utm_campaign=scigantic-headers) and
+[TIFF](https://scigantic.com/topics/tiff?utm_source=github&utm_medium=readme&utm_campaign=scigantic-headers) listings.
 
 Zero runtime dependencies and header-only reads, so it runs air-gapped, on
 amd64 or arm64, and installs into a slim image with nothing else to pull.
